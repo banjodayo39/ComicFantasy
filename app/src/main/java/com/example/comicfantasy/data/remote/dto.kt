@@ -38,8 +38,8 @@ data class Results(
    var id: String="",
    @SerializedName("thumbnail")
     var thumbnail: Thumbnail? = null,
-    var title: String? = ""
-   /* var characters: Characters? = null,
+    var title: String? = "",
+    var characters: Characters? = null,
     var collectedIssues: List<CollectedIssue?>? = null,
     var collections: List<Collection?>? = null,
     var creators: Creators? = null,
@@ -64,7 +64,7 @@ data class Results(
     var upc: String? = null,
     var urls: List<Url?>? = null,
     var variantDescription: String? = null,
-    var variants: List<Variant?>? = null*/
+    var variants: List<Variant?>? = null
 )
 data class Characters(
     var available: String? = null,

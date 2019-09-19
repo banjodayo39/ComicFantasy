@@ -18,10 +18,10 @@ open class ComicRepository (
     private val hash: String = "31425e31bec201f47f25948808f8f341"
 
 
-    fun getComicList(): Observable<DataResponse> =getComicListFromApi()
-   /* Observable.concat(getComicListFromDb(), getComicListFromApi())
+    fun getComicList(): Observable<DataResponse> =
+    Observable.concat(getComicListFromDb(), getComicListFromApi())
             .onErrorResumeNext(Observable.empty())
-*/
+
     private fun saveComic(comic: DataResponse) =
         comicDao.addComic(comic)
 

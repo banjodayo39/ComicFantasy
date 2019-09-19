@@ -30,8 +30,9 @@ class HomeFragmentAdapterclass (private val list: List<Results>)
 
 class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater?.inflate(R.layout.comic_list_item, parent, false)!!) {
-    private var mtitle: TextView? = null
     private var mthumbnail: ImageView? = null
+    private var mtitle: TextView? = null
+
 
 
     init {
@@ -42,8 +43,7 @@ class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
 
     fun bind(results: Results) {
             mthumbnail?.loadImageWithGlide(results.thumbnail!!.path.toString()+"."+results.thumbnail!!.extension)
-            mtitle?.text = results.title
-
+            mtitle?.text = results.title.toString()
         }
 
 

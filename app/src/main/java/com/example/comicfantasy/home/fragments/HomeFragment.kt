@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.home.viewmodel.HomeFragmentViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
+import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -42,7 +43,7 @@ class HomeFragment : DaggerFragment() {
 
     private var listOfComics = ArrayList<Results>()
     private lateinit var comicAdapter:HomeFragmentAdapterclass
-    private lateinit var layManager: LinearLayoutManager
+    private lateinit var layManager:GridLayoutManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +71,8 @@ class HomeFragment : DaggerFragment() {
 
     private fun initViews() {
         comicAdapter = HomeFragmentAdapterclass(listOfComics)
-        layManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        layManager =GridLayoutManager(context,2)
+        comic_list.addItemDecoration(GridItemDecoration(10,2))
         comic_list.adapter = comicAdapter
         comic_list.layoutManager = layManager
     }
