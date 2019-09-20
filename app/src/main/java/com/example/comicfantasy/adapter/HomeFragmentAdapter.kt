@@ -20,8 +20,8 @@ class HomeFragmentAdapterclass (private val list: List<Results>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val result:Results = list[position]
-        holder.bind(result)
+        val results:Results = list[position]
+        holder.bind(results)
     }
 
     override fun getItemCount(): Int = list.size
@@ -37,13 +37,13 @@ class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
 
     init {
         mthumbnail = itemView.findViewById(R.id.comic_thumbnail)
-        mtitle = itemView.findViewById(R.id.title)
+        mtitle = itemView.findViewById(R.id.comic_title)
 
     }
 
     fun bind(results: Results) {
             mthumbnail?.loadImageWithGlide(results.thumbnail!!.path.toString()+"."+results.thumbnail!!.extension)
-            mtitle?.text = results.title.toString()
+            mtitle?.text = results.title
         }
 
 
