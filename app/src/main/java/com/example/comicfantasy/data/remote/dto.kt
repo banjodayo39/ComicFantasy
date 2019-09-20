@@ -64,7 +64,15 @@ data class Results(
     var upc: String? = null,
     var urls: List<Url?>? = null,
     var variantDescription: String? = null,
-    var variants: List<Variant?>? = null
+    var variants: List<Variant?>? = null,
+   //starts here
+   var comics: Comics? = null,
+   var endYear: String? = null,
+   var next: Next? = null,
+   var previous: Previous? = null,
+   var rating: String? = null,
+   var startYear: String? = null
+
 )
 data class Characters(
     var available: String? = null,
@@ -166,4 +174,31 @@ data class Url(
 data class Variant(
     var name: String? = null,
     var resourceURI: String? = null
+)
+
+
+
+data class Comics(
+    var available: String? = null,
+    var collectionURI: String? = null,
+    var items: List<ItemX?>? = null,
+    var returned: String? = null
+)
+
+
+data class Next(
+    var name: String? = null,
+    var resourceURI: String? = null
+)
+
+data class Previous(
+    var name: String? = null,
+    var resourceURI: String? = null
+)
+
+
+data class ItemXXXX(
+    var name: String? = null,
+    var resourceURI: String? = null,
+    var type: String? = null
 )
