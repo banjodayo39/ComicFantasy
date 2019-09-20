@@ -19,7 +19,7 @@ open class ComicRepository (
 
 
     fun getComicList(): Observable<DataResponse> =
-    Observable.concat(getComicListFromDb(), getComicListFromApi())
+   Observable.concat(getComicListFromDb(), getComicListFromApi())
             .onErrorResumeNext(Observable.empty())
 
     private fun saveComic(comic: DataResponse) =

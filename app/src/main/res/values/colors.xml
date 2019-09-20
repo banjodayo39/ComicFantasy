@@ -3,4 +3,41 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="forest_green">#006543</color>
+    <color name="apple_green">#69B548</color>
+    <color name="alpha60_dkgreen">#90005432</color>
+    <color name="alpha60_ltgreen">#9072d24a</color>
+
+    <color name="app_background">#f8f8f8</color>
+    <color name="dialog_background">#f5f5f5</color>
+    <color name="grey_ee">#EEEEEE</color>
+
+    <color name="rank_red">#FF0000</color>
+    <color name="rank_orange">#FF9626</color>
+    <color name="rank_purple">#E415FD</color>
+    <color name="rank_blue">#0096FF</color>
+    <color name="rank_yellow">#FFCC00</color>
+
+
+    <color name="apptheme_color">#96c526</color>
+    <color name="red">#FF0000</color>
+    <color name="black">#000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#C0C0C0</color>
+    <color name="light_yellow">#FFFA68</color>
+
+    <color name="green_button">#6ab648</color>
+    <color name="dark_green">#003C20</color>
+
+    <color name="default_bottom_nav_icon">#98a2ac</color>
+
+    <color name="dark_grey_blue">#33475b</color>
+
+    <color name="grey_background_color">#f0f1f3</color>
+
+    <color name="grey_border_color">#d9d9d9</color>
+    <color name="grey_button_color">#9b9b9b</color>
+
+
 </resources>
