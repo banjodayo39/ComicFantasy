@@ -44,10 +44,15 @@ constructor(
         }
     }
 
-    private fun getComicStory(){
+    fun getComicStory(): LiveData<DataUIModel<DataResponse>> {
+        getAllComicList()
+        return allComicUI
+    }
+
+    private fun getComicStory(id:Int){
         addDisposable {
             allComicUI.postValue(DataUIModel(isLoading = true))
-            repo.getComicStoryApi().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+            repo.getComicStoryApi(id).subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("ComicFragmentViewModel",it.toString())
                 if(it != null)
                     allComicUI.postValue(DataUIModel(data = it))

@@ -41,8 +41,8 @@ open class ComicRepository (
                 it.body()
             }
 
-   fun getComicStoryApi(): Observable<DataResponse> =
-        apiService.fetchComicStory(ts, apikey, hash)
+   fun getComicStoryApi(id:Int): Observable<DataResponse> =
+        apiService.fetchComicStory(id,ts, apikey, hash)
             .subscribeOn(provider.io())
             .doOnNext {
                 if(it.isSuccessful && it.body()!=null)

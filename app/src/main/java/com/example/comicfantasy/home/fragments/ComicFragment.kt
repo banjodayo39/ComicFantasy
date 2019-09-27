@@ -44,12 +44,16 @@ class ComicFragment : DaggerFragment() {
     private var listOfComics = ArrayList<Results>()
     private lateinit var comicAdapter:HomeFragmentAdapterclass
     private lateinit var layManager:GridLayoutManager
+    private var Id: Int? = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-              }
+
+            Id  = it.getInt("Id")
+
+        }
     }
 
     override fun onCreateView(
@@ -126,15 +130,17 @@ class ComicFragment : DaggerFragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener : BaseInteractionListener {
-
+        fun onThumbnailClicked()
     }
 
     companion object {
           @JvmStatic
-        fun newInstance() =
+        fun newInstance(id:Int) =
             ComicFragment().apply {
                 arguments = Bundle().apply {
+                    putInt("id",id)
                     /*putString(ARG_PARAM1, param1)
+
                     putString(ARG_PARAM2, param2)
              */   }
             }

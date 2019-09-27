@@ -2,15 +2,19 @@ package com.example.comicfantasy
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
+import com.example.comicfantasy.home.fragments.ComicDetailFragment
 import com.example.comicfantasy.home.fragments.ComicFragment
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class ComicActivity : DaggerAppCompatActivity(),ComicFragment.OnFragmentInteractionListener {
+class ComicActivity : DaggerAppCompatActivity()
+                      ,ComicFragment.OnFragmentInteractionListener,
+    ComicDetailFragment.OnFragmentInteractionListener {
 
     private var comicFragment: ComicFragment? = null
-
+    private val id:Int? =0
 
     override fun onShowProgress() {
          progressBar.visibility = View.VISIBLE
@@ -32,13 +36,23 @@ class ComicActivity : DaggerAppCompatActivity(),ComicFragment.OnFragmentInteract
 
         AndroidInjection.inject(this)
 
-        val fragment = ComicFragment.newInstance()
-
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.placeholder, fragment)
-            .commit()
+        val fragment = ComicFragment.newInstance(id!!)
+        loadFragment(fragment)
     }
+
+    override fun onThumbnailClicked() {
+        val fragment=ComicDetailFragment.newInstance()
+       loadFragment(fragment)
+    }
+
+
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(placeholder.id, fragment, fragment.javaClass.simpleName)
+            .commitAllowingStateLoss()
+    }
+
+
 }
 
 

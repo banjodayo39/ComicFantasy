@@ -12,7 +12,7 @@ import com.example.comicfantasy.util.loadImageWithGlide
 
 
 class HomeFragmentAdapterclass (private val list: List<Results>)
-: RecyclerView.Adapter<ViewHolder>() {
+: RecyclerView.Adapter<HomeFragmentAdapterclass.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,31 +20,34 @@ class HomeFragmentAdapterclass (private val list: List<Results>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val results:Results = list[position]
+        val results: Results = list[position]
         holder.bind(results)
     }
 
     override fun getItemCount(): Int = list.size
 
-}
 
-class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
-    RecyclerView.ViewHolder(inflater?.inflate(R.layout.comic_list_item, parent, false)!!) {
-    private var mthumbnail: ImageView? = null
-    private var mtitle: TextView? = null
-
+  inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
+        RecyclerView.ViewHolder(inflater?.inflate(R.layout.comic_list_item, parent, false)!!) {
+        private var mthumbnail: ImageView? = null
+        private var mtitle: TextView? = null
 
 
-    init {
-        mthumbnail = itemView.findViewById(R.id.comic_thumbnail)
-        mtitle = itemView.findViewById(R.id.comic_title)
+        init {
+            mthumbnail = itemView.findViewById(R.id.comic_thumbnail)
+            mtitle = itemView.findViewById(R.id.comic_title)
 
-    }
+        }
 
-    fun bind(results: Results) {
-            mthumbnail?.loadImageWithGlide(results.thumbnail!!.path.toString()+"."+results.thumbnail!!.extension)
+        fun bind(results: Results) {
+            mthumbnail?.loadImageWithGlide(results.thumbnail!!.path.toString() + "." + results.thumbnail!!.extension)
             mtitle?.text = results.title
+            itemView.setOnClickListener{
+
+
+            }
         }
 
 
+    }
 }

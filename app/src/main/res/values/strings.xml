@@ -4,4 +4,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="story">Story</string>
+    <string name="character">Character</string>
+    <string name="creator">Creator</string>
+    <string name="event">Event</string>
 </resources>

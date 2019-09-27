@@ -7,33 +7,36 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
 
 import com.example.comicfantasy.R
+import com.example.comicfantasy.adapter.ComicDetailAdapter
+import com.example.comicfantasy.adapter.ViewPagerAdapter
+import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.home.viewmodel.ComicFragmentViewModel
+import com.google.android.material.tabs.TabLayout
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ComicDetailFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ComicDetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ComicDetailFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class ComicDetailFragment : DaggerFragment() {
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+
+    lateinit var viewModel: ComicFragmentViewModel
+
+
+    private var listOfComics = ArrayList<Results>()
+    private lateinit var comicAdapter:ComicDetailAdapter
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
     }
 
@@ -45,10 +48,38 @@ class ComicDetailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_comic_detail, container, false)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+
+
+
+    private fun setUpTabIcons(tabLayout: TabLayout){
+        val tabOne = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+        tabOne.text = (getString(R.string.story))
+        tabLayout.getTabAt(0)!!.customView = tabOne
+
+        val tabTwo = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+        tabTwo.text = (getString(R.string.character))
+        tabLayout.getTabAt(1)!!.customView = tabTwo
+
+        val tabThree = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+        tabTwo.text = (getString(R.string.creator))
+        tabLayout.getTabAt(1)!!.customView = tabThree
+
+        val tabFour = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+        tabTwo.text = (getString(R.string.event))
+        tabLayout.getTabAt(1)!!.customView = tabFour
     }
+
+    private fun setUpViewPager(viewPager: ViewPager){
+        val adapter = ViewPagerAdapter(childFragmentManager)
+        adapter.addFragment(StoryTabFragment.newInstance(), getString(R.string.story))
+        adapter.addFragment(CharacterTabFragment.newInstance(), getString(R.string.character))
+        adapter.addFragment(CreatorTabFragment.newInstance(), getString(R.string.creator))
+        adapter.addFragment(EventTabFragment.newInstance(), getString(R.string.event))
+
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 1
+    }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,38 +95,18 @@ class ComicDetailFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
+
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ComicDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             ComicDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                   /* putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)*/
                 }
             }
     }
