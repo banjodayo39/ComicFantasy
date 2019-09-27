@@ -10,7 +10,7 @@ import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-class HomeFragmentModule {
+class ComicFragmentModule {
 
     @Provides
     internal fun providesComicRepository(apiService: ComicApiService,

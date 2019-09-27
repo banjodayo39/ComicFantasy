@@ -40,4 +40,15 @@ open class ComicRepository (
             .map {
                 it.body()
             }
+
+   fun getComicStoryApi(): Observable<DataResponse> =
+        apiService.fetchComicStory(ts, apikey, hash)
+            .subscribeOn(provider.io())
+            .doOnNext {
+                if(it.isSuccessful && it.body()!=null)
+                    saveComic(it.body()!!)
+            }
+            .map {
+                it.body()
+            }
 }

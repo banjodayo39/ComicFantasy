@@ -15,4 +15,14 @@ interface ComicApiService {
         @Query("hash") hashSignture:String
     ): Observable<Response<DataResponse>>
 
+
+    @GET("/v1/public/comics/{comicId}/stories")
+    fun fetchComicStory(
+        @Query("ts") timestamp: String,
+        @Query("apikey") apikey:String,
+        @Query("hash") hashSignture:String
+    ): Observable<Response<DataResponse>>
+
+
+
 }

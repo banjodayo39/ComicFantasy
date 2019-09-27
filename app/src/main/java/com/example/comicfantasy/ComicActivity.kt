@@ -2,14 +2,14 @@ package com.example.comicfantasy
 
 import android.os.Bundle
 import android.view.View
-import com.example.comicfantasy.home.fragments.HomeFragment
+import com.example.comicfantasy.home.fragments.ComicFragment
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
-class HomeActivity : DaggerAppCompatActivity(),HomeFragment.OnFragmentInteractionListener {
+class ComicActivity : DaggerAppCompatActivity(),ComicFragment.OnFragmentInteractionListener {
 
-    private var comicFragment: HomeFragment? = null
+    private var comicFragment: ComicFragment? = null
 
 
     override fun onShowProgress() {
@@ -32,7 +32,7 @@ class HomeActivity : DaggerAppCompatActivity(),HomeFragment.OnFragmentInteractio
 
         AndroidInjection.inject(this)
 
-        val fragment = HomeFragment.newInstance()
+        val fragment = ComicFragment.newInstance()
 
         supportFragmentManager
             .beginTransaction()

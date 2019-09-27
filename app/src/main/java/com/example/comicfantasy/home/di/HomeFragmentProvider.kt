@@ -1,7 +1,8 @@
 package com.example.comicfantasy.home.di
 
 import com.example.comicfantasy.di.module.ViewModelFactoryModule
-import com.example.comicfantasy.home.fragments.HomeFragment
+import com.example.comicfantasy.home.fragments.ComicDetailFragment
+import com.example.comicfantasy.home.fragments.ComicFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,8 +10,12 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class HomeFragmentProvider {
 
-    @ContributesAndroidInjector(modules = [HomeFragmentModule::class,
-        ViewModelFactoryModule::class, HomeViewModelModule::class])
-    internal abstract fun contributeComicHomeFragment(): HomeFragment
+    @ContributesAndroidInjector(modules = [ComicFragmentModule::class,
+        ViewModelFactoryModule::class, ComicViewModelModule::class])
+    internal abstract fun contributeComicHomeFragment(): ComicFragment
+
+    @ContributesAndroidInjector(modules = [ComicFragmentModule::class,
+        ViewModelFactoryModule::class, ComicViewModelModule::class])
+    internal abstract fun contributeComicDetailFragment(): ComicDetailFragment
 
 }

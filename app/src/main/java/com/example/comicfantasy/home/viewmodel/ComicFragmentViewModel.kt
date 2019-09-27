@@ -12,7 +12,7 @@ import com.example.comicfantasy.util.getMsgFromErrBody
 import com.example.comicfantasy.util.processNetworkError
 import javax.inject.Inject
 
-class HomeFragmentViewModel@Inject
+class ComicFragmentViewModel@Inject
 constructor(
     private val repo: ComicRepository,
     private val provider: SchedulerProvider
@@ -32,7 +32,23 @@ constructor(
         addDisposable {
             allComicUI.postValue(DataUIModel(isLoading = true))
             repo.getComicList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
-                Log.e("HomeFragmentViewModel",it.toString())
+                Log.e("ComicFragmentViewModel",it.toString())
+                if(it != null)
+                    allComicUI.postValue(DataUIModel(data = it))
+                else
+                    allComicUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
+            }, {
+                allComicUI.postValue(DataUIModel(error = processNetworkError(it)))
+            })!!
+
+        }
+    }
+
+    private fun getComicStory(){
+        addDisposable {
+            allComicUI.postValue(DataUIModel(isLoading = true))
+            repo.getComicStoryApi().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+                Log.e("ComicFragmentViewModel",it.toString())
                 if(it != null)
                     allComicUI.postValue(DataUIModel(data = it))
                 else

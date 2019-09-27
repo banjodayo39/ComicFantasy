@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.data.remote.Results
-import com.example.comicfantasy.home.viewmodel.HomeFragmentViewModel
+import com.example.comicfantasy.home.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
@@ -27,17 +27,17 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [HomeFragment.OnFragmentInteractionListener] interface
+ * [ComicFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [HomeFragment.newInstance] factory method to
+ * Use the [ComicFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : DaggerFragment() {
+class ComicFragment : DaggerFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    lateinit var viewModel: HomeFragmentViewModel
+    lateinit var viewModel: ComicFragmentViewModel
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -57,7 +57,7 @@ class HomeFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        viewModel = ViewModelProviders.of(this, factory).get(HomeFragmentViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
         return inflater.inflate(R.layout.fragment_home, container, false)
 
     }
@@ -71,8 +71,8 @@ class HomeFragment : DaggerFragment() {
 
     private fun initViews() {
         comicAdapter = HomeFragmentAdapterclass(listOfComics)
-        layManager =GridLayoutManager(context,2)
-        comic_list.addItemDecoration(GridItemDecoration(10,2))
+        layManager =GridLayoutManager(context,3)
+        comic_list.addItemDecoration(GridItemDecoration(10,3))
         comic_list.adapter = comicAdapter
         comic_list.layoutManager = layManager
     }
@@ -132,7 +132,7 @@ class HomeFragment : DaggerFragment() {
     companion object {
           @JvmStatic
         fun newInstance() =
-            HomeFragment().apply {
+            ComicFragment().apply {
                 arguments = Bundle().apply {
                     /*putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
