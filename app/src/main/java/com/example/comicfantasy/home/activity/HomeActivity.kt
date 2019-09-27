@@ -1,9 +1,10 @@
-package com.example.comicfantasy
+package com.example.comicfantasy.home.activity
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.comicfantasy.home.fragments.HomeFragment
+import com.example.comicfantasy.R
+import com.example.comicfantasy.home.fragments.ComicFragment
 import com.example.comicfantasy.series.fragment.SeriesFragment
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
@@ -11,10 +12,10 @@ import kotlinx.android.synthetic.main.activity_home.*
 
 
 
-class HomeActivity : DaggerAppCompatActivity(),HomeFragment.OnFragmentInteractionListener,
+class HomeActivity : DaggerAppCompatActivity(),ComicFragment.OnFragmentInteractionListener,
                      SeriesFragment.OnFragmentInteractionListener {
 
-    private var comicFragment: HomeFragment? = null
+    private var comicFragment: ComicFragment? = null
     private var seriesFragment: SeriesFragment? = null
 
     // private var comicSeriesFragment: SeriesFragment? = null
@@ -40,7 +41,7 @@ class HomeActivity : DaggerAppCompatActivity(),HomeFragment.OnFragmentInteractio
 
         AndroidInjection.inject(this)
 
-        val fragment = HomeFragment.newInstance()
+        val fragment = ComicFragment.newInstance()
 
         loadFragment(fragment)
     }

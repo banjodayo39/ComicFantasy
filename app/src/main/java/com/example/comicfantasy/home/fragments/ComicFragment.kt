@@ -27,12 +27,12 @@ import javax.inject.Inject
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [HomeFragment.OnFragmentInteractionListener] interface
+ * [ComicFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [HomeFragment.newInstance] factory method to
+ * Use the [ComicFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HomeFragment : DaggerFragment() {
+class ComicFragment : DaggerFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -71,8 +71,8 @@ class HomeFragment : DaggerFragment() {
 
     private fun initViews() {
         comicAdapter = HomeFragmentAdapterclass(listOfComics, listener!!)
-        layManager =GridLayoutManager(context,2)
-        comic_list.addItemDecoration(GridItemDecoration(10,2))
+        layManager =GridLayoutManager(context,3)
+        comic_list.addItemDecoration(GridItemDecoration(10,3))
         comic_list.adapter = comicAdapter
         comic_list.layoutManager = layManager
     }
@@ -133,7 +133,7 @@ class HomeFragment : DaggerFragment() {
     companion object {
           @JvmStatic
         fun newInstance() =
-            HomeFragment().apply {
+            ComicFragment().apply {
                 arguments = Bundle().apply {
                     /*putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

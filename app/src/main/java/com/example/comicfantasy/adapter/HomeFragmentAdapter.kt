@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.comicfantasy.R
 import com.example.comicfantasy.data.remote.Image
 import com.example.comicfantasy.data.remote.Results
-import com.example.comicfantasy.home.fragments.HomeFragment
+import com.example.comicfantasy.home.fragments.ComicFragment
 import com.example.comicfantasy.util.loadImageWithGlide
 
 
@@ -16,7 +16,7 @@ import com.example.comicfantasy.util.loadImageWithGlide
 class HomeFragmentAdapterclass (
 
     private val list: List<Results>,
-    private val listener: HomeFragment.OnFragmentInteractionListener
+    private val listener: ComicFragment.OnFragmentInteractionListener
                               )
     : RecyclerView.Adapter<HomeFragmentAdapterclass.ViewHolder>() {
 

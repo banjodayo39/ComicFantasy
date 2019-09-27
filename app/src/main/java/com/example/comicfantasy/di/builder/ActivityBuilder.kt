@@ -1,6 +1,6 @@
 package com.example.comicfantasy.di.builder
 
-import com.example.comicfantasy.HomeActivity
+import com.example.comicfantasy.home.activity.HomeActivity
 import com.example.comicfantasy.di.module.ViewModelFactoryModule
 import com.example.comicfantasy.home.di.HomeFragmentModule
 import com.example.comicfantasy.home.di.HomeFragmentProvider
