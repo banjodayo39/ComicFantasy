@@ -28,12 +28,12 @@ constructor(
         return allComicUI
     }
 
-    private fun getAllComicList(){
+    private fun getAllComicList() {
         addDisposable {
             allComicUI.postValue(DataUIModel(isLoading = true))
             repo.getComicList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
-                Log.e("HomeFragmentViewModel",it.toString())
-                if(it != null)
+                Log.e("HomeFragmentViewModel", it.toString())
+                if (it != null)
                     allComicUI.postValue(DataUIModel(data = it))
                 else
                     allComicUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
@@ -44,6 +44,29 @@ constructor(
         }
     }
 
+
+       /* fun getComicImages(): LiveData<DataUIModel<DataResponse>> {
+            getAllComicImages()
+            return allComicUI
+        }
+*/
+
+       /* private fun getAllComicImages() {
+            addDisposable {
+                allComicUI.postValue(DataUIModel(isLoading = true))
+                repo.getComicImages().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe(
+                    {
+                        Log.e("HomeFragmentViewModel", it.toString())
+                        if (it != null)
+                            allComicUI.postValue(DataUIModel(data = it))
+                        else
+                            allComicUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
+                    },
+                    {
+                        allComicUI.postValue(DataUIModel(error = processNetworkError(it)))
+                    })!!
+               }
+            }*/
 
 
 

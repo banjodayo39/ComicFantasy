@@ -1,9 +1,11 @@
 package com.example.comicfantasy.data.remote
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "comicEntity")
 data class DataResponse(
@@ -27,15 +29,11 @@ data class DataX(
     var total: String? = null
 )
 
-data class ResultsResp(
-    @SerializedName("results")
-    var results: List<Results>? = null
-)
 
 
 data class Results(
 
-   var id: String="",
+   var id: Int?=null,
    @SerializedName("thumbnail")
     var thumbnail: Thumbnail? = null,
     var title: String? = "",
@@ -127,10 +125,11 @@ data class ItemXX(
     var resourceURI: String? = null
 )
 
+@Parcelize
 data class Image(
     var extension: String? = null,
     var path: String? = null
-)
+):Parcelable
 
 data class Price(
     var price: String? = null,

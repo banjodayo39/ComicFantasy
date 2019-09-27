@@ -15,13 +15,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.SeriesFragmentAdapter
 import com.example.comicfantasy.data.remote.Image
-import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.home.viewmodel.HomeFragmentViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_series.*
 import javax.inject.Inject
 
 /**
@@ -35,7 +34,6 @@ class SeriesFragment : DaggerFragment() {
     lateinit var viewModel: HomeFragmentViewModel
     private var listener: OnFragmentInteractionListener? = null
     private var listOfImages = ArrayList<Image>()
-    private var listOfResults=ArrayList<Results>()
     private lateinit var comicAdapter: SeriesFragmentAdapter
     private lateinit var layManager: GridLayoutManager
 
@@ -62,28 +60,30 @@ class SeriesFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        getListOfComics()
+
     }
 
 
     private fun initViews() {
-        comicAdapter = SeriesFragmentAdapter(listOfResults)
+        comicAdapter = SeriesFragmentAdapter(listOfImages)
         layManager = GridLayoutManager(context,2)
-        comic_list.addItemDecoration(GridItemDecoration(10,2))
-        comic_list.adapter = comicAdapter
-        comic_list.layoutManager = layManager
+        image_list.addItemDecoration(GridItemDecoration(10,2))
+        image_list.adapter = comicAdapter
+        image_list.layoutManager = layManager
     }
 
 
     private fun getListOfComics() {
         viewModel.getComic().observe(this, Observer {
-            Log.e("ComicSeriesFragment", it.toString())
             if (it.isLoading)
                 listener?.onShowProgress()
             else
                 listener?.onHideProgress()
 
             if (it.data != null && !it.data?.data?.results.isNullOrEmpty()) {
-                it.data?.data?.results?.map { result ->  listOfImages.addAll(result?.images as ArrayList<Image>) }
+                Log.e("ComicSeriesFragment", it.toString())
+                it.data?.data?.results?.map { results ->  listOfImages.addAll(results?.images as ArrayList<Image>) }
                 comicAdapter.notifyDataSetChanged()
             }
             if (!it.error.isNullOrEmpty())
@@ -113,13 +113,24 @@ class SeriesFragment : DaggerFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(id:Int) =
             SeriesFragment().apply {
                 arguments = Bundle().apply {
-                    /*putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-             */   }
+                    putInt("id",id)
+                       }
             }
+
+
+       /* fun newInstance(images: ArrayList<Image>?) =
+            SeriesFragment().apply {
+                arguments = Bundle().apply {
+                    if(!images.isNullOrEmpty())
+                        putParcelableArrayList("images", images)
+
+                    *//*putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+             *//*   }
+            }*/
     }
 
 }

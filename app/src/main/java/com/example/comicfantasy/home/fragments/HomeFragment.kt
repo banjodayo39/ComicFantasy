@@ -70,7 +70,7 @@ class HomeFragment : DaggerFragment() {
 
 
     private fun initViews() {
-        comicAdapter = HomeFragmentAdapterclass(listOfComics)
+        comicAdapter = HomeFragmentAdapterclass(listOfComics, listener!!)
         layManager =GridLayoutManager(context,2)
         comic_list.addItemDecoration(GridItemDecoration(10,2))
         comic_list.adapter = comicAdapter
@@ -126,6 +126,7 @@ class HomeFragment : DaggerFragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener : BaseInteractionListener {
+            fun  onThumbnailClicked(id:Int)
 
     }
 
@@ -136,6 +137,7 @@ class HomeFragment : DaggerFragment() {
                 arguments = Bundle().apply {
                     /*putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
+
              */   }
             }
     }

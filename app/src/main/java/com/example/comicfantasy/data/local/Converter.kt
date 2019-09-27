@@ -2,6 +2,7 @@ package com.example.comicfantasy.data.local
 
 import androidx.room.TypeConverter
 import com.example.comicfantasy.data.remote.DataX
+import com.example.comicfantasy.data.remote.Image
 import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.data.remote.Thumbnail
 import com.google.gson.Gson
@@ -38,15 +39,29 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun fromQuotes(value: List<Results>): String {
+        fun fromResult(value: List<Results>): String {
             return gson.toJson(value)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toQuotes(value: String): List<Results> {
+        fun toResult(value: String): List<Results> {
             return gson.fromJson(value, Array<Results>::class.java).asList()
         }
+
+
+        @TypeConverter
+        @JvmStatic
+        fun fromImages(value: List<Image>): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toImages(value: String): List<Image> {
+            return gson.fromJson(value, Array<Image>::class.java).asList()
+        }
+
 
 
 

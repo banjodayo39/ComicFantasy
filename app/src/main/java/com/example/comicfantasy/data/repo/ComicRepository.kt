@@ -18,20 +18,25 @@ open class ComicRepository (
     private val hash: String = "31425e31bec201f47f25948808f8f341"
 
 
-    fun getComicList(): Observable<DataResponse> =
-   Observable.concat(getComicListFromDb(), getComicListFromApi())
+    fun getComicList(): Observable<DataResponse> =getComicListFromApi()
+  /* Observable.concat(getComicListFromDb(), getComicListFromApi())
+            .onErrorResumeNext(Observable.empty())*/
+
+   /* fun getComicImages(): Observable<DataResponse> =
+        Observable.concat(getComicListFromDb(), getComicImagesFromApi())
             .onErrorResumeNext(Observable.empty())
 
+*/
     private fun saveComic(comic: DataResponse) =
         comicDao.addComic(comic)
 
-    private fun getComicListFromDb(): Observable<DataResponse> =
+  /*  private fun getComicListFromDb(): Observable<DataResponse> =
         Observable.fromCallable { comicDao.getAllComics() }
             .filter { it!=null }
             .subscribeOn(provider.io())
-
+*/
     private fun getComicListFromApi(): Observable<DataResponse> =
-        apiService.fetchListOfComic(ts, apikey, hash)
+        apiService.fetchListOfComicThumbnail(ts, apikey, hash)
             .subscribeOn(provider.io())
             .doOnNext {
                 if(it.isSuccessful && it.body()!=null)
@@ -40,4 +45,17 @@ open class ComicRepository (
             .map {
                 it.body()
             }
+
+    /*private fun getComicImagesFromApi(comicId:Int?): Observable<DataResponse> =
+        apiService.fetchListOfComicImages(comicId,ts, apikey, hash)
+            .subscribeOn(provider.io())
+            .doOnNext {
+                if(it.isSuccessful && it.body()!=null)
+                    saveComic(it.body()!!)
+            }
+            .map {
+                it.body()
+            }*/
+
+
 }

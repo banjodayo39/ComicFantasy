@@ -18,4 +18,5 @@ interface ComicDAO {
     @Query("DELETE FROM comicEntity")
     fun clearAllComicTable()
 
+
 }
