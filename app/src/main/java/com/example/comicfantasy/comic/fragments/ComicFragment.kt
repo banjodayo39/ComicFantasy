@@ -134,16 +134,15 @@ class ComicFragment : DaggerFragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener : BaseInteractionListener {
-        fun onThumbnailClicked(id:Int,results: Results)
+        fun onThumbnailClicked(results: Results)
     }
 
     companion object {
           @JvmStatic
-        fun newInstance(id:Int,results: Results) =
+        fun newInstance() =
             ComicFragment().apply {
                 arguments = Bundle().apply {
-                    putInt("id",id)
-                    putParcelable("thumbnail",results)
+
 
                     /*putString(ARG_PARAM1, param1)
 

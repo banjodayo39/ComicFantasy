@@ -34,10 +34,12 @@ class ComicDetailFragment : DaggerFragment() {
     private var listOfComics = ArrayList<Results>()
     private lateinit var comicAdapter:ComicDetailAdapter
     private var listener: OnFragmentInteractionListener? = null
+    private var results:Results?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            results=it.getParcelable("results")
 
         }
     }
@@ -51,12 +53,14 @@ class ComicDetailFragment : DaggerFragment() {
     }
 
 
-     fun displayDataRecieved(id:Int,results: Results){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        comic_detail_title.text=results?.title
+        comic_detail_thumbnail.loadImageWithGlide(results?.thumbnail!!.path.toString() + "." + results?.thumbnail!!.extension)
 
-      comic_detail_title.text=results.title
-      comic_detail_thumbnail.loadImageWithGlide(results.thumbnail!!.path.toString() + "." + results.thumbnail!!.extension)
+    }
 
-     }
+
 
 
 
@@ -114,9 +118,10 @@ class ComicDetailFragment : DaggerFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(results: Results) =
             ComicDetailFragment().apply {
                 arguments = Bundle().apply {
+                    putParcelable("results",results)
                    /* putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)*/
                 }
