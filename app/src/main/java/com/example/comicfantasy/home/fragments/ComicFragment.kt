@@ -11,9 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.comicfantasy.ComicActivity
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.Thumbnail
 import com.example.comicfantasy.home.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.GridItemDecoration
@@ -40,7 +42,7 @@ class ComicFragment : DaggerFragment() {
     lateinit var viewModel: ComicFragmentViewModel
 
     private var listener: OnFragmentInteractionListener? = null
-
+    private var comicActivity:ComicActivity?=null
     private var listOfComics = ArrayList<Results>()
     private lateinit var comicAdapter:HomeFragmentAdapterclass
     private lateinit var layManager:GridLayoutManager
@@ -74,12 +76,14 @@ class ComicFragment : DaggerFragment() {
 
 
     private fun initViews() {
-        comicAdapter = HomeFragmentAdapterclass(listOfComics)
+        comicAdapter = HomeFragmentAdapterclass(listOfComics,listener!!)
         layManager =GridLayoutManager(context,3)
         comic_list.addItemDecoration(GridItemDecoration(10,3))
         comic_list.adapter = comicAdapter
         comic_list.layoutManager = layManager
     }
+
+
 
 
 
@@ -130,15 +134,17 @@ class ComicFragment : DaggerFragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener : BaseInteractionListener {
-        fun onThumbnailClicked()
+        fun onThumbnailClicked(id:Int,results: Results)
     }
 
     companion object {
           @JvmStatic
-        fun newInstance(id:Int) =
+        fun newInstance(id:Int,results: Results) =
             ComicFragment().apply {
                 arguments = Bundle().apply {
                     putInt("id",id)
+                    putParcelable("thumbnail",results)
+
                     /*putString(ARG_PARAM1, param1)
 
                     putString(ARG_PARAM2, param2)

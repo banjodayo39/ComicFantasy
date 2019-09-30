@@ -39,6 +39,7 @@
 
     <color name="grey_border_color">#d9d9d9</color>
     <color name="grey_button_color">#9b9b9b</color>
+    <color name="color_fab">#ff1744</color>
 
 
 </resources>

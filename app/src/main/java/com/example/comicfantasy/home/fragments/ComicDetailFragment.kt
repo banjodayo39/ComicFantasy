@@ -16,8 +16,10 @@ import com.example.comicfantasy.adapter.ComicDetailAdapter
 import com.example.comicfantasy.adapter.ViewPagerAdapter
 import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.home.viewmodel.ComicFragmentViewModel
+import com.example.comicfantasy.util.loadImageWithGlide
 import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_comic_detail.*
 import javax.inject.Inject
 
 
@@ -47,6 +49,14 @@ class ComicDetailFragment : DaggerFragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_comic_detail, container, false)
     }
+
+
+     fun displayDataRecieved(id:Int,results: Results){
+
+      comic_detail_title.text=results.title
+      comic_detail_thumbnail.loadImageWithGlide(results.thumbnail!!.path.toString() + "." + results.thumbnail!!.extension)
+
+     }
 
 
 
@@ -89,6 +99,8 @@ class ComicDetailFragment : DaggerFragment() {
             throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
+
+
 
     override fun onDetach() {
         super.onDetach()
