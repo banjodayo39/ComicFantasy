@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="4dp">
+    android:paddingTop="4dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/gradient_bg">
+            android:background="@color/bgBottomNavigation">
 
 
     <com.example.comicfantasy.util.TwoThreeImageView

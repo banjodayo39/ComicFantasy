@@ -8,4 +8,22 @@
     <string name="character">Character</string>
     <string name="creator">Creator</string>
     <string name="event">Event</string>
+
+
+    <string name="title_movie">Movie</string>
+    <string name="title_comic">Comic</string>
+    <string name="title_games">Games</string>
+    <string name="title_community">Community</string>
+    <string name="trivia">Trivia</string>
+
+
+    <string name="name_movie">Movie Title</string>
+    <string name="plot">Plot Synopsis</string>
+    <string name="rating">User Rating</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="release">Release Date</string>
+    <string name="pref_sort_order_label">Sort Label</string>
+    <string name="pref_sort_order_key">Sort Key</string>
+    <string name="pref_most_popular">Most Popular Movie</string>
+    <string name="pref_highest_rated">Highest Rated</string>
 </resources>

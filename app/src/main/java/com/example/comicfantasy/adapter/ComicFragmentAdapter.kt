@@ -1,17 +1,13 @@
 package com.example.comicfantasy.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.os.persistableBundleOf
 import androidx.recyclerview.widget.RecyclerView
-import com.example.comicfantasy.ComicActivity
 import com.example.comicfantasy.R
 import com.example.comicfantasy.data.remote.Results
-import com.example.comicfantasy.home.fragments.ComicDetailFragment
-import com.example.comicfantasy.home.fragments.ComicFragment
+import com.example.comicfantasy.comic.fragments.ComicFragment
 import com.example.comicfantasy.util.loadImageWithGlide
 
 
@@ -49,11 +45,11 @@ class HomeFragmentAdapterclass (private val list: List<Results>,
 
         }
 
-        fun bind(result: Results,results: Results=list[comicPosition]) {
-            mthumbnail?.loadImageWithGlide(results.thumbnail!!.path.toString() + "." + results.thumbnail!!.extension)
+        fun bind(result: Results) {
+            mthumbnail?.loadImageWithGlide(result.thumbnail!!.path.toString() + "." + result.thumbnail!!.extension)
             mtitle?.text = result.title
             itemView.setOnClickListener{
-               listener.onThumbnailClicked(result.id!!, results)
+               listener.onThumbnailClicked( result)
 
             }
         }

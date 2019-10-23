@@ -1,25 +1,25 @@
-package com.example.comicfantasy.home.fragments
+package com.example.comicfantasy.comic.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.ComicDetailAdapter
 import com.example.comicfantasy.adapter.ViewPagerAdapter
 import com.example.comicfantasy.data.remote.Results
-import com.example.comicfantasy.home.viewmodel.ComicFragmentViewModel
+import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.util.loadImageWithGlide
 import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
+import kotlinx.android.synthetic.main.tab_layout_custom_view.*
 import javax.inject.Inject
 
 
@@ -32,12 +32,17 @@ class ComicDetailFragment : DaggerFragment() {
 
 
     private var listOfComics = ArrayList<Results>()
+    private lateinit var pagerAdapter: ViewPagerAdapter
     private lateinit var comicAdapter:ComicDetailAdapter
     private var listener: OnFragmentInteractionListener? = null
     private var results:Results?=null
+    private lateinit var viewPager:ViewPager
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         arguments?.let {
             results=it.getParcelable("results")
 
@@ -49,47 +54,56 @@ class ComicDetailFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
         return inflater.inflate(R.layout.fragment_comic_detail, container, false)
+
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
+        setUpViewPager(viewPager)
+        tabLayout.setupWithViewPager(viewPager)
+        setUpTabIcons(tabLayout)
+
+    }
+
+
+    private fun initView(){
+        viewPager=view!!.findViewById(R.id.comic_detail_view_pager)
+        tabLayout=view!!.findViewById(R.id.tab)
         comic_detail_title.text=results?.title
         comic_detail_thumbnail.loadImageWithGlide(results?.thumbnail!!.path.toString() + "." + results?.thumbnail!!.extension)
 
     }
 
 
-
-
-
-
     private fun setUpTabIcons(tabLayout: TabLayout){
-        val tabOne = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+        val tabOne = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
         tabOne.text = (getString(R.string.story))
         tabLayout.getTabAt(0)!!.customView = tabOne
 
-        val tabTwo = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+       val tabTwo = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
         tabTwo.text = (getString(R.string.character))
         tabLayout.getTabAt(1)!!.customView = tabTwo
 
-        val tabThree = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+      /*  val tabThree = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
         tabTwo.text = (getString(R.string.creator))
         tabLayout.getTabAt(1)!!.customView = tabThree
 
-        val tabFour = LayoutInflater.from(context).inflate(R.layout.comic_detail_list, null) as TextView
+        val tabFour = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
         tabTwo.text = (getString(R.string.event))
-        tabLayout.getTabAt(1)!!.customView = tabFour
+        tabLayout.getTabAt(1)!!.customView = tabFour*/
     }
 
     private fun setUpViewPager(viewPager: ViewPager){
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFragment(StoryTabFragment.newInstance(), getString(R.string.story))
-        adapter.addFragment(CharacterTabFragment.newInstance(), getString(R.string.character))
-        adapter.addFragment(CreatorTabFragment.newInstance(), getString(R.string.creator))
+        adapter.addFragment(StoryTabFragment.newInstance(results!!), getString(R.string.story))
+        adapter.addFragment(CharacterTabFragment.newInstance(results!!), getString(R.string.character))
+       /* adapter.addFragment(CreatorTabFragment.newInstance(), getString(R.string.creator))
         adapter.addFragment(EventTabFragment.newInstance(), getString(R.string.event))
-
+*/
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 1
     }
@@ -100,7 +114,7 @@ class ComicDetailFragment : DaggerFragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException(context.toString() + "must implement OnFragmentInteractionListener")
         }
     }
 

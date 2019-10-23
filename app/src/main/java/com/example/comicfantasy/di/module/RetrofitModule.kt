@@ -28,6 +28,16 @@ class RetrofitModule {
     }
 
 
+ /*   @Provides
+    @Singleton
+    internal fun provideRetrofitForMovie(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(MOVIE_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .client(okHttpClient)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+    }*/
 
     @Provides
     @Singleton

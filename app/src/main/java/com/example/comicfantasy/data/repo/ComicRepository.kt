@@ -4,6 +4,7 @@ import com.example.comicfantasy.data.local.ComicDAO
 import com.example.comicfantasy.data.remote.ComicApiService
 import com.example.comicfantasy.data.remote.DataResponse
 import com.example.comicfantasy.util.SchedulerProvider
+import io.reactivex.Completable
 import io.reactivex.Observable
 
 open class ComicRepository (
@@ -18,12 +19,12 @@ open class ComicRepository (
     private val hash: String = "31425e31bec201f47f25948808f8f341"
 
 
-    fun getComicList(): Observable<DataResponse> =
-   Observable.concat(getComicListFromDb(), getComicListFromApi())
-            .onErrorResumeNext(Observable.empty())
+    fun getComicList(): Observable<DataResponse> =getComicListFromApi()
+      /* Observable.concat(getComicListFromDb(), getComicListFromApi())
+            .onErrorResumeNext(Observable.empty())*/
 
-    private fun saveComic(comic: DataResponse) =
-        comicDao.addComic(comic)
+ /*   private fun saveComic(comic: DataResponse) =
+        comicDao.addComic(comic)*/
 
     private fun getComicListFromDb(): Observable<DataResponse> =
         Observable.fromCallable { comicDao.getAllComics() }
@@ -31,6 +32,7 @@ open class ComicRepository (
             .subscribeOn(provider.io())
 
     private fun getComicListFromApi(): Observable<DataResponse> =
+
         apiService.fetchListOfComic(ts, apikey, hash)
             .subscribeOn(provider.io())
             .doOnNext {
@@ -51,4 +53,12 @@ open class ComicRepository (
             .map {
                 it.body()
             }
+
+
+    fun saveComic(comic: DataResponse) {
+        Completable.fromAction {
+          comicDao.addComic(comic)
+        }.subscribeOn(provider.io())
+            .subscribe()
+    }
 }

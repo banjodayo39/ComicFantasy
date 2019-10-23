@@ -1,4 +1,4 @@
-package com.example.comicfantasy.movie.fragment
+package com.example.comicfantasy.games.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -10,34 +10,28 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 
 import com.example.comicfantasy.R
-import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
-import com.example.comicfantasy.adapter.MovieFragmentAdapter
-import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
-import com.example.comicfantasy.community.CommunityFragment
+import com.example.comicfantasy.data.remote.GamesResult
 import com.example.comicfantasy.data.remote.MovieResult
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.Trivia
+import com.example.comicfantasy.games.viewmodel.GamesViewModel
+import com.example.comicfantasy.movie.fragment.MovieFragment
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
-import com.example.comicfantasy.util.BaseInteractionListener
-import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlinx.android.synthetic.main.fragment_games.*
 import javax.inject.Inject
 
-class MovieFragment : DaggerFragment() {
+
+class GamesFragment : DaggerFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    private var listener: OnFragmentInteractionListener? = null
-    private var listOfMovies = ArrayList<MovieResult>()
-    lateinit var viewModel: MovieViewModel
-    private lateinit var movieAdapter: MovieFragmentAdapter
-    private lateinit var layManager: GridLayoutManager
+    private var listOfTrivia= ArrayList<GamesResult>()
+    lateinit var viewModel: GamesViewModel
 
+    private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,44 +45,30 @@ class MovieFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie, container, false)
-
+        return inflater.inflate(R.layout.fragment_games, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
+        question.text=listOfTrivia.firstOrNull()?.question.toString()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
-        getListOfMovies()
-
+        viewModel = ViewModelProviders.of(this, factory).get(GamesViewModel::class.java)
+        getListOfTrivia()
     }
 
-
-    private fun initViews() {
-       movieAdapter = MovieFragmentAdapter(listOfMovies,listener!!)
-        layManager =GridLayoutManager(context,3)
-       movie_list.addItemDecoration(GridItemDecoration(10,3))
-        movie_list.adapter = movieAdapter
-        movie_list.layoutManager = layManager
-    }
-
-
-
-    private fun getListOfMovies() {
-        viewModel.getMovie().observe(this, Observer {
-            Log.e("MovieFragment", it.toString())
+    private fun getListOfTrivia() {
+        viewModel.getGames().observe(this, Observer {
             if (it.isLoading)
-                listener?.onShowProgress()
+               // listener?.onShowProgress()
             else
-                listener?.onHideProgress()
+             //   listener?.onHideProgress()
 
             if (it.data != null && !it.data?.results.isNullOrEmpty()) {
-                listOfMovies.addAll(it.data?.results as ArrayList<MovieResult>)
-                movieAdapter.notifyDataSetChanged()
+                listOfTrivia.addAll(it.data?.results as ArrayList<GamesResult>)
             }
             if (!it.error.isNullOrEmpty())
                 showToast(context!!, it.error!!)
@@ -110,8 +90,7 @@ class MovieFragment : DaggerFragment() {
     }
 
 
-    interface OnFragmentInteractionListener :BaseInteractionListener{
-        fun onMovieThumbnailClicked(results: MovieResult)
+    interface OnFragmentInteractionListener {
 
     }
 
@@ -119,7 +98,7 @@ class MovieFragment : DaggerFragment() {
 
         @JvmStatic
         fun newInstance() =
-            MovieFragment().apply {
+            GamesFragment().apply {
                 arguments = Bundle().apply {
                 }
             }

@@ -1,6 +1,7 @@
-package com.example.comicfantasy.movie.di
+package com.example.comicfantasy.games.di
 
 import androidx.lifecycle.ViewModel
+import com.example.comicfantasy.games.viewmodel.GamesViewModel
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.vmfactory.ViewModelKey
 import dagger.Binds
@@ -9,11 +10,10 @@ import dagger.multibindings.IntoMap
 
 
 @Module
-abstract class MovieViewModelModule {
+ abstract class GamesViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MovieViewModel::class)
-    abstract fun bindsComicViewModel(movieViewModel: MovieViewModel): ViewModel
-
+    @ViewModelKey(GamesViewModel::class)
+    abstract fun bindsGamesModule (gamesViewModel: GamesViewModel): ViewModel
 }

@@ -1,4 +1,4 @@
-package com.example.comicfantasy.home.fragments
+package com.example.comicfantasy.comic.fragments
 
 import android.content.Context
 import android.net.Uri
@@ -9,16 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.comicfantasy.R
+import com.example.comicfantasy.data.remote.Results
+import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_story_tab.*
 
 
-class StoryTabFragment : Fragment() {
+class StoryTabFragment : DaggerFragment() {
 
     private var listener: OnFragmentInteractionListener? = null
+    private var results:Results?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
+            results=it.getParcelable("results")
 
         }
     }
@@ -30,6 +34,15 @@ class StoryTabFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_story_tab, container, false)
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+          displaySetUp()
+    }
+
+    private fun displaySetUp() {
+        storyText.text=results!!.series.name
+    }
+
 
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
@@ -37,11 +50,11 @@ class StoryTabFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+      /*  if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
+            throw RuntimeException(context.toString())
+        }*/
     }
 
     override fun onDetach() {
@@ -57,9 +70,10 @@ class StoryTabFragment : Fragment() {
 
     companion object {
 
-        fun newInstance() =
+        fun newInstance(results: Results) =
             StoryTabFragment().apply {
                 arguments = Bundle().apply {
+                    putParcelable("results",results)
 
                 }
             }

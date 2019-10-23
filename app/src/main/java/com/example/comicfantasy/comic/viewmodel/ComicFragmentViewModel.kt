@@ -1,4 +1,4 @@
-package com.example.comicfantasy.home.viewmodel
+package com.example.comicfantasy.comic.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

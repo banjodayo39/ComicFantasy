@@ -1,7 +1,7 @@
-package com.example.comicfantasy.home.di
+package com.example.comicfantasy.comic.di
 
 import androidx.lifecycle.ViewModel
-import com.example.comicfantasy.home.viewmodel.ComicFragmentViewModel
+import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.vmfactory.ViewModelKey
 import dagger.Binds
 import dagger.Module

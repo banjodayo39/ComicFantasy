@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/navigation_movie"
+        android:icon="@drawable/ic_movie"
+        android:title="@string/title_movie" />
+
+    <item
+        android:id="@+id/navigation_comic"
+        android:icon="@drawable/ic_comic"
+        android:title="@string/title_comic" />
+
+    <item
+        android:id="@+id/navigation_trivia"
+        android:icon="@drawable/ic_games"
+        android:title="@string/title_games" />
+
+    <item
+        android:id="@+id/navigation_community"
+        android:icon="@drawable/ic_community"
+        android:title="@string/title_community" />
+
 </menu>

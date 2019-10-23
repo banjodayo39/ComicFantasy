@@ -1,9 +1,7 @@
 package com.example.comicfantasy.data.local
 
 import androidx.room.TypeConverter
-import com.example.comicfantasy.data.remote.DataX
-import com.example.comicfantasy.data.remote.Results
-import com.example.comicfantasy.data.remote.Thumbnail
+import com.example.comicfantasy.data.remote.*
 import com.google.gson.Gson
 
 class Converter {
@@ -38,16 +36,43 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun fromQuotes(value: List<Results>): String {
+        fun fromResults(value: List<Results>): String {
+            return gson.toJson(value)
+        }
+
+
+
+        @TypeConverter
+        @JvmStatic
+        fun toResults(value: String): List<Results> {
+            return gson.fromJson(value, Array<Results>::class.java).asList()
+        }
+
+
+        @TypeConverter
+        @JvmStatic
+        fun fromTrivia(trivia: Trivia): String {
+            return gson.toJson(trivia)
+        }
+
+
+        @TypeConverter
+        @JvmStatic
+        fun toTrivia(trivia:String): Trivia {
+            return gson.fromJson(trivia,Trivia::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromMovieResults(value: List<MovieResult>): String {
             return gson.toJson(value)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toQuotes(value: String): List<Results> {
-            return gson.fromJson(value, Array<Results>::class.java).asList()
+        fun toMovieResults(value: String): List<MovieResult> {
+            return gson.fromJson(value, Array<MovieResult>::class.java).asList()
         }
-
 
 
         @TypeConverter
@@ -60,6 +85,18 @@ class Converter {
         @JvmStatic
         fun toThumbnail(value: String): Thumbnail{
             return gson.fromJson(value, Thumbnail::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromGamesResults(games: List<GamesResult>): String {
+            return gson.toJson(games)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toGamesResult(value: String): List<GamesResult> {
+            return gson.fromJson(value, Array<GamesResult>::class.java).asList()
         }
     }
 }

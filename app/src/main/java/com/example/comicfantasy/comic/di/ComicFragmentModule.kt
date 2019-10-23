@@ -1,4 +1,4 @@
-package com.example.comicfantasy.home.di
+package com.example.comicfantasy.comic.di
 
 import com.example.comicfantasy.data.local.ApplicationDatabase
 import com.example.comicfantasy.data.local.ComicDAO

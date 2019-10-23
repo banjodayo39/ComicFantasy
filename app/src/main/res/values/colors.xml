@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#D32F2F</color>
     <color name="colorAccent">#D81B60</color>
+
+   <color name="_50_red">#FFEBEE</color>
+    <color name="_100_red">#FFCDD2</color>
 
     <color name="forest_green">#006543</color>
     <color name="apple_green">#69B548</color>
@@ -19,6 +22,9 @@
     <color name="rank_blue">#0096FF</color>
     <color name="rank_yellow">#FFCC00</color>
     <color name="actionbar_opacity">#33000000</color>
+
+    <color name="bgBottomNavigation">#fe485a</color>
+
 
 
     <color name="apptheme_color">#96c526</color>

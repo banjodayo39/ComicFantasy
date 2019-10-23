@@ -28,7 +28,7 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <ImageView
-                android:id="@+id/comic_detail_thumbnail"
+                android:id="@+id/movie_detail_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/spyderman"
@@ -89,6 +89,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appbar_layout"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <include layout="@layout/content_movie_detail"/>
 
 
 
@@ -96,11 +97,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/color_fab"
+        app:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_favorite"
         android:layout_margin="@dimen/card_corner_radius"
         android:clickable="true"
-        app:layout_anchor="@id/comic_detail_thumbnail"
+        app:layout_anchor="@id/movie_detail_thumbnail"
         app:layout_anchorGravity="bottom|right|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
