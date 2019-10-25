@@ -105,10 +105,10 @@ class MovieDetailFragment :  DaggerFragment() {
             val uriPath = "https://www.demonuts.com/Demonuts/smallvideo.mp4" //update package n
             vView.setMediaController(mediacontroller)
 
-            videoKey=results?.key!!
+            /*videoKey=results?.key!!
             val videUri= "https://www.youtube.com/watch?v=$videoKey"
 
-            Log.e("",videoKey)
+            Log.e("",videoKey)*/
             uri = Uri.parse(uriPath)
             vView.setMediaController(mediacontroller)
             vView.setVideoURI(uri)
@@ -121,10 +121,10 @@ class MovieDetailFragment :  DaggerFragment() {
         val uriPath = "https://www.demonuts.com/Demonuts/smallvideo.mp4" //update package n
         vView.setMediaController(mediacontroller)
 
-        videoKey=results?.key!!
+      //  videoKey=results?.key!!
         val videUri= "https://www.youtube.com/watch?v=$videoKey"
 
-        Log.e("",videoKey)
+       // Log.e("",videoKey)
         uri = Uri.parse(uriPath)
         vView.setMediaController(mediacontroller)
         vView.setVideoURI(uri)
@@ -141,7 +141,7 @@ class MovieDetailFragment :  DaggerFragment() {
         }
 */
         //https://api.themoviedb.org/3/movie/550?api_key=a0b45b8501266c1f4a40ac53d4faaedc&callback=trailer
-        vView!!.setOnPreparedListener { progressBar!!.visibility = View.GONE }
+       // vView!!.setOnPreparedListener { progressBar!!.visibility = View.GONE }
 
 
         /* btnstop!!.setOnClickListener { vv!!.pause() }

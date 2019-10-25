@@ -93,7 +93,7 @@ class GamesFragment : DaggerFragment() {
 
     private fun initViews(){
       // val  recyclerView = view?.findViewById<RecyclerView>(R.id.games_recycler_list)
-        val  orientation = StackLayoutManager.ScrollOrientation.LEFT_TO_RIGHT
+        val  orientation = StackLayoutManager.ScrollOrientation.TOP_TO_BOTTOM
 
 
        Log.e("","recycler")
