@@ -12,6 +12,8 @@ import com.example.comicfantasy.movie.fragment.MovieFragment
 
 import com.example.comicfantasy.util.loadImageWithGlide
 
+
+
 class MovieFragmentAdapter (private val list: List<MovieResult>,
                             private val listener: MovieFragment.OnFragmentInteractionListener
 )
@@ -33,17 +35,18 @@ class MovieFragmentAdapter (private val list: List<MovieResult>,
 
 
     inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater?.inflate(R.layout.movie_list_item, parent, false)!!) {
+        RecyclerView.ViewHolder(inflater?.inflate(com.example.comicfantasy.R.layout.movie_list_item, parent, false)!!) {
         private var mthumbnail: ImageView? = null
         private var mtitle: TextView? = null
         var moviePosition=0
 
         val IMAGE_URL_BASE_PATH = "http://image.tmdb.org/t/p/w500//"
+        private val YOUTUBE_VIDEO_URL = "http://www.youtube.com/watch?v=%s"
 
 
         init {
-            mthumbnail = itemView.findViewById(R.id.movie_thumbnail)
-            mtitle = itemView.findViewById(R.id.movie_title)
+            mthumbnail = itemView.findViewById(com.example.comicfantasy.R.id.movie_thumbnail)
+            mtitle = itemView.findViewById(com.example.comicfantasy.R.id.movie_title)
 
         }
 

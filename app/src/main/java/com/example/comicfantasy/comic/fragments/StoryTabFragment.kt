@@ -40,7 +40,9 @@ class StoryTabFragment : DaggerFragment() {
     }
 
     private fun displaySetUp() {
-        storyText.text=results!!.series.name
+        issue_num_text.text=results?.issueNumber.toString()
+        isbn_textView.text=results?.isbn.toString()
+        textViewPrice.text=results?.price
     }
 
 

@@ -6,6 +6,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import android.graphics.Movie
+import com.google.gson.annotations.Expose
+
+
+
+
 
 @Parcelize
 @Entity(tableName = "movieEntity")
@@ -17,6 +23,7 @@ data class MovieDataResponse(
     var results: List<MovieResult?>? = null,
     var total_pages: Int? = null,
     var total_results: Int? = null
+
 ):Parcelable
 
 @Parcelize
@@ -34,5 +41,32 @@ data class MovieResult(
     var title: String? = null,
     var video: Boolean? = null,
     var vote_average: Double? = null,
-    var vote_count: Int? = null
+    var vote_count: Int? = null,
+    var iso_3166_1: String? = null,
+    var iso_639_1: String? = null,
+    var key: String? = null,
+    var name: String? = null,
+    var site: String? = null,
+    var size: Int? = null,
+    var type: String? = null
+
 ):Parcelable
+
+
+/*
+
+data class trailer(
+    var id: Int? = null,
+    var results: List<Result?>? = null
+)
+
+data class Result(
+    var id: String? = null,
+    var iso_3166_1: String? = null,
+    var iso_639_1: String? = null,
+    var key: String? = null,
+    var name: String? = null,
+    var site: String? = null,
+    var size: Int? = null,
+    var type: String? = null
+)*/

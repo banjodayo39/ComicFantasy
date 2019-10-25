@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -80,30 +81,22 @@ class ComicDetailFragment : DaggerFragment() {
 
 
     private fun setUpTabIcons(tabLayout: TabLayout){
-        val tabOne = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
-        tabOne.text = (getString(R.string.story))
+        val tabOne = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as ImageView
+        tabOne.setImageResource(R.drawable.ic_book_collection)
         tabLayout.getTabAt(0)!!.customView = tabOne
 
-       val tabTwo = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
-        tabTwo.text = (getString(R.string.character))
+       val tabTwo = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as ImageView
+        tabTwo.setImageResource(R.drawable.ic_people)
         tabLayout.getTabAt(1)!!.customView = tabTwo
 
-      /*  val tabThree = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
-        tabTwo.text = (getString(R.string.creator))
-        tabLayout.getTabAt(1)!!.customView = tabThree
-
-        val tabFour = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as TextView
-        tabTwo.text = (getString(R.string.event))
-        tabLayout.getTabAt(1)!!.customView = tabFour*/
     }
 
     private fun setUpViewPager(viewPager: ViewPager){
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFragment(StoryTabFragment.newInstance(results!!), getString(R.string.story))
-        adapter.addFragment(CharacterTabFragment.newInstance(results!!), getString(R.string.character))
-       /* adapter.addFragment(CreatorTabFragment.newInstance(), getString(R.string.creator))
-        adapter.addFragment(EventTabFragment.newInstance(), getString(R.string.event))
-*/
+        adapter.addFragment(StoryTabFragment.newInstance(results!!))
+        adapter.addFragment(CharacterTabFragment.newInstance(results!!))
+
+
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 1
     }

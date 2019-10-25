@@ -66,6 +66,10 @@ class CharacterTabFragment : DaggerFragment() {
 
 
     private fun initViews() {
+        textViewCharacter.text=results?.name
+        textViewAvailable.text=results?.characters?.available.toString()
+        textViewRole.text=results?.role.toString()
+        textViewCollectionUrl.text=results?.characters?.collectionURI
     /*    comicAdapter = ComicStoryAdaapter(images)
         layManager = GridLayoutManager(context,3)
         comic_story_list.addItemDecoration(GridItemDecoration(10,3))

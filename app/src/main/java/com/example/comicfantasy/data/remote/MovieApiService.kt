@@ -3,11 +3,9 @@ package com.example.comicfantasy.data.remote
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.Url
 import okhttp3.ResponseBody
-import retrofit2.http.POST
+import retrofit2.http.*
+import retrofit2.http.Url
 
 
 interface MovieApiService {
@@ -28,5 +26,12 @@ interface MovieApiService {
 
     @GET
     fun profilePicture(@Url url: String): Call<ResponseBody>
+
+    @POST("movie/{id}/videos")
+    fun getTrailers(
+        @Url url:String,
+        @Path("id") movieId: Int,
+        @Query("api_key") apikey: String): Observable<Response<MovieDataResponse>>
+
 
 }

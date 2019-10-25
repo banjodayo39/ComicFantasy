@@ -44,6 +44,27 @@ constructor(
         }
     }
 
+   fun getTrailer(id: Int):LiveData<DataUIModel<MovieDataResponse>>{
+       getAllMovieTrailer(id)
+       return allMovieUI
+   }
+
+    private fun getAllMovieTrailer(id:Int){
+        addDisposable {
+            allMovieUI.postValue(DataUIModel(isLoading = true))
+            repo.getMovieTrailerFromApi(id).subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+                Log.e("MovieViewModel",it.toString())
+                if(it != null)
+                    allMovieUI.postValue(DataUIModel(data = it))
+                else
+                    allMovieUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
+            }, {
+                allMovieUI.postValue(DataUIModel(error = processNetworkError(it)))
+            })!!
+
+        }
+    }
+
    /* fun getComicStory(): LiveData<DataUIModel<DataResponse>> {
         getAllComicList()
         return allComicUI

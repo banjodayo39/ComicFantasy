@@ -25,8 +25,8 @@ open class MovieRepository (
     private val MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/popular"
 
 
-    fun getMovieList(): Observable<MovieDataResponse> =getComicMovieFromApi()
-        /*  Observable.concat(getComicMovieFromDb(), getComicMovieFromApi())
+    fun getMovieList(): Observable<MovieDataResponse> = getComicMovieFromApi()
+       /*  Observable.concat(getComicMovieFromDb(), getComicMovieFromApi())
                 .onErrorResumeNext(Observable.empty())*/
 
      /* private fun saveMovie(movie: MovieDataResponse) =
@@ -47,6 +47,32 @@ open class MovieRepository (
                 .map {
                     it.body()
                 }
+
+
+     fun getMovieTrailerFromApi(id:Int): Observable<MovieDataResponse> =
+        apiService.getTrailers(MOVIE_BASE_URL,id,apikey)
+            .subscribeOn(provider.io())
+            .doOnNext {
+                if(it.isSuccessful && it.body()!=null)
+                    saveMovie(it.body()!!)
+            }
+            .map {
+                it.body()
+            }
+
+    /*private fun getTrailerFromApi(): Observable<TrailerResponse> =
+        apiService.getTrailers(MOVIE_BASE_URL,id,apikey)
+            .subscribeOn(provider.io())
+            .doOnNext {
+                if(it.isSuccessful && it.body()!=null)
+                    saveMovie(it.body()!!)
+            }
+            .map {
+                it.body()
+            }
+    */
+
+
 /*
 
     fun getProgramSubscription(programId: Int): Observable<MovieDataResponse> =
@@ -71,5 +97,6 @@ open class MovieRepository (
         }.subscribeOn(provider.io())
             .subscribe()
     }
+
 
     }

@@ -16,9 +16,11 @@ open class GamesRepository(
 
 
     private val url: String = "https://opentdb.com/api.php?amount=10"
-    fun getTrivia(): Observable<Trivia> =getComicListFromApi()
-    /* Observable.concat(getComicListFromDb(), getComicListFromApi())
-          .onErrorResumeNext(Observable.empty())*/
+    fun getTrivia(): Observable<Trivia> =getGamesListFromApi()
+/*
+    Observable.concat(getGamesFromDb(), getGamesListFromApi())
+          .onErrorResumeNext(Observable.empty())
+*/
 
     /*   private fun saveComic(comic: DataResponse) =
            comicDao.addComic(comic)*/
@@ -28,7 +30,7 @@ open class GamesRepository(
             .filter { it!=null }
             .subscribeOn(provider.io())
 
-    private fun getComicListFromApi(): Observable<Trivia> =
+    private fun getGamesListFromApi(): Observable<Trivia> =
 
         apiService.getTrivia(url)
             .subscribeOn(provider.io())

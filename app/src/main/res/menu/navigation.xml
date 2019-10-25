@@ -16,9 +16,6 @@
         android:icon="@drawable/ic_games"
         android:title="@string/title_games" />
 
-    <item
-        android:id="@+id/navigation_community"
-        android:icon="@drawable/ic_community"
-        android:title="@string/title_community" />
+
 
 </menu>

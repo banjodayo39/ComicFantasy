@@ -18,4 +18,6 @@ interface MovieDAO {
 
     @Query("DELETE FROM movieEntity")
     fun clearAllMovieTable()
+
+
 }

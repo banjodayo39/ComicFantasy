@@ -47,8 +47,9 @@ data class Results(
     var title: String? = "",
    @SerializedName("characters")
    var characters: Characters? = null,
+   var name: String? = null,
 
-    var creators: Creators? = null,
+   var creators: Creators? = null,
     var description: String? = null,
     var diamondCode: String? = null,
     var digitalId: String? = null,
@@ -65,6 +66,10 @@ data class Results(
     var stories: Stories? = null,
     var upc: String? = null,
     var series: Series,
+   var price: String? = null,
+   var role: String? = null,
+
+
 /*
     var dates: List<Date?>? = null,
        var series: Series? = null,
@@ -85,6 +90,7 @@ data class Characters(
     var collectionURI: String? = null,
     var items: List<Item?>? = null,
     var returned: String? = null
+
 ):Parcelable
 
 @Parcelize
@@ -119,10 +125,11 @@ data class ItemX(
     var role: String? = null
 ):Parcelable
 
+@Parcelize
 data class Date(
     var date: String? = null,
     var type: String? = null
-)
+):Parcelable
 
 @Parcelize
 data class Events(
