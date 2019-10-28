@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_movie_detail.*
 import javax.inject.Inject
 import android.content.ContentValues.TAG
 import android.content.Intent
+import com.example.comicfantasy.R
 import com.google.android.youtube.player.*
 import com.google.android.youtube.player.YouTubeThumbnailLoader
 import com.google.android.youtube.player.YouTubeThumbnailView
@@ -68,6 +69,7 @@ class MovieDetailFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         displayViews()
+        videoThumbnailInitializer(view)
         play_button.setOnClickListener {
             Log.e("btn", "btn")
             val intent = Intent(activity, MovieDetailActivity::class.java)
@@ -88,11 +90,12 @@ class MovieDetailFragment : DaggerFragment() {
         plotSynopsis?.text= results?.overview
         userRating?.text=results?.vote_average.toString()
         releaseDate?.text=results?.release_date*/
-        videoThumbnailInitializer()
     }
 
-    private fun videoThumbnailInitializer() {
-        videoThumbnailImageView.initialize(API_KEY,
+    private fun videoThumbnailInitializer(view: View) {
+        val youTubePlayerView= view.findViewById<YouTubeThumbnailView>(R.id.videoThumbnailImageView)
+
+        youTubePlayerView.initialize(API_KEY,
             object : YouTubeThumbnailView.OnInitializedListener {
                 override fun onInitializationSuccess(
                   youTubeThumbnailView: YouTubeThumbnailView?,
@@ -104,10 +107,9 @@ class MovieDetailFragment : DaggerFragment() {
                         override fun onThumbnailLoaded(
                             youTubeThumbnailView: YouTubeThumbnailView,
                             s: String
-                        ) {
-                            //when thumbnail loaded successfully release the thumbnail loader as we are showing thumbnail in adapter
+                        ) =
+//when thumbnail loaded successfully release the thumbnail loader as we are showing thumbnail in adapter
                             youTubeThumbnailLoader.release()
-                        }
 
                         override fun onThumbnailError(
                             youTubeThumbnailView: YouTubeThumbnailView,
