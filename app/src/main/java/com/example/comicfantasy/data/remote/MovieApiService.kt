@@ -10,6 +10,7 @@ import retrofit2.http.Url
 
 interface MovieApiService {
     //private val MOVIE_BASE_URL = "http://api.themoviedb.org/3/"
+     //https://developers.themoviedb.org/3/movies/get-movie-videos
 
     @POST
     fun getPopularMovie(
@@ -27,11 +28,11 @@ interface MovieApiService {
     @GET
     fun profilePicture(@Url url: String): Call<ResponseBody>
 
-    @POST("movie/{id}/videos")
+    @GET
     fun getTrailers(
         @Url url:String,
-        @Path("id") movieId: Int,
-        @Query("api_key") apikey: String): Observable<Response<MovieDataResponse>>
+        //@Path("id") movieId: Int,
+        @Query("api_key") apikey: String ): Observable<Response<Trailer>>
 
 
 }

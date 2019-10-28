@@ -23,6 +23,7 @@ data class MovieDataResponse(
     var results: List<MovieResult?>? = null,
     var total_pages: Int? = null,
     var total_results: Int? = null
+    //var trailer: Trailer?=null
 
 ):Parcelable
 
@@ -41,26 +42,21 @@ data class MovieResult(
     var title: String? = null,
     var video: Boolean? = null,
     var vote_average: Double? = null,
-    var vote_count: Int? = null,
-    var iso_3166_1: String? = null,
-    var iso_639_1: String? = null,
-    var key: String? = null,
-    var name: String? = null,
-    var site: String? = null,
-    var size: Int? = null,
-    var type: String? = null
+    var vote_count: Int? = null
+
 
 ):Parcelable
 
 
-/*
 
-data class trailer(
+@Parcelize
+data class Trailer(
     var id: Int? = null,
-    var results: List<Result?>? = null
-)
+    var results: List<TrailerResult?>? = null
+):Parcelable
 
-data class Result(
+@Parcelize
+data class TrailerResult(
     var id: String? = null,
     var iso_3166_1: String? = null,
     var iso_639_1: String? = null,
@@ -69,4 +65,4 @@ data class Result(
     var site: String? = null,
     var size: Int? = null,
     var type: String? = null
-)*/
+):Parcelable

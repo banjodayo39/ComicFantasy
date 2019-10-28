@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.comicfantasy.base.BaseViewModel
 import com.example.comicfantasy.data.remote.DataResponse
 import com.example.comicfantasy.data.remote.MovieDataResponse
+import com.example.comicfantasy.data.remote.Trailer
 import com.example.comicfantasy.data.repo.MovieRepository
 import com.example.comicfantasy.util.DataUIModel
 import com.example.comicfantasy.util.SchedulerProvider
@@ -21,6 +22,7 @@ constructor(
 
 
     private val allMovieUI = MutableLiveData<DataUIModel<MovieDataResponse>>()
+    private val TrailerUI= MutableLiveData<DataUIModel<Trailer>>()
 
 
     fun getMovie(): LiveData<DataUIModel<MovieDataResponse>> {
@@ -44,22 +46,22 @@ constructor(
         }
     }
 
-   fun getTrailer(id: Int):LiveData<DataUIModel<MovieDataResponse>>{
+   fun getTrailer(id: Int):LiveData<DataUIModel<Trailer>>{
        getAllMovieTrailer(id)
-       return allMovieUI
+       return TrailerUI
    }
 
     private fun getAllMovieTrailer(id:Int){
         addDisposable {
-            allMovieUI.postValue(DataUIModel(isLoading = true))
+            TrailerUI.postValue(DataUIModel(isLoading = true))
             repo.getMovieTrailerFromApi(id).subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("MovieViewModel",it.toString())
                 if(it != null)
-                    allMovieUI.postValue(DataUIModel(data = it))
+                    TrailerUI.postValue(DataUIModel(data = it))
                 else
-                    allMovieUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
+                    TrailerUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
             }, {
-                allMovieUI.postValue(DataUIModel(error = processNetworkError(it)))
+                TrailerUI.postValue(DataUIModel(error = processNetworkError(it)))
             })!!
 
         }

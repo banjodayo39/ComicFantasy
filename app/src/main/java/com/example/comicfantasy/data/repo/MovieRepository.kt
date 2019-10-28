@@ -6,6 +6,7 @@ import com.example.comicfantasy.data.local.MovieDAO
 import com.example.comicfantasy.data.remote.DataResponse
 import com.example.comicfantasy.data.remote.MovieApiService
 import com.example.comicfantasy.data.remote.MovieDataResponse
+import com.example.comicfantasy.data.remote.Trailer
 import com.example.comicfantasy.util.DataResp
 import com.example.comicfantasy.util.SchedulerProvider
 import io.reactivex.Completable
@@ -19,10 +20,12 @@ open class MovieRepository (
     private val provider :SchedulerProvider
     ) {
 
+    //https://api.themoviedb.org/3/movie/475557/videos?api_key=a0b45b8501266c1f4a40ac53d4faaedc
    // http://api.themoviedb.org/3/movie/550?api_key=a0b45b8501266c1f4a40ac53d4faaedc
-
+//("movie/{id}/videos")
     private val apikey: String = "a0b45b8501266c1f4a40ac53d4faaedc"
     private val MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/popular"
+    private val VIDEO_URL="http://api.themoviedb.org/3/movie/{id}"
 
 
     fun getMovieList(): Observable<MovieDataResponse> = getComicMovieFromApi()
@@ -49,16 +52,11 @@ open class MovieRepository (
                 }
 
 
-     fun getMovieTrailerFromApi(id:Int): Observable<MovieDataResponse> =
-        apiService.getTrailers(MOVIE_BASE_URL,id,apikey)
-            .subscribeOn(provider.io())
-            .doOnNext {
-                if(it.isSuccessful && it.body()!=null)
-                    saveMovie(it.body()!!)
-            }
-            .map {
-                it.body()
-            }
+     fun getMovieTrailerFromApi(id:Int): Observable<Trailer> =
+        apiService.getTrailers("http://api.themoviedb.org/3/movie/$id/videos",apikey)
+            .subscribeOn(provider.io()).map { it.body() }
+
+
 
     /*private fun getTrailerFromApi(): Observable<TrailerResponse> =
         apiService.getTrailers(MOVIE_BASE_URL,id,apikey)

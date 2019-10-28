@@ -98,5 +98,17 @@ class Converter {
         fun toGamesResult(value: String): List<GamesResult> {
             return gson.fromJson(value, Array<GamesResult>::class.java).asList()
         }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromTrailer(value: Trailer): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toTrailer(value: String): Trailer{
+            return gson.fromJson(value, Trailer::class.java)
+        }
     }
 }

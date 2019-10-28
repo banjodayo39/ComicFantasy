@@ -1,9 +1,9 @@
 package com.example.comicfantasy.home.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.comicfantasy.R
 import com.example.comicfantasy.comic.fragments.CharacterTabFragment
 import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.comic.fragments.ComicDetailFragment
@@ -12,19 +12,28 @@ import com.example.comicfantasy.comic.fragments.StoryTabFragment
 import com.example.comicfantasy.community.CommunityFragment
 import com.example.comicfantasy.data.remote.MovieResult
 import com.example.comicfantasy.games.fragments.GamesFragment
+import com.example.comicfantasy.movie.fragment.MovieDetailActivity
 import com.example.comicfantasy.movie.fragment.MovieDetailFragment
 import com.example.comicfantasy.movie.fragment.MovieFragment
+import com.example.comicfantasy.movie.fragment.TrailerFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.app.PendingIntent.getActivity
+
 
 class HomeActivity : DaggerAppCompatActivity()
                       ,ComicFragment.OnFragmentInteractionListener,
     ComicDetailFragment.OnFragmentInteractionListener,
      CommunityFragment.OnFragmentInteractionListener,
      GamesFragment.OnFragmentInteractionListener,
-     MovieFragment.OnFragmentInteractionListener{
+     MovieFragment.OnFragmentInteractionListener,
+     MovieDetailFragment.OnFragmentInteractionListener{
 
 
 
@@ -52,7 +61,7 @@ class HomeActivity : DaggerAppCompatActivity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.example.comicfantasy.R.layout.activity_main)
 
         AndroidInjection.inject(this)
         initToolbar()
@@ -77,11 +86,15 @@ class HomeActivity : DaggerAppCompatActivity()
 
     override fun onMovieThumbnailClicked(movieResult: MovieResult) {
         val fragment= MovieDetailFragment.newInstance(movieResult)
-        loadFragment(fragment)
-
+       loadFragment(fragment)
 
     }
 
+    override fun onPlayButtonClicked(videoId: String) {
+      /*  val intent = Intent(this, MovieDetailActivity::class.java)
+        intent.putExtra(MovieDetailActivity.KEY_MSG,videoId)
+        startActivity(intent)*/
+    }
 
 
     private fun loadFragment(fragment: Fragment) {
@@ -98,15 +111,15 @@ class HomeActivity : DaggerAppCompatActivity()
 
     private val mOnNavigationSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
-            R.id.navigation_movie-> {
+            com.example.comicfantasy.R.id.navigation_movie-> {
                 showMovie()
                 true
             }
-            R.id.navigation_comic-> {
+            com.example.comicfantasy.R.id.navigation_comic-> {
                 showComic()
                 true
             }
-           R.id.navigation_trivia -> {
+           com.example.comicfantasy.R.id.navigation_trivia -> {
                 showGames()
                 true
             }
@@ -118,25 +131,25 @@ class HomeActivity : DaggerAppCompatActivity()
     }
 
     fun showMovie() {
-        home_toolbar.title = getString(R.string.title_movie)
+        home_toolbar.title = getString(com.example.comicfantasy.R.string.title_movie)
         val fragment = MovieFragment.newInstance()
         loadFragment(fragment)
     }
 
     fun showComic(){
-        home_toolbar.title = getString(R.string.title_comic)
+        home_toolbar.title = getString(com.example.comicfantasy.R.string.title_comic)
         val fragment = ComicFragment.newInstance()
         loadFragment(fragment)
     }
 
     fun showGames(){
-        home_toolbar.title = getString(R.string.trivia)
+        home_toolbar.title = getString(com.example.comicfantasy.R.string.trivia)
         val fragment = GamesFragment.newInstance()
         loadFragment(fragment)
     }
 
     fun showCommmunity(){
-        home_toolbar.title = getString(R.string.title_community)
+        home_toolbar.title = getString(com.example.comicfantasy.R.string.title_community)
         val fragment = CommunityFragment.newInstance()
         loadFragment(fragment)
     }

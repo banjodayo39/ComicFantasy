@@ -17,7 +17,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.comicfantasy"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -106,6 +106,9 @@ dependencies {
     implementation 'com.github.ksoichiro:android-observablescrollview:1.5.2'
 
     implementation 'com.littlemango:stacklayoutmanager:1.0.5'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
 
 }
