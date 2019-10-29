@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="google_places_youtube_api" type="string"></item>
+</resources>

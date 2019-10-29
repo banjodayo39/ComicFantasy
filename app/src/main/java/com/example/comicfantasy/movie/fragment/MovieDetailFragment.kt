@@ -1,13 +1,11 @@
 package com.example.comicfantasy.movie.fragment
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -23,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_movie_detail.*
 import javax.inject.Inject
 import android.content.ContentValues.TAG
 import android.content.Intent
+import com.example.comicfantasy.BuildConfig
 import com.example.comicfantasy.R
 import com.google.android.youtube.player.*
 import com.google.android.youtube.player.YouTubeThumbnailLoader
@@ -33,14 +32,12 @@ class MovieDetailFragment : DaggerFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
-    private var listOfMovies = ArrayList<MovieResult>()
     lateinit var viewModel: MovieViewModel
     private var results: MovieResult? = null
-
     private var videoId = 0
     private var videoKey = arrayOf("")
-    private val IMAGE_URL_BASE_PATH = "http://image.tmdb.org/t/p/w500//"
-    private val API_KEY = "AIzaSyDvv7jGWU_vOprf7TjDbOsVTKeep6ysOss"
+    private val imageBaseUrl = "http://image.tmdb.org/t/p/w500//"
+    private val myDeveloperKey = BuildConfig.DeveloperKey
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +60,7 @@ class MovieDetailFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!, factory).get(MovieViewModel::class.java)
-        getTrailerForfMovies()
+        getTrailerForMovies()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,35 +77,32 @@ class MovieDetailFragment : DaggerFragment() {
     }
 
     private fun displayViews() {
-        movie_backdrop?.loadImageWithGlide(IMAGE_URL_BASE_PATH + results?.poster_path)
+        movie_backdrop?.loadImageWithGlide(imageBaseUrl + results?.poster_path)
         movie_detail_title.text = results?.title
         overviewTextView.text = results?.overview
         rating_text.text = results?.vote_average.toString()
         date_text.text = results?.release_date
         rating_text.text = results?.vote_average.toString()
-        /*nameOfMovie?.text= results?.original_title
-        plotSynopsis?.text= results?.overview
-        userRating?.text=results?.vote_average.toString()
-        releaseDate?.text=results?.release_date*/
     }
 
     private fun videoThumbnailInitializer(view: View) {
-        val youTubePlayerView= view.findViewById<YouTubeThumbnailView>(R.id.videoThumbnailImageView)
+        val youTubePlayerView =
+            view.findViewById<YouTubeThumbnailView>(R.id.videoThumbnailImageView)
 
-        youTubePlayerView.initialize(API_KEY,
+        youTubePlayerView.initialize(myDeveloperKey,
             object : YouTubeThumbnailView.OnInitializedListener {
                 override fun onInitializationSuccess(
-                  youTubeThumbnailView: YouTubeThumbnailView?,
+                    youTubeThumbnailView: YouTubeThumbnailView?,
                     youTubeThumbnailLoader: YouTubeThumbnailLoader?
                 ) {
                     youTubeThumbnailLoader!!.setVideo(videoKey[0])
                     youTubeThumbnailLoader.setOnThumbnailLoadedListener(object :
                         YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+
                         override fun onThumbnailLoaded(
                             youTubeThumbnailView: YouTubeThumbnailView,
                             s: String
                         ) =
-//when thumbnail loaded successfully release the thumbnail loader as we are showing thumbnail in adapter
                             youTubeThumbnailLoader.release()
 
                         override fun onThumbnailError(
@@ -130,13 +124,7 @@ class MovieDetailFragment : DaggerFragment() {
             })
     }
 
-//SHA1: BF:2F:82:18:A4:B4:67:9B:9F:82:83:BA:F4:E2:81:B0:63:6F:73:D1
-//AIzaSyDvv7jGWU_vOprf7TjDbOsVTKeep6ysOss
-//https://www.youtube.com/watch?v=SbXIj2T-_uk
-    //https://api.themoviedb.org/3/movie/550?api_key=a0b45b8501266c1f4a40ac53d4faaedc&callback=trailer
-    // vView!!.setOnPreparedListener { progressBar!!.visibility = View.GONE }
-
-    private fun getTrailerForfMovies() {
+    private fun getTrailerForMovies() {
         videoId = results?.id!!
         viewModel.getTrailer(videoId).observe(this, Observer {
             Log.e("MovieFragment", it.toString())
@@ -173,7 +161,6 @@ class MovieDetailFragment : DaggerFragment() {
             MovieDetailFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable("results", movieResult)
-
                 }
             }
     }
