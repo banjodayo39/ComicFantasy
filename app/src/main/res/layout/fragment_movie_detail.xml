@@ -42,7 +42,7 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5" >
 
-                  <com.google.android.youtube.player.YouTubeThumbnailView
+                  <ImageView
                       android:id="@+id/videoThumbnailImageView"
                       android:layout_width="fill_parent"
                       android:layout_height="fill_parent"
@@ -57,9 +57,9 @@
 
                 <ImageView
                     android:id="@+id/play_button"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_play_arrow"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/ic_play_circle_outline_black_24dp"
                     android:gravity="center_vertical"
                     android:layout_centerInParent="true"
                     android:visibility="visible"
@@ -86,7 +86,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="208dp"
                 android:scaleType="fitXY"
-                android:src="@drawable/spyderman"
+                app:srcCompat="@drawable/spyderman"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
                 app:layout_constraintTop_toTopOf="@+id/appbar_layout" />

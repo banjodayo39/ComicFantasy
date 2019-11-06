@@ -25,13 +25,13 @@
             android:background="@color/white">
 
 
-    <ImageView
+    <com.example.comicfantasy.util.TwoThreeImageView
         android:id="@+id/comic_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/spyderman"
+        app:srcCompat="@drawable/spyderman"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />

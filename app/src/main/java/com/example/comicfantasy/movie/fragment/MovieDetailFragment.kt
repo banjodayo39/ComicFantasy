@@ -26,6 +26,8 @@ import com.example.comicfantasy.R
 import com.google.android.youtube.player.*
 import com.google.android.youtube.player.YouTubeThumbnailLoader
 import com.google.android.youtube.player.YouTubeThumbnailView
+import kotlinx.android.synthetic.main.activity_trailer.*
+import kotlinx.android.synthetic.main.content_movie_detail.view.*
 
 class MovieDetailFragment : DaggerFragment() {
 
@@ -66,7 +68,6 @@ class MovieDetailFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         displayViews()
-        videoThumbnailInitializer(view)
         play_button.setOnClickListener {
             Log.e("btn", "btn")
             val intent = Intent(activity, MovieDetailActivity::class.java)
@@ -74,10 +75,12 @@ class MovieDetailFragment : DaggerFragment() {
             startActivity(intent)
             // listener!!.onPlayButtonClicked(videoKey[0])
         }
+
     }
 
     private fun displayViews() {
-        movie_backdrop?.loadImageWithGlide(imageBaseUrl + results?.poster_path)
+        videoThumbnailImageView?.loadImageWithGlide(imageBaseUrl+results?.poster_path)
+        movie_backdrop?.loadImageWithGlide(imageBaseUrl + results?.backdrop_path)
         movie_detail_title.text = results?.title
         overviewTextView.text = results?.overview
         rating_text.text = results?.vote_average.toString()
@@ -95,15 +98,17 @@ class MovieDetailFragment : DaggerFragment() {
                     youTubeThumbnailView: YouTubeThumbnailView?,
                     youTubeThumbnailLoader: YouTubeThumbnailLoader?
                 ) {
-                    youTubeThumbnailLoader!!.setVideo(videoKey[0])
-                    youTubeThumbnailLoader.setOnThumbnailLoadedListener(object :
-                        YouTubeThumbnailLoader.OnThumbnailLoadedListener {
 
-                        override fun onThumbnailLoaded(
+                   youTubeThumbnailLoader!!.setVideo(videoKey[0])
+                  //  youTubeThumbnailLoader!!.setPlaylist("V4qmd7DE5tk")
+                   youTubeThumbnailLoader.setOnThumbnailLoadedListener(
+
+                      object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
+
+                       override fun onThumbnailLoaded(
                             youTubeThumbnailView: YouTubeThumbnailView,
                             s: String
-                        ) =
-                            youTubeThumbnailLoader.release()
+                        ) = youTubeThumbnailLoader.release()
 
                         override fun onThumbnailError(
                             youTubeThumbnailView: YouTubeThumbnailView,
@@ -113,6 +118,7 @@ class MovieDetailFragment : DaggerFragment() {
                             Log.e(TAG, "Youtube Thumbnail Error")
                         }
                     })
+
                 }
 
                 override fun onInitializationFailure(
@@ -147,7 +153,7 @@ class MovieDetailFragment : DaggerFragment() {
 
     override fun onDetach() {
         super.onDetach()
-        listener = null
+        listener =null
     }
 
     interface OnFragmentInteractionListener : BaseInteractionListener {

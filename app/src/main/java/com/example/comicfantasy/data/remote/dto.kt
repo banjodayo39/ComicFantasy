@@ -10,10 +10,7 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
 
-@Entity(tableName = "comicEntity")
 data class DataResponse(
-    @PrimaryKey
-    @NonNull
     var attributionHTML: String = "",
     var attributionText: String? = null,
     var code: String? = null,
@@ -23,14 +20,15 @@ data class DataResponse(
     var status: String? = null
 )
 
+@Parcelize
 data class DataX(
-    var count: String= "",
+    var count: String = "",
     var limit: String? = null,
     var offset: String? = null,
     @SerializedName("results")
     var results: List<Results?>? = null,
     var total: String? = null
-)
+) : Parcelable
 
 data class ResultsResp(
     @SerializedName("results")
@@ -39,17 +37,19 @@ data class ResultsResp(
 
 
 @Parcelize
+@Entity(tableName = "comicEntity")
 data class Results(
-
-   var id: Int?=null,
-   @SerializedName("thumbnail")
+    @PrimaryKey
+    @NonNull
+    var id: Int = 0,
+    @SerializedName("thumbnail")
     var thumbnail: Thumbnail? = null,
     var title: String? = "",
-   @SerializedName("characters")
-   var characters: Characters? = null,
-   var name: String? = null,
+    @SerializedName("characters")
+    var characters: Characters? = null,
+    var name: String? = null,
 
-   var creators: Creators? = null,
+    var creators: Creators? = null,
     var description: String? = null,
     var diamondCode: String? = null,
     var digitalId: String? = null,
@@ -66,8 +66,8 @@ data class Results(
     var stories: Stories? = null,
     var upc: String? = null,
     var series: Series,
-   var price: String? = null,
-   var role: String? = null,
+    var price: String? = null,
+    var role: String? = null,
 
 
 /*
@@ -82,7 +82,7 @@ data class Results(
     var urls: List<Url?>? = null,
 */
     var variantDescription: String? = null
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class Characters(
@@ -91,14 +91,14 @@ data class Characters(
     var items: List<Item?>? = null,
     var returned: String? = null
 
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class Item(
     var name: String? = null,
     var resourceURI: String? = null,
     var role: String? = null
-):Parcelable
+) : Parcelable
 
 data class CollectedIssue(
     var name: String? = null,
@@ -116,28 +116,28 @@ data class Creators(
     var collectionURI: String? = null,
     var items: List<ItemX?>? = null,
     var returned: String? = null
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class ItemX(
     var name: String? = null,
     var resourceURI: String? = null,
     var role: String? = null
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class Date(
     var date: String? = null,
     var type: String? = null
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class Events(
     var available: String? = null,
     var collectionURI: String? = null,
-   // var items: List<ItemXX?>? = null,
+    // var items: List<ItemXX?>? = null,
     var returned: String? = null
-):Parcelable
+) : Parcelable
 
 data class ItemXX(
     var name: String? = null,
@@ -149,7 +149,7 @@ data class ItemXX(
 data class Image(
     var extension: String? = null,
     var path: String? = null
-):Parcelable
+) : Parcelable
 
 data class Price(
     var price: String? = null,
@@ -160,15 +160,15 @@ data class Price(
 data class Series(
     var name: String? = null,
     var resourceURI: String? = null
-):Parcelable
+) : Parcelable
 
 @Parcelize
 data class Stories(
     var available: String? = null,
     var collectionURI: String? = null,
-  //  var items: List<ItemXXX?>? = null,
+    //  var items: List<ItemXXX?>? = null,
     var returned: String? = null
-):Parcelable
+) : Parcelable
 
 data class ItemXXX(
     var name: String? = null,
@@ -186,8 +186,7 @@ data class TextObject(
 data class Thumbnail(
     var extension: String? = null,
     var path: String? = null
-):Parcelable
-
+) : Parcelable
 
 
 data class Url(

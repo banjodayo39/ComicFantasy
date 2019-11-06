@@ -25,6 +25,10 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.app.PendingIntent.getActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
+import javax.inject.Inject
 
 
 class HomeActivity : DaggerAppCompatActivity()
@@ -36,6 +40,11 @@ class HomeActivity : DaggerAppCompatActivity()
      MovieDetailFragment.OnFragmentInteractionListener{
 
 
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+
+    lateinit var comicFragmentViewModel:ComicFragmentViewModel
 
     private var comicFragment: ComicFragment? = null
     private var movieFragment: MovieFragment?=null
@@ -63,13 +72,15 @@ class HomeActivity : DaggerAppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(com.example.comicfantasy.R.layout.activity_main)
 
-        AndroidInjection.inject(this)
+       AndroidInjection.inject(this)
         initToolbar()
-        showComic()
+
+        comicFragmentViewModel= ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
+        comicFragmentViewModel.getComic().observe(this, androidx.lifecycle.Observer {
+            showMovie()
+        })
         initBottomNav()
-
     }
-
 
     private fun initToolbar() {
         setSupportActionBar(home_toolbar)

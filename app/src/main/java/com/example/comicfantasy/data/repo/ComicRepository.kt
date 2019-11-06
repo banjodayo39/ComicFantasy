@@ -1,13 +1,22 @@
 package com.example.comicfantasy.data.repo
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.comicfantasy.data.local.ComicDAO
 import com.example.comicfantasy.data.remote.ComicApiService
 import com.example.comicfantasy.data.remote.DataResponse
+import com.example.comicfantasy.data.remote.DataX
+import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.util.Constants.ts
+import com.example.comicfantasy.util.DataResp
 import com.example.comicfantasy.util.SchedulerProvider
+import com.google.android.youtube.player.internal.c
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
+import retrofit2.Response
 
-open class ComicRepository (
+open class ComicRepository(
     private val apiService: ComicApiService,
     private val comicDao: ComicDAO,
     private val provider: SchedulerProvider
@@ -19,45 +28,58 @@ open class ComicRepository (
     private val hash: String = "31425e31bec201f47f25948808f8f341"
 
 
-    fun getComicList(): Observable<DataResponse> =
-      Observable.concat(getComicListFromDb(), getComicListFromApi())
+    fun getComicList(): Observable<List<Results?>> =
+        Observable.concat(getComicListFromDb(), getComicListApi())
             .onErrorResumeNext(Observable.empty())
 
- /*   private fun saveComic(comic: DataResponse) =
-        comicDao.addComic(comic)*/
 
-    private fun getComicListFromDb(): Observable<DataResponse> =
+    /*   private fun saveComic(comic: DataResponse) =
+           comicDao.addComic(comic)*/
+
+    /* private fun getComicListFromDb(): Observable<DataX>? =
+         Observable.fromCallable { comicDao.getAllComics() }
+             .filter { it !=  null }
+             .subscribeOn(provider.io())
+
+     private fun getComicListFromApi(): Observable<DataX?>? =
+         apiService.fetchListOfComic(ts, apikey, hash)
+             .subscribeOn(provider.io())
+             .doOnNext {
+                 if(it.isSuccessful && it.body()!=null)
+                     saveComic(it.body()!!)
+             }
+             .map {
+                 it.body()
+             }*/
+
+    fun getComicListFromDb(): Observable<List<Results>> =
         Observable.fromCallable { comicDao.getAllComics() }
-            .filter { it!=null }
+            .filter { !it.isNullOrEmpty() }
             .subscribeOn(provider.io())
 
-    private fun getComicListFromApi(): Observable<DataResponse> =
-
+    fun getComicListApi(): Observable<List<Results?>> =
         apiService.fetchListOfComic(ts, apikey, hash)
             .subscribeOn(provider.io())
             .doOnNext {
-                if(it.isSuccessful && it.body()!=null)
-                    saveComic(it.body()!!)
+                Log.e("data", "is not null")
+                if (it.isSuccessful && it.body()!!.data != null)
+                    saveComic(it.body()!!.data!!.results as List<Results>)
             }
             .map {
-                it.body()
-            }
-
-   fun getComicStoryApi(id:Int): Observable<DataResponse> =
-        apiService.fetchComicStory(id,ts, apikey, hash)
-            .subscribeOn(provider.io())
-            .doOnNext {
-                if(it.isSuccessful && it.body()!=null)
-                    saveComic(it.body()!!)
-            }
-            .map {
-                it.body()
+                it.body()!!.data!!.results!!.toList()
             }
 
 
-    fun saveComic(comic: DataResponse) {
+    /*.subscribeOn(provider.io())
+    .doOnSuccess {
+        if (it.body()?.data != null)
+            saveProgramSubscription(it.body()?.data!!)
+    }*/
+
+
+    fun saveComic(comic: List<Results>) {
         Completable.fromAction {
-          comicDao.addComic(comic)
+            comicDao.addComic(comic)
         }.subscribeOn(provider.io())
             .subscribe()
     }

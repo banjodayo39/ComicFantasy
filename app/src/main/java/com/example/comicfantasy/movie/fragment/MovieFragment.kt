@@ -33,7 +33,8 @@ class MovieFragment : DaggerFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
-    private var listOfMovies = ArrayList<MovieResult>()
+    private var listOfMovies: List<MovieResult?> = ArrayList()
+
     lateinit var viewModel: MovieViewModel
     private lateinit var movieAdapter: MovieFragmentAdapter
     private lateinit var layManager: GridLayoutManager
@@ -69,29 +70,31 @@ class MovieFragment : DaggerFragment() {
 
 
     private fun initViews() {
-       movieAdapter = MovieFragmentAdapter(listOfMovies,listener!!)
-        layManager =GridLayoutManager(context,3)
-       movie_list.addItemDecoration(GridItemDecoration(10,3))
+        movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
+        layManager = GridLayoutManager(context, 2)
+        movie_list.addItemDecoration(GridItemDecoration(10, 3))
         movie_list.adapter = movieAdapter
         movie_list.layoutManager = layManager
     }
 
 
-
     private fun getListOfMovies() {
         viewModel.getMovie().observe(this, Observer {
             Log.e("MovieFragment", it.toString())
-            if (it.isLoading)
-                listener?.onShowProgress()
-            else
-                listener?.onHideProgress()
+            if (it.contentIfNotUsed != null) {
+                if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()
 
-            if (it.data != null && !it.data?.results.isNullOrEmpty()) {
-                listOfMovies.addAll(it.data?.results as ArrayList<MovieResult>)
-                movieAdapter.notifyDataSetChanged()
+                if (!it.list.isNullOrEmpty()) {
+                    listOfMovies = it.list!!
+                    movieAdapter.updateList(listOfMovies)
+                }
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
+
             }
-            if (!it.error.isNullOrEmpty())
-                showToast(context!!, it.error!!)
         })
     }
 
@@ -110,7 +113,7 @@ class MovieFragment : DaggerFragment() {
     }
 
 
-    interface OnFragmentInteractionListener :BaseInteractionListener{
+    interface OnFragmentInteractionListener : BaseInteractionListener {
         fun onMovieThumbnailClicked(results: MovieResult)
 
     }

@@ -14,10 +14,8 @@ import com.google.gson.annotations.Expose
 
 
 @Parcelize
-@Entity(tableName = "movieEntity")
 data class MovieDataResponse(
-    @PrimaryKey
-    @NonNull
+
     var page: Int = 0,
     @SerializedName("results")
     var results: List<MovieResult?>? = null,
@@ -28,11 +26,14 @@ data class MovieDataResponse(
 ):Parcelable
 
 @Parcelize
+@Entity(tableName = "movieEntity")
 data class MovieResult(
+    @PrimaryKey
+    @NonNull
+    var id: Int = 0,
     var adult: Boolean? = null,
     var backdrop_path: String? = null,
     var genre_ids: List<Int?>? = null,
-    var id: Int? = null,
     var original_language: String? = null,
     var original_title: String? = null,
     var overview: String? = null,

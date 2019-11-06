@@ -77,6 +77,58 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
+        fun toCharacters(character:String): Characters{
+            return gson.fromJson(character,Characters::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromCharacters(value: Characters): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toCreators(creators:String): Creators{
+            return gson.fromJson(creators,Creators::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromCreators(value: Creators): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromImage(value: List<Image>): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toImage(images:String): List<Image>{
+            return gson.fromJson(images,Array<Image>::class.java).asList()
+        }
+
+
+        @TypeConverter
+        @JvmStatic
+        fun toStory(story:String): Stories{
+            return gson.fromJson(story,Stories::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromStory(story: Stories): String {
+            return gson.toJson(story)
+        }
+
+
+
+
+        @TypeConverter
+        @JvmStatic
         fun fromThumbnail(value: Thumbnail): String {
             return gson.toJson(value)
         }
@@ -110,5 +162,56 @@ class Converter {
         fun toTrailer(value: String): Trailer{
             return gson.fromJson(value, Trailer::class.java)
         }
+
+        @TypeConverter
+        @JvmStatic
+        fun toEvents(events:String): Events{
+            return gson.fromJson(events,Events::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromEvents(value: Events): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toSeries(series:String): Series{
+            return gson.fromJson(series,Series::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromSeries(value: Series): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toMovieResult(movieResult:String): MovieResult{
+            return gson.fromJson(movieResult,MovieResult::class.java)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromMovieResult(value: MovieResult): String {
+            return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromGenre(genre: List<Int>): String {
+            return gson.toJson(genre)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toGenre(value: String): List<Int> {
+            return gson.fromJson(value, Array<Int>::class.java).asList()
+        }
+
+
+
     }
 }

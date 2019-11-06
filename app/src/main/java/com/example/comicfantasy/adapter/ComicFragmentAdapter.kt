@@ -11,11 +11,10 @@ import com.example.comicfantasy.comic.fragments.ComicFragment
 import com.example.comicfantasy.util.loadImageWithGlide
 
 
-
-class HomeFragmentAdapterclass (private val list: List<Results>,
-                                private val listener: ComicFragment.OnFragmentInteractionListener
-)
-: RecyclerView.Adapter<HomeFragmentAdapterclass.ViewHolder>() {
+class HomeFragmentAdapterclass(
+    private var list: List<Results?>,
+    private val listener: ComicFragment.OnFragmentInteractionListener
+) : RecyclerView.Adapter<HomeFragmentAdapterclass.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,22 +23,26 @@ class HomeFragmentAdapterclass (private val list: List<Results>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val results: Results = list[position]
-        holder.bind(results)
-        holder.comicPosition=position
+        val results: Results? = list[position]
+        holder.bind(results!!)
+        holder.comicPosition = position
     }
 
     override fun getItemCount(): Int = list.size
 
+    fun updateList(list: List<Results?>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
 
-  inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
+    inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater?.inflate(R.layout.comic_list_item, parent, false)!!) {
         private var mthumbnail: ImageView? = null
         private var mtitle: TextView? = null
-       var comicPosition=0
+        var comicPosition = 0
 
 
-      init {
+        init {
             mthumbnail = itemView.findViewById(R.id.comic_thumbnail)
             mtitle = itemView.findViewById(R.id.comic_title)
 
@@ -48,12 +51,11 @@ class HomeFragmentAdapterclass (private val list: List<Results>,
         fun bind(result: Results) {
             mthumbnail?.loadImageWithGlide(result.thumbnail!!.path.toString() + "." + result.thumbnail!!.extension)
             mtitle?.text = result.title
-            itemView.setOnClickListener{
-               listener.onThumbnailClicked( result)
+            itemView.setOnClickListener {
+                listener.onThumbnailClicked(result)
 
             }
         }
-
 
 
     }

@@ -17,11 +17,13 @@ import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
+import com.example.comicfantasy.data.remote.GamesResult
 import com.example.comicfantasy.data.remote.MovieResult
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.content_movie_detail.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
 import javax.inject.Inject
@@ -39,7 +41,9 @@ class ComicFragment : DaggerFragment() {
     private var listener: OnFragmentInteractionListener? = null
     private var homeActivity: HomeActivity?=null
    // private var listOfComics = mutableListOf<Results>()
-   private var listOfComics = arrayListOf<Results>()
+   //private var listOfComics = arrayListOf<Results>()
+   private var listOfComics: List<Results?> = ArrayList()
+
     private lateinit var comicAdapter:HomeFragmentAdapterclass
     private lateinit var layManager:GridLayoutManager
     private var Id: Int? = 0
@@ -67,6 +71,8 @@ class ComicFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
         getListOfComics()
+        initViews()
+        //getAllComic()
 
     }
 
@@ -78,38 +84,69 @@ class ComicFragment : DaggerFragment() {
 
     private fun initViews() {
         comicAdapter = HomeFragmentAdapterclass(listOfComics,listener!!)
-        layManager =GridLayoutManager(context,3)
+        layManager =GridLayoutManager(context,2)
         comic_list.addItemDecoration(GridItemDecoration(10,3))
         comic_list.adapter = comicAdapter
         comic_list.layoutManager = layManager
     }
 
-
-
-
-
+  /*  private  fun getAllComic(){
+        viewModel.getComic().observe(activity!!, Observer {
+            if (it!= null && !it.isNullOrEmpty()) {
+                 listOfComics = (it.toMutableList() as ArrayList<Results>?)!!
+                comicAdapter.notifyDataSetChanged()
+            }
+        })
+        }*/
 
     private fun getListOfComics() {
         viewModel.getComic().observe(this, Observer {
             Log.e("ComicHomeFragment", it.toString())
-            if (it.isLoading)
-                listener?.onShowProgress()
-            else
-                listener?.onHideProgress()
+            if(it.contentIfNotUsed != null) {
+                if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()
 
-            if (it.data != null && !it.data?.data?.results.isNullOrEmpty()) {
-               // listOfComics = it?.data?.data?.results?.filterNotNull()?.toMutableList()!!
-                listOfComics.addAll(it.data?.data?.results as ArrayList<Results>)
+                if (!it.list.isNullOrEmpty()) {
+                    Log.e("ViewModel give out", "I am filled")
+                   // listOfComics = (it.list!!.filterNotNull().toMutableList() as ArrayList<Results>?)!!
+                    listOfComics = it.list!!
+                    val text= listOfComics[0]!!.title.toString()
+                    Log.e("See the first", text)
+                    comicAdapter.updateList(listOfComics)
+                }
 
-                comicAdapter.notifyDataSetChanged()
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
             }
-
-            if (!it.error.isNullOrEmpty())
-                showToast(context!!, it.error!!)
         })
     }
 
+/*
 
+    private fun getAllCommunities(){
+        viewModel.getUserCommunities().observe(this, Observer {
+            if(it.contentIfNotUsed != null) {
+                if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()
+
+                if (!it.list.isNullOrEmpty()) {
+                    communities = it.list!!
+                    communityNames.clear()
+                    communityNames.add("All")
+                    communityNames.addAll(it.list!!.map { community -> community.communityName!! })
+                    populateCommunitySpinner(communityNames)
+                }
+
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
+            }
+        })
+    }
+*/
 
 
     override fun onAttach(context: Context) {

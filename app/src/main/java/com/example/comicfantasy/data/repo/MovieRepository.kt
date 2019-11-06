@@ -3,10 +3,7 @@ package com.example.comicfantasy.data.repo
 
 import androidx.lifecycle.LiveData
 import com.example.comicfantasy.data.local.MovieDAO
-import com.example.comicfantasy.data.remote.DataResponse
-import com.example.comicfantasy.data.remote.MovieApiService
-import com.example.comicfantasy.data.remote.MovieDataResponse
-import com.example.comicfantasy.data.remote.Trailer
+import com.example.comicfantasy.data.remote.*
 import com.example.comicfantasy.util.DataResp
 import com.example.comicfantasy.util.SchedulerProvider
 import io.reactivex.Completable
@@ -28,31 +25,31 @@ open class MovieRepository (
     private val VIDEO_URL="http://api.themoviedb.org/3/movie/{id}"
 
 
-    fun getMovieList(): Observable<MovieDataResponse> = getComicMovieFromApi()
-       /*  Observable.concat(getComicMovieFromDb(), getComicMovieFromApi())
-                .onErrorResumeNext(Observable.empty())*/
-
+    fun getMovieList(): Observable<List<MovieResult?>> =getComicMovieFromApi()
+        /* Observable.concat(getComicMovieFromDb(), getComicMovieFromApi())
+                .onErrorResumeNext(Observable.empty())
+*/
      /* private fun saveMovie(movie: MovieDataResponse) =
            movieDao.addMovie(movie)
 */
-       private fun getComicMovieFromDb(): Observable<MovieDataResponse> =
+       private fun getComicMovieFromDb(): Observable<List<MovieResult>> =
             Observable.fromCallable { movieDao.getAllMovie() }
-                .filter { it!=null }
+                .filter { !it.isNullOrEmpty() }
                 .subscribeOn(provider.io())
 
-        private fun getComicMovieFromApi(): Observable<MovieDataResponse> =
+        private fun getComicMovieFromApi(): Observable<List<MovieResult?>> =
             apiService.getPopularMovie(MOVIE_BASE_URL,apikey)
                 .subscribeOn(provider.io())
                 .doOnNext {
-                    if(it.isSuccessful && it.body()!=null)
-                       saveMovie(it.body()!!)
+                    if(it.isSuccessful && it.body() !=null)
+                        saveMovie(it.body()!!.results as List<MovieResult>)
                 }
                 .map {
-                    it.body()
+                    it.body()!!.results!!.toList()
                 }
 
 
-     fun getMovieTrailerFromApi(id:Int): Observable<Trailer> =
+    fun getMovieTrailerFromApi(id:Int): Observable<Trailer> =
         apiService.getTrailers("http://api.themoviedb.org/3/movie/$id/videos",apikey)
             .subscribeOn(provider.io()).map { it.body() }
 
@@ -89,7 +86,7 @@ open class MovieRepository (
 */
 
 
-    fun saveMovie(movie: MovieDataResponse) {
+    fun saveMovie(movie: List<MovieResult>) {
         Completable.fromAction {
             movieDao.addMovie(movie)
         }.subscribeOn(provider.io())

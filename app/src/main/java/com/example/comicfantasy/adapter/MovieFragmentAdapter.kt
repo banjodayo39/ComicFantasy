@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.comicfantasy.R
 import com.example.comicfantasy.comic.fragments.ComicFragment
 import com.example.comicfantasy.data.remote.MovieResult
+import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.movie.fragment.MovieFragment
 
 import com.example.comicfantasy.util.loadImageWithGlide
 
 
 
-class MovieFragmentAdapter (private val list: List<MovieResult>,
+class MovieFragmentAdapter (private var list: List<MovieResult?>,
                             private val listener: MovieFragment.OnFragmentInteractionListener
 )
     : RecyclerView.Adapter<MovieFragmentAdapter.ViewHolder>() {
@@ -26,12 +27,17 @@ class MovieFragmentAdapter (private val list: List<MovieResult>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val results: MovieResult= list[position]
-        holder.bind(results)
+        val results: MovieResult?= list[position]
+        holder.bind(results!!)
         holder.moviePosition=position
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun updateList(list: List<MovieResult?>) {
+        this.list = list
+        notifyDataSetChanged()
+    }
 
 
     inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
