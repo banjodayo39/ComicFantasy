@@ -1,5 +1,8 @@
 package com.example.comicfantasy.adapter
 
+import android.os.Build
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -44,28 +47,27 @@ class HomeFragmentAdapterclass(
 
         private var mthumbnail: ImageView? = null
         private var mtitle: TextView? = null
-        private var mCharacter:TextView? = null
-        private var issueNumber: TextView? = null
-        private var mAuthor : TextView? = null
+        private var mDescription: TextView? = null
+
         var comicPosition = 0
         var imageTransform = shapeTransform
 
         init {
             mthumbnail = itemView.findViewById(R.id.comic_thumbnail)
             mtitle = itemView.findViewById(R.id.comic_title)
-            mAuthor = itemView.findViewById(R.id.comic_author)
-            mCharacter = itemView.findViewById(R.id.comic_character)
-            issueNumber = itemView.findViewById(R.id.comic_issue_no)
+            mDescription = itemView.findViewById(R.id.comic_description)
 
         }
 
         fun bind(result: Results) {
             mthumbnail?.loadImageWithGlide(result.thumbnail!!.path.toString() + "." + result.thumbnail!!.extension)
-            mtitle?.text = itemView.resources.getString(R.string._title,result.title)
-            issueNumber!!.text = itemView.resources.getString(R.string._issue_no,result.issueNumber)
-            mCharacter!!.text = itemView.resources.getString(R.string._character,result.characters!!.items!![0]!!.name.toString())
-            mAuthor!!.text = itemView.resources.getString(R.string._author,result.creators!!.items!![0]!!.name.toString())
-
+            mtitle?.text = itemView.resources.getString(R.string._title, result.title)
+            var desc = itemView.resources.getString(R.string._comic_description, result.description)
+            mDescription!!.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(desc, Html.FROM_HTML_MODE_LEGACY).toString()
+            } else {
+                Html.fromHtml(desc).toString()
+            }
             itemView.setOnClickListener {
                 listener.onThumbnailClicked(result)
             }

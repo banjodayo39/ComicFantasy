@@ -39,5 +39,6 @@
     <string name="_author">Co Author:<b> %1$s</b></string>
     <string name="_creator">Creator:<b> %1$s</b></string>
     <string name="_character">Character:<b> %1$s</b></string>
+    <string name="_comic_description">Description:%1$s</string>
 
 </resources>
