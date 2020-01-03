@@ -10,15 +10,13 @@ import android.graphics.Movie
 import com.google.gson.annotations.Expose
 
 
-
-
-
 @Parcelize
 data class MovieDataResponse(
 
     var page: Int = 0,
     @SerializedName("results")
     var results: List<MovieResult?>? = null,
+    var title: String ="",
     var total_pages: Int? = null,
     var total_results: Int? = null
     //var trailer: Trailer?=null

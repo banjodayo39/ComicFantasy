@@ -34,10 +34,10 @@ class ComicDetailFragment : DaggerFragment() {
 
     private var listOfComics = ArrayList<Results>()
     private lateinit var pagerAdapter: ViewPagerAdapter
-    private lateinit var comicAdapter:ComicDetailAdapter
+    private lateinit var comicAdapter: ComicDetailAdapter
     private var listener: OnFragmentInteractionListener? = null
-    private var results:Results?=null
-    private lateinit var viewPager:ViewPager
+    private var results: Results? = null
+    private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class ComicDetailFragment : DaggerFragment() {
 
 
         arguments?.let {
-            results=it.getParcelable("results")
+            results = it.getParcelable("results")
 
         }
     }
@@ -71,27 +71,29 @@ class ComicDetailFragment : DaggerFragment() {
     }
 
 
-    private fun initView(){
-        viewPager=view!!.findViewById(R.id.comic_detail_view_pager)
-        tabLayout=view!!.findViewById(R.id.tab)
-        comic_detail_title.text=results?.title
+    private fun initView() {
+        viewPager = view!!.findViewById(R.id.comic_detail_view_pager)
+        tabLayout = view!!.findViewById(R.id.tab)
+        comic_detail_title.text = results?.title
         comic_detail_thumbnail.loadImageWithGlide(results?.thumbnail!!.path.toString() + "." + results?.thumbnail!!.extension)
+        //comic_detail_thumbnail.loadImageWithGlide(results?.images?.get(3)!!.path.toString() +"." + results!!.images?.get(3)!!.extension.toString())
 
     }
 
 
-    private fun setUpTabIcons(tabLayout: TabLayout){
+    private fun setUpTabIcons(tabLayout: TabLayout) {
         val tabOne = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as ImageView
         tabOne.setImageResource(R.drawable.ic_book_collection)
         tabLayout.getTabAt(0)!!.customView = tabOne
 
-       val tabTwo = LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as ImageView
+        val tabTwo =
+            LayoutInflater.from(context).inflate(R.layout.tab_layout_custom_view, null) as ImageView
         tabTwo.setImageResource(R.drawable.ic_people)
         tabLayout.getTabAt(1)!!.customView = tabTwo
 
     }
 
-    private fun setUpViewPager(viewPager: ViewPager){
+    private fun setUpViewPager(viewPager: ViewPager) {
         val adapter = ViewPagerAdapter(childFragmentManager)
         adapter.addFragment(StoryTabFragment.newInstance(results!!))
         adapter.addFragment(CharacterTabFragment.newInstance(results!!))
@@ -112,7 +114,6 @@ class ComicDetailFragment : DaggerFragment() {
     }
 
 
-
     override fun onDetach() {
         super.onDetach()
         listener = null
@@ -128,9 +129,9 @@ class ComicDetailFragment : DaggerFragment() {
         fun newInstance(results: Results) =
             ComicDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("results",results)
-                   /* putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)*/
+                    putParcelable("results", results)
+                    /* putString(ARG_PARAM1, param1)
+                     putString(ARG_PARAM2, param2)*/
                 }
             }
     }

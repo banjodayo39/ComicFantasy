@@ -3,28 +3,21 @@ package com.example.comicfantasy.movie.fragment
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.comicfantasy.R
-import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.adapter.MovieFragmentAdapter
-import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
-import com.example.comicfantasy.community.CommunityFragment
 import com.example.comicfantasy.data.remote.MovieResult
-import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
-import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import javax.inject.Inject
 
@@ -34,10 +27,18 @@ class MovieFragment : DaggerFragment() {
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
     private var listOfMovies: List<MovieResult?> = ArrayList()
+    private var listOfTopRated: List<MovieResult?> = ArrayList()
+    private var listOfNowPlaying: List<MovieResult?> = ArrayList()
+    private var listOfUpcoming: List<MovieResult?> = ArrayList()
+    private var listOfLatest: List<MovieResult?> = ArrayList()
 
     lateinit var viewModel: MovieViewModel
     private lateinit var movieAdapter: MovieFragmentAdapter
-    private lateinit var layManager: GridLayoutManager
+    private lateinit var topRatedAdapter: MovieFragmentAdapter
+    private lateinit var upcomingAdapter: MovieFragmentAdapter
+    private lateinit var nowShowingAdapter: MovieFragmentAdapter
+    private lateinit var latestAdapter: MovieFragmentAdapter
+    private lateinit var layManager: LinearLayoutManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,32 +65,152 @@ class MovieFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
-        getListOfMovies()
-
+        getListOfTopRatedMovies()
+        getListOfPopularMovies()
     }
-
 
     private fun initViews() {
-        movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
-        layManager = GridLayoutManager(context, 2)
-        movie_list.addItemDecoration(GridItemDecoration(10, 3))
-        movie_list.adapter = movieAdapter
-        movie_list.layoutManager = layManager
+
+        top_rated_movie_layout.apply {
+            topRatedAdapter = MovieFragmentAdapter(listOfTopRated, listener!!)
+            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = topRatedAdapter
+            this.layoutManager = layManager
+        }
+
+        popular_movie_layout.apply {
+            movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
+            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = movieAdapter
+            this.layoutManager = layManager
+        }
+
+       now_playing_movie_layout.apply {
+           nowShowingAdapter = MovieFragmentAdapter(listOfNowPlaying, listener!!)
+           layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+           this.adapter = movieAdapter
+           this.layoutManager = layManager
+       }
+
+        upcoming_movie_layout.apply {
+            upcomingAdapter = MovieFragmentAdapter(listOfUpcoming, listener!!)
+            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = movieAdapter
+            this.layoutManager = layManager
+        }
+
+        latest_movie_layout.apply {
+            latestAdapter = MovieFragmentAdapter(listOfLatest, listener!!)
+            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = movieAdapter
+            this.layoutManager = layManager
+        }
+
+
+
     }
 
 
-    private fun getListOfMovies() {
-        viewModel.getMovie().observe(this, Observer {
-            Log.e("MovieFragment", it.toString())
+    private fun getListOfPopularMovies() {
+        viewModel.getPopularMovie().observe(this, Observer {
             if (it.contentIfNotUsed != null) {
+               /* if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()*/
+                listener!!.onHideProgress()
+
+                if (!it.list.isNullOrEmpty()) {
+                    listOfMovies = it.list!!
+                    movieAdapter.updateList(listOfMovies)
+                }
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
+
+            }
+        })
+    }
+
+    private fun getListOfTopRatedMovies() {
+        Log.e("MovieFragment", "See")
+        viewModel.getTopRatedMovie().observe(this, Observer {
+            if (it.contentIfNotUsed != null) {
+                Log.e(" Not MovieFragment", it.toString())
+
                 if (it.isLoading)
                     listener?.onShowProgress()
                 else
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    listOfMovies = it.list!!
-                    movieAdapter.updateList(listOfMovies)
+                    listOfTopRated = it.list!!
+                    topRatedAdapter.updateList(listOfTopRated)
+                }
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
+
+            }
+        })
+    }
+
+    private fun getListOfNowPlayingMovies() {
+        Log.e("MovieFragment", "See")
+        viewModel.getNowPlayingMovie().observe(this, Observer {
+            if (it.contentIfNotUsed != null) {
+                Log.e(" Not MovieFragment", it.toString())
+
+                if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()
+
+                if (!it.list.isNullOrEmpty()) {
+                    listOfNowPlaying= it.list!!
+                    topRatedAdapter.updateList(listOfNowPlaying)
+                }
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
+
+            }
+        })
+    }
+
+    private fun getListOfUpcomingMovies() {
+        Log.e("MovieFragment", "See")
+        viewModel.getUpComingMovie().observe(this, Observer {
+            if (it.contentIfNotUsed != null) {
+                Log.e(" Not MovieFragment", it.toString())
+
+                if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()
+
+                if (!it.list.isNullOrEmpty()) {
+                    listOfUpcoming = it.list!!
+                    topRatedAdapter.updateList(listOfUpcoming)
+                }
+                if (!it.error.isNullOrEmpty())
+                    showToast(context!!, it.error!!)
+
+            }
+        })
+    }
+
+    private fun getListOfLatesMovies() {
+        Log.e("MovieFragment", "See")
+        viewModel.getLatestMovie().observe(this, Observer {
+            if (it.contentIfNotUsed != null) {
+                Log.e(" Not MovieFragment", it.toString())
+
+                if (it.isLoading)
+                    listener?.onShowProgress()
+                else
+                    listener?.onHideProgress()
+
+                if (!it.list.isNullOrEmpty()) {
+                    listOfLatest = it.list!!
+                    topRatedAdapter.updateList(listOfLatest)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)

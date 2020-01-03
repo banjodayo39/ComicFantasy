@@ -68,6 +68,7 @@
     <dimen name="layout_margin_Top">3dp</dimen>
     <dimen name="layout_margin_Top2">10dp</dimen>
     <dimen name="movie_padding_layout">16dp</dimen>
+    <dimen name="grid_2">16dp</dimen>
 
 
 </resources>

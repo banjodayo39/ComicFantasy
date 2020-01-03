@@ -25,7 +25,6 @@ constructor(
         getAllComicList()
     }
 
-
     fun getComic(): LiveData<ListUIModel<Results?>> {
        getAllComicList()
         return allComicUI

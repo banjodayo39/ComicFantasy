@@ -59,7 +59,7 @@ class MovieFragmentAdapter (private var list: List<MovieResult?>,
         fun bind(movieResult: MovieResult) {
             mthumbnail?.loadImageWithGlide(IMAGE_URL_BASE_PATH + movieResult.backdrop_path)
             mtitle?.text =movieResult.title
-            itemView.setOnClickListener{
+            mthumbnail!!.setOnClickListener{
                 listener.onMovieThumbnailClicked( movieResult)
 
             }

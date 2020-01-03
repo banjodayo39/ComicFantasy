@@ -25,9 +25,13 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.app.PendingIntent.getActivity
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.example.comicfantasy.R
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
+import com.example.comicfantasy.data.remote.GamesResult
+import kotlinx.android.synthetic.main.layout_toolbar.view.*
 import javax.inject.Inject
 
 
@@ -39,8 +43,6 @@ class HomeActivity : DaggerAppCompatActivity()
      MovieFragment.OnFragmentInteractionListener,
      MovieDetailFragment.OnFragmentInteractionListener{
 
-
-
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
@@ -49,7 +51,6 @@ class HomeActivity : DaggerAppCompatActivity()
     private var comicFragment: ComicFragment? = null
     private var movieFragment: MovieFragment?=null
     private var comicDetailFragment:ComicDetailFragment?=null
-    private val result:Results?=null
 
     override fun onShowProgress() {
          progressBar.visibility = View.VISIBLE
@@ -83,7 +84,7 @@ class HomeActivity : DaggerAppCompatActivity()
     }
 
     private fun initToolbar() {
-        setSupportActionBar(home_toolbar)
+        //setSupportActionBar(toolbar_layout.findViewById(R.id.title))
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -135,32 +136,32 @@ class HomeActivity : DaggerAppCompatActivity()
                 true
             }
 
-
             else ->
                 false
         }
     }
 
     fun showMovie() {
-        home_toolbar.title = getString(com.example.comicfantasy.R.string.title_movie)
+        var title :TextView
+        toolbar_layout.findViewById<TextView>(R.id.title).text= getString(com.example.comicfantasy.R.string.title_movie)
         val fragment = MovieFragment.newInstance()
         loadFragment(fragment)
     }
 
     fun showComic(){
-        home_toolbar.title = getString(com.example.comicfantasy.R.string.title_comic)
+        toolbar_layout.findViewById<TextView>(R.id.title).text = getString(com.example.comicfantasy.R.string.title_comic)
         val fragment = ComicFragment.newInstance()
         loadFragment(fragment)
     }
 
     fun showGames(){
-        home_toolbar.title = getString(com.example.comicfantasy.R.string.trivia)
+        toolbar_layout.findViewById<TextView>(R.id.title).text = getString(com.example.comicfantasy.R.string.trivia)
         val fragment = GamesFragment.newInstance()
         loadFragment(fragment)
     }
 
     fun showCommmunity(){
-        home_toolbar.title = getString(com.example.comicfantasy.R.string.title_community)
+        toolbar_layout.findViewById<TextView>(R.id.title).text = getString(com.example.comicfantasy.R.string.title_community)
         val fragment = CommunityFragment.newInstance()
         loadFragment(fragment)
     }

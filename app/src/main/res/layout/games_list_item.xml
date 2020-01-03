@@ -72,7 +72,7 @@
 
 
             <Button
-                android:id="@+id/submit"
+                android:id="@+id/button_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -91,11 +91,12 @@
                 />
 
             <TextView
+                android:id="@+id/selection_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/submit"
-                app:layout_constraintTop_toBottomOf="@id/submit"
-                app:layout_constraintEnd_toEndOf="@id/submit"
+                app:layout_constraintStart_toStartOf="@+id/button_submit"
+                app:layout_constraintTop_toBottomOf="@id/button_submit"
+                app:layout_constraintEnd_toEndOf="@id/button_submit"
                 android:text="Correct"
                 android:textColor="@color/black"
                 android:layout_marginTop="16dp"

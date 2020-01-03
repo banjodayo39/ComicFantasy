@@ -22,6 +22,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -115,5 +117,19 @@ dependencies {
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    //Mockito
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    testImplementation 'org.mockito:mockito-inline:2.7.22'
+    testImplementation "com.nhaarman:mockito-kotlin:1.6.0"
+    testImplementation 'com.squareup.okhttp3:mockwebserver:3.8.1'
+    androidTestImplementation 'org.mockito:mockito-core:2.7.22'
+    androidTestImplementation 'org.mockito:mockito-android:2.22.0'
 
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //material design
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
 }

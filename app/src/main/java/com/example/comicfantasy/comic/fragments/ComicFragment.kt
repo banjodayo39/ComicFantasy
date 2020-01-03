@@ -6,29 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresPermission
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.comicfantasy.home.ui.HomeActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
-import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
-import com.example.comicfantasy.data.remote.GamesResult
-import com.example.comicfantasy.data.remote.MovieResult
+import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.home.ui.HomeActivity
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.content_movie_detail.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
-
 
 
 class ComicFragment : DaggerFragment() {
@@ -39,13 +32,13 @@ class ComicFragment : DaggerFragment() {
     lateinit var viewModel: ComicFragmentViewModel
 
     private var listener: OnFragmentInteractionListener? = null
-    private var homeActivity: HomeActivity?=null
-   // private var listOfComics = mutableListOf<Results>()
-   //private var listOfComics = arrayListOf<Results>()
-   private var listOfComics: List<Results?> = ArrayList()
+    private var homeActivity: HomeActivity? = null
+    // private var listOfComics = mutableListOf<Results>()
+    //private var listOfComics = arrayListOf<Results>()
+    private var listOfComics: List<Results?> = ArrayList()
 
-    private lateinit var comicAdapter:HomeFragmentAdapterclass
-    private lateinit var layManager:GridLayoutManager
+    private lateinit var comicAdapter: HomeFragmentAdapterclass
+    private lateinit var layManager: LinearLayoutManager
     private var Id: Int? = 0
 
 
@@ -53,7 +46,7 @@ class ComicFragment : DaggerFragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
 
-            Id  = it.getInt("Id")
+            Id = it.getInt("Id")
 
         }
     }
@@ -83,26 +76,25 @@ class ComicFragment : DaggerFragment() {
 
 
     private fun initViews() {
-        comicAdapter = HomeFragmentAdapterclass(listOfComics,listener!!)
-        layManager =GridLayoutManager(context,2)
-        comic_list.addItemDecoration(GridItemDecoration(10,3))
+        comicAdapter = HomeFragmentAdapterclass(listOfComics, listener!!)
+        layManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         comic_list.adapter = comicAdapter
         comic_list.layoutManager = layManager
     }
 
-  /*  private  fun getAllComic(){
-        viewModel.getComic().observe(activity!!, Observer {
-            if (it!= null && !it.isNullOrEmpty()) {
-                 listOfComics = (it.toMutableList() as ArrayList<Results>?)!!
-                comicAdapter.notifyDataSetChanged()
-            }
-        })
-        }*/
+    /*  private  fun getAllComic(){
+          viewModel.getComic().observe(activity!!, Observer {
+              if (it!= null && !it.isNullOrEmpty()) {
+                   listOfComics = (it.toMutableList() as ArrayList<Results>?)!!
+                  comicAdapter.notifyDataSetChanged()
+              }
+          })
+          }*/
 
     private fun getListOfComics() {
         viewModel.getComic().observe(this, Observer {
             Log.e("ComicHomeFragment", it.toString())
-            if(it.contentIfNotUsed != null) {
+            if (it.contentIfNotUsed != null) {
                 if (it.isLoading)
                     listener?.onShowProgress()
                 else
@@ -110,9 +102,9 @@ class ComicFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     Log.e("ViewModel give out", "I am filled")
-                   // listOfComics = (it.list!!.filterNotNull().toMutableList() as ArrayList<Results>?)!!
+                    // listOfComics = (it.list!!.filterNotNull().toMutableList() as ArrayList<Results>?)!!
                     listOfComics = it.list!!
-                    val text= listOfComics[0]!!.title.toString()
+                    val text = listOfComics[0]!!.title.toString()
                     Log.e("See the first", text)
                     comicAdapter.updateList(listOfComics)
                 }
@@ -179,7 +171,7 @@ class ComicFragment : DaggerFragment() {
     }
 
     companion object {
-          @JvmStatic
+        @JvmStatic
         fun newInstance() =
             ComicFragment().apply {
                 arguments = Bundle().apply {
@@ -188,7 +180,8 @@ class ComicFragment : DaggerFragment() {
                     /*putString(ARG_PARAM1, param1)
 
                     putString(ARG_PARAM2, param2)
-             */   }
+             */
+                }
             }
     }
 }

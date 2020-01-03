@@ -13,15 +13,15 @@ interface MovieApiService {
      //https://developers.themoviedb.org/3/movies/get-movie-videos
 
     @POST
-    fun getPopularMovie(
+    fun getMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
     ): Observable<Response<MovieDataResponse>>
 
 
-    @GET("movie/top_rated")
-    fun getTopRated(
-
+    @POST
+    fun getTopRatedMovie(
+        @Url url: String ,
         @Query("api_key") apikey:String
     ): Observable<Response<MovieDataResponse>>
 

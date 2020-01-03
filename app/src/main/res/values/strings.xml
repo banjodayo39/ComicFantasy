@@ -26,4 +26,18 @@
     <string name="pref_sort_order_key">Sort Key</string>
     <string name="pref_most_popular">Most Popular Movie</string>
     <string name="pref_highest_rated">Highest Rated</string>
+    <string name="correct">Correct</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="upcoming">UpComing</string>
+    <string name="latest">Latest</string>
+    <string name="_witten_by">Written By:<b> %1$s</b></string>
+    <string name="_issue_no">Issue No: <b> %1$s</b></string>
+    <string name="_title">Title:<b> %1$s</b></string>
+    <string name="_author">Co Author:<b> %1$s</b></string>
+    <string name="_creator">Creator:<b> %1$s</b></string>
+    <string name="_character">Character:<b> %1$s</b></string>
+
 </resources>

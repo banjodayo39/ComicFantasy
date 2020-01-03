@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Switch
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +22,7 @@ import com.example.comicfantasy.adapter.GamesAdapter
 import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.data.remote.GamesResult
 import com.example.comicfantasy.data.remote.MovieResult
+import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.data.remote.Trivia
 import com.example.comicfantasy.games.viewmodel.GamesViewModel
 import com.example.comicfantasy.movie.fragment.MovieFragment
@@ -31,6 +35,7 @@ import com.littlemango.stacklayoutmanager.StackLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_games.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.games_list_item.*
 import javax.inject.Inject
 
 
@@ -38,17 +43,18 @@ class GamesFragment : DaggerFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    private var listOfTrivia= ArrayList<GamesResult>()
+    private var listOfTrivia = ArrayList<GamesResult>()
     lateinit var viewModel: GamesViewModel
     private lateinit var gamesAdapter: GamesAdapter
-    private lateinit var layManager:LinearLayoutManager
+    private lateinit var layManager: LinearLayoutManager
     private lateinit var stackLayout: StackLayoutManager
+    private var optionSelected = ""
     private var listener: OnFragmentInteractionListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
         }
     }
 
@@ -73,13 +79,12 @@ class GamesFragment : DaggerFragment() {
     }
 
 
-
     private fun getListOfTrivia() {
         viewModel.getGames().observe(this, Observer {
             if (it.isLoading)
                 listener?.onShowProgress()
             else
-              listener?.onHideProgress()
+                listener?.onHideProgress()
 
             if (it.data != null && !it.data?.results.isNullOrEmpty()) {
                 listOfTrivia.addAll(it.data?.results as ArrayList<GamesResult>)
@@ -91,17 +96,21 @@ class GamesFragment : DaggerFragment() {
         })
     }
 
-    private fun initViews(){
-      // val  recyclerView = view?.findViewById<RecyclerView>(R.id.games_recycler_list)
-        val  orientation = StackLayoutManager.ScrollOrientation.TOP_TO_BOTTOM
+    private fun initViews() {
+        // val  recyclerView = view?.findViewById<RecyclerView>(R.id.games_recycler_list)
+        val orientation = StackLayoutManager.ScrollOrientation.TOP_TO_BOTTOM
 
-
-       Log.e("","recycler")
-        gamesAdapter = GamesAdapter(listOfTrivia,listener!!)
-        stackLayout= StackLayoutManager(orientation)
-       layManager= LinearLayoutManager(context)
-       games_recycler_list?.adapter = gamesAdapter
+        Log.e("", "recycler")
+        gamesAdapter = GamesAdapter(listOfTrivia, listener!!, this)
+        stackLayout = StackLayoutManager(orientation)
+        layManager = LinearLayoutManager(context)
+        games_recycler_list?.adapter = gamesAdapter
         games_recycler_list?.layoutManager = stackLayout
+    }
+
+    private fun answerSelection() {
+
+
     }
 
 
@@ -120,8 +129,7 @@ class GamesFragment : DaggerFragment() {
     }
 
 
-    interface OnFragmentInteractionListener :BaseInteractionListener{
-
+    interface OnFragmentInteractionListener : BaseInteractionListener {
     }
 
     companion object {

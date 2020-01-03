@@ -14,7 +14,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@drawable/ic_black_blue</item>
     </style>
+
+    <style name="ShapeAppearance.Owl.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0px</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+    </style>
+
 
     <style name="TransparentToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:windowActionBarOverlay">true</item>
