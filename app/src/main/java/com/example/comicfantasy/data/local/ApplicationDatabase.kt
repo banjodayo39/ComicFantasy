@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.example.comicfantasy.data.remote.*
 
 @Database(entities = [MovieResult::class,
-    Results::class,Trivia::class], version = 2, exportSchema = false)
+    ComicResults::class,GamesResult::class], version = 1, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun comicDAO():ComicDAO

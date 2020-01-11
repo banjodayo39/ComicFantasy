@@ -9,15 +9,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.comicfantasy.R
-import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
+import com.example.comicfantasy.adapter.ComicFragmentAdapterclass
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.home.ui.HomeActivity
 import com.example.comicfantasy.util.BaseInteractionListener
-import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -33,11 +31,11 @@ class ComicFragment : DaggerFragment() {
 
     private var listener: OnFragmentInteractionListener? = null
     private var homeActivity: HomeActivity? = null
-    // private var listOfComics = mutableListOf<Results>()
-    //private var listOfComics = arrayListOf<Results>()
-    private var listOfComics: List<Results?> = ArrayList()
+    // private var listOfComics = mutableListOf<ComicResults>()
+    //private var listOfComics = arrayListOf<ComicResults>()
+    private var listOfComics: List<ComicResults?> = ArrayList()
 
-    private lateinit var comicAdapter: HomeFragmentAdapterclass
+    private lateinit var comicAdapter: ComicFragmentAdapterclass
     private lateinit var layManager: LinearLayoutManager
     private var Id: Int? = 0
 
@@ -45,7 +43,6 @@ class ComicFragment : DaggerFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
             Id = it.getInt("Id")
 
         }
@@ -63,29 +60,25 @@ class ComicFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
+
         getListOfComics()
         initViews()
         //getAllComic()
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViews()
-    }
 
 
     private fun initViews() {
-        comicAdapter = HomeFragmentAdapterclass(listOfComics, listener!!)
+        viewModel.adapter = ComicFragmentAdapterclass(listOfComics, listener!!)
         layManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        comic_list.adapter = comicAdapter
+        comic_list.adapter = viewModel.adapter
         comic_list.layoutManager = layManager
     }
 
     /*  private  fun getAllComic(){
           viewModel.getComic().observe(activity!!, Observer {
               if (it!= null && !it.isNullOrEmpty()) {
-                   listOfComics = (it.toMutableList() as ArrayList<Results>?)!!
+                   listOfComics = (it.toMutableList() as ArrayList<ComicResults>?)!!
                   comicAdapter.notifyDataSetChanged()
               }
           })
@@ -102,11 +95,11 @@ class ComicFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     Log.e("ViewModel give out", "I am filled")
-                    // listOfComics = (it.list!!.filterNotNull().toMutableList() as ArrayList<Results>?)!!
+                    // listOfComics = (it.list!!.filterNotNull().toMutableList() as ArrayList<ComicResults>?)!!
                     listOfComics = it.list!!
                     val text = listOfComics[0]!!.title.toString()
                     Log.e("See the first", text)
-                    comicAdapter.updateList(listOfComics)
+                    viewModel.adapter.updateList(listOfComics)
                 }
 
                 if (!it.error.isNullOrEmpty())
@@ -115,6 +108,11 @@ class ComicFragment : DaggerFragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        getListOfComics()
+        initViews()
+    }
 /*
 
     private fun getAllCommunities(){
@@ -155,19 +153,8 @@ class ComicFragment : DaggerFragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener : BaseInteractionListener {
-        fun onThumbnailClicked(results: Results)
+        fun onThumbnailClicked(comicResults: ComicResults)
     }
 
     companion object {
@@ -175,12 +162,6 @@ class ComicFragment : DaggerFragment() {
         fun newInstance() =
             ComicFragment().apply {
                 arguments = Bundle().apply {
-
-
-                    /*putString(ARG_PARAM1, param1)
-
-                    putString(ARG_PARAM2, param2)
-             */
                 }
             }
     }

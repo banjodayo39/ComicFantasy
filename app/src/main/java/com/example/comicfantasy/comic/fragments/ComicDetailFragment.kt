@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -14,13 +13,12 @@ import androidx.viewpager.widget.ViewPager
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.ComicDetailAdapter
 import com.example.comicfantasy.adapter.ViewPagerAdapter
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.util.loadImageWithGlide
 import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
-import kotlinx.android.synthetic.main.tab_layout_custom_view.*
 import javax.inject.Inject
 
 
@@ -32,11 +30,11 @@ class ComicDetailFragment : DaggerFragment() {
     lateinit var viewModel: ComicFragmentViewModel
 
 
-    private var listOfComics = ArrayList<Results>()
+    private var listOfComics = ArrayList<ComicResults>()
     private lateinit var pagerAdapter: ViewPagerAdapter
     private lateinit var comicAdapter: ComicDetailAdapter
     private var listener: OnFragmentInteractionListener? = null
-    private var results: Results? = null
+    private var comicResults: ComicResults? = null
     private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: TabLayout
 
@@ -45,7 +43,7 @@ class ComicDetailFragment : DaggerFragment() {
 
 
         arguments?.let {
-            results = it.getParcelable("results")
+            comicResults = it.getParcelable("comicResults")
 
         }
     }
@@ -60,7 +58,6 @@ class ComicDetailFragment : DaggerFragment() {
 
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
@@ -74,9 +71,9 @@ class ComicDetailFragment : DaggerFragment() {
     private fun initView() {
         viewPager = view!!.findViewById(R.id.comic_detail_view_pager)
         tabLayout = view!!.findViewById(R.id.tab)
-        comic_detail_title.text = results?.title
-        comic_detail_thumbnail.loadImageWithGlide(results?.thumbnail!!.path.toString() + "." + results?.thumbnail!!.extension)
-        //comic_detail_thumbnail.loadImageWithGlide(results?.images?.get(3)!!.path.toString() +"." + results!!.images?.get(3)!!.extension.toString())
+        comic_detail_title.text = comicResults?.title
+        comic_detail_thumbnail.loadImageWithGlide(comicResults?.thumbnail!!.path.toString() + "." + comicResults?.thumbnail!!.extension)
+        //comic_detail_thumbnail.loadImageWithGlide(comicResults?.images?.get(3)!!.path.toString() +"." + comicResults!!.images?.get(3)!!.extension.toString())
 
     }
 
@@ -95,8 +92,8 @@ class ComicDetailFragment : DaggerFragment() {
 
     private fun setUpViewPager(viewPager: ViewPager) {
         val adapter = ViewPagerAdapter(childFragmentManager)
-        adapter.addFragment(StoryTabFragment.newInstance(results!!))
-        adapter.addFragment(CharacterTabFragment.newInstance(results!!))
+        adapter.addFragment(StoryTabFragment.newInstance(comicResults!!))
+        adapter.addFragment(CharacterTabFragment.newInstance(comicResults!!))
 
 
         viewPager.adapter = adapter
@@ -126,10 +123,10 @@ class ComicDetailFragment : DaggerFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(results: Results) =
+        fun newInstance(comicResults: ComicResults) =
             ComicDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("results", results)
+                    putParcelable("comicResults", comicResults)
                     /* putString(ARG_PARAM1, param1)
                      putString(ARG_PARAM2, param2)*/
                 }

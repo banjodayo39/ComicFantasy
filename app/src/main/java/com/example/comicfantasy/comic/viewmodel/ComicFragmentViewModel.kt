@@ -2,13 +2,12 @@ package com.example.comicfantasy.comic.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.comicfantasy.adapter.ComicFragmentAdapterclass
 import com.example.comicfantasy.base.BaseViewModel
 import com.example.comicfantasy.data.remote.DataResponse
-import com.example.comicfantasy.data.remote.DataX
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.data.repo.ComicRepository
 import com.example.comicfantasy.util.*
-import java.util.*
 import javax.inject.Inject
 
 class ComicFragmentViewModel@Inject
@@ -17,15 +16,15 @@ constructor(
     private val provider: SchedulerProvider
 ) : BaseViewModel() {
 
-    lateinit var dataResponse: DataUIModel<DataResponse>
 
-    private val allComicUI = MutableLiveData<ListUIModel<Results?>>()
+    private val allComicUI = MutableLiveData<ListUIModel<ComicResults?>>()
+    lateinit var adapter: ComicFragmentAdapterclass
 
     fun updateComicList() {
         getAllComicList()
     }
 
-    fun getComic(): LiveData<ListUIModel<Results?>> {
+    fun getComic(): LiveData<ListUIModel<ComicResults?>> {
        getAllComicList()
         return allComicUI
     }
@@ -36,7 +35,7 @@ constructor(
             repo.getComicList()!!.subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 if(!it.isNullOrEmpty()) {
                     allComicUI.postValue(ListUIModel(list = it ))
-                    repo.saveComic(it as List<Results>)
+                    repo.saveComic(it as List<ComicResults>)
                 }
                 else
                     allComicUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
@@ -48,11 +47,11 @@ constructor(
         }
     }
 
-   /* fun getAllTheComicList(): Observable<List<Results?>> =
+   /* fun getAllTheComicList(): Observable<List<ComicResults?>> =
         repo.getComicListFromDb()
 */
 
-/*    fun getComicStory(): LiveData<ListUIModel<Results>> {
+/*    fun getComicStory(): LiveData<ListUIModel<ComicResults>> {
         getAllComicList()
         return allComicUI
     }

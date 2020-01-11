@@ -3,39 +3,23 @@ package com.example.comicfantasy.games.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Switch
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.GamesAdapter
-import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
 import com.example.comicfantasy.data.remote.GamesResult
-import com.example.comicfantasy.data.remote.MovieResult
-import com.example.comicfantasy.data.remote.Results
-import com.example.comicfantasy.data.remote.Trivia
 import com.example.comicfantasy.games.viewmodel.GamesViewModel
-import com.example.comicfantasy.movie.fragment.MovieFragment
-import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
-import com.example.comicfantasy.util.GridItemDecoration
 import com.example.comicfantasy.util.showToast
-import com.littlemango.stacklayoutmanager.StackLayout
 import com.littlemango.stacklayoutmanager.StackLayoutManager
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_games.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.games_list_item.*
 import javax.inject.Inject
 
 
@@ -86,8 +70,8 @@ class GamesFragment : DaggerFragment() {
             else
                 listener?.onHideProgress()
 
-            if (it.data != null && !it.data?.results.isNullOrEmpty()) {
-                listOfTrivia.addAll(it.data?.results as ArrayList<GamesResult>)
+            if (it.list != null ) {
+                listOfTrivia.addAll(it.list!!.toCollection(ArrayList<GamesResult>()))
                 gamesAdapter.notifyDataSetChanged()
 
             }

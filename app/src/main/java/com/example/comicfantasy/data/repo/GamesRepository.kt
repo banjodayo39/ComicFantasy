@@ -16,34 +16,33 @@ open class GamesRepository(
 
 
     private val url: String = "https://opentdb.com/api.php?amount=10"
-    fun getTrivia(): Observable<Trivia> =getGamesListFromApi()
-/*
+    fun getTrivia(): Observable<List<GamesResult>> =
     Observable.concat(getGamesFromDb(), getGamesListFromApi())
           .onErrorResumeNext(Observable.empty())
-*/
+
 
     /*   private fun saveComic(comic: DataResponse) =
            comicDao.addComic(comic)*/
 
-    private fun getGamesFromDb(): Observable<Trivia> =
+    private fun getGamesFromDb(): Observable<List<GamesResult>> =
         Observable.fromCallable { gamesDao.getAllTrivia()}
             .filter { it!=null }
             .subscribeOn(provider.io())
 
-    private fun getGamesListFromApi(): Observable<Trivia> =
+    private fun getGamesListFromApi(): Observable<List<GamesResult>> =
 
         apiService.getTrivia(url)
             .subscribeOn(provider.io())
             .doOnNext {
                 if(it.isSuccessful && it.body()!=null)
-                    saveTrivia(it.body()!!)
+                    saveTrivia(it.body()!!.list as ArrayList<GamesResult>)
             }
             .map {
-                it.body()
+                it.body()!!.list!!.toList()
             }
 
 
-    fun saveTrivia(trivia: Trivia) {
+    fun saveTrivia(trivia: List<GamesResult>) {
         Completable.fromAction {
             gamesDao.addtrivia(trivia)
         }.subscribeOn(provider.io())

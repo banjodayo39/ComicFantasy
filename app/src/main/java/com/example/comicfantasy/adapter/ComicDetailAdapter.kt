@@ -6,9 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comicfantasy.R
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 
-class ComicDetailAdapter(private val list: List<Results>)
+class ComicDetailAdapter(private val list: List<ComicResults>)
     : RecyclerView.Adapter<ComicDetailAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,8 +17,8 @@ class ComicDetailAdapter(private val list: List<Results>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val results: Results = list[position]
-        holder.bind(results)
+        val comicResults: ComicResults = list[position]
+        holder.bind(comicResults)
         holder.comicPosition=position
     }
 
@@ -39,7 +39,7 @@ inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
         mthumbnail=itemView.findViewById(R.id.comic_thumbnail)
     }
 
-    fun bind(results: Results) {
+    fun bind(comicResults: ComicResults) {
 
 
 

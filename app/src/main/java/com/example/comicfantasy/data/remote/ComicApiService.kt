@@ -4,7 +4,6 @@ import com.example.comicfantasy.util.DataResp
 import com.example.comicfantasy.util.ListResp
 import com.example.comicfantasy.util.PaginatedResp
 import io.reactivex.Observable
-import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,7 +17,7 @@ interface ComicApiService {
         @Query("ts") timestamp: String,
         @Query("apikey") apikey:String,
         @Query("hash") hashSignture:String
-    ): Observable<Response<DataResponse>>
+    ): Observable<Response<PaginatedResp<ComicResults>>>
 
 
     @GET("/v1/public/comics/{comicId}/stories")
@@ -27,7 +26,7 @@ interface ComicApiService {
         @Query("ts") timestamp: String,
         @Query("apikey") apikey:String,
         @Query("hash") hashSignture:String
-    ): Observable<Response<DataResponse>>
+    ): Observable<Response<ComicResults>>
 
 
 

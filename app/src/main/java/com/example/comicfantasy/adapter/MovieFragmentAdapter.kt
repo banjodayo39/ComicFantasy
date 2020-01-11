@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.comicfantasy.R
-import com.example.comicfantasy.comic.fragments.ComicFragment
 import com.example.comicfantasy.data.remote.MovieResult
-import com.example.comicfantasy.data.remote.Results
 import com.example.comicfantasy.movie.fragment.MovieFragment
 
 import com.example.comicfantasy.util.loadImageWithGlide

@@ -67,10 +67,13 @@ class MovieFragment : DaggerFragment() {
         viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
         getListOfTopRatedMovies()
         getListOfPopularMovies()
+        getListOfNowPlayingMovies()
+        getListOfTopRatedMovies()
+        getListOfUpcomingMovies()
     }
 
     private fun initViews() {
-
+       // container_layout.visibility = View.INVISIBLE
         top_rated_movie_layout.apply {
             topRatedAdapter = MovieFragmentAdapter(listOfTopRated, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -105,21 +108,20 @@ class MovieFragment : DaggerFragment() {
             this.adapter = movieAdapter
             this.layoutManager = layManager
         }
-
-
-
     }
 
 
     private fun getListOfPopularMovies() {
         viewModel.getPopularMovie().observe(this, Observer {
             if (it.contentIfNotUsed != null) {
-               /* if (it.isLoading)
-                    listener?.onShowProgress()
-                else
-                    listener?.onHideProgress()*/
-                listener!!.onHideProgress()
-
+               if (it.isLoading) {
+                   listener?.onShowProgress()
+               }
+                else {
+                   listener?.onHideProgress()
+                   listener!!.onHideProgress()
+                   container_layout.visibility = View.VISIBLE
+               }
                 if (!it.list.isNullOrEmpty()) {
                     listOfMovies = it.list!!
                     movieAdapter.updateList(listOfMovies)

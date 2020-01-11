@@ -3,13 +3,13 @@ package com.example.comicfantasy.comic.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
 
 import com.example.comicfantasy.R
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_story_tab.*
 
@@ -17,12 +17,12 @@ import kotlinx.android.synthetic.main.fragment_story_tab.*
 class StoryTabFragment : DaggerFragment() {
 
     private var listener: OnFragmentInteractionListener? = null
-    private var results:Results?=null
+    private var comicResults:ComicResults?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            results=it.getParcelable("results")
+            comicResults=it.getParcelable("comicResults")
 
         }
     }
@@ -40,9 +40,7 @@ class StoryTabFragment : DaggerFragment() {
     }
 
     private fun displaySetUp() {
-        issue_num_text.text=results?.issueNumber.toString()
-        isbn_textView.text=results?.isbn.toString()
-        textViewPrice.text=results?.price
+        story_text_tv.text= HtmlCompat.fromHtml(comicResults?.description!!,HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 
 
@@ -72,10 +70,10 @@ class StoryTabFragment : DaggerFragment() {
 
     companion object {
 
-        fun newInstance(results: Results) =
+        fun newInstance(comicResults: ComicResults) =
             StoryTabFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("results",results)
+                    putParcelable("comicResults",comicResults)
 
                 }
             }

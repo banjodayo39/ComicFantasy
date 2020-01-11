@@ -1,37 +1,27 @@
 package com.example.comicfantasy.home.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.comicfantasy.comic.fragments.CharacterTabFragment
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.comic.fragments.ComicDetailFragment
 import com.example.comicfantasy.comic.fragments.ComicFragment
 import com.example.comicfantasy.comic.fragments.StoryTabFragment
 import com.example.comicfantasy.community.CommunityFragment
 import com.example.comicfantasy.data.remote.MovieResult
 import com.example.comicfantasy.games.fragments.GamesFragment
-import com.example.comicfantasy.movie.fragment.MovieDetailActivity
 import com.example.comicfantasy.movie.fragment.MovieDetailFragment
 import com.example.comicfantasy.movie.fragment.MovieFragment
-import com.example.comicfantasy.movie.fragment.TrailerFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.app.PendingIntent.getActivity
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.comicfantasy.R
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
-import com.example.comicfantasy.data.remote.GamesResult
-import kotlinx.android.synthetic.main.layout_toolbar.view.*
 import javax.inject.Inject
 
 
@@ -88,10 +78,10 @@ class HomeActivity : DaggerAppCompatActivity()
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun onThumbnailClicked(results: Results) {
-        val fragment=ComicDetailFragment.newInstance(results)
-        val fragment2= StoryTabFragment.newInstance(results)
-        val fragment3= CharacterTabFragment.newInstance(results)
+    override fun onThumbnailClicked(comicResults: ComicResults) {
+        val fragment=ComicDetailFragment.newInstance(comicResults)
+        val fragment2= StoryTabFragment.newInstance(comicResults)
+        val fragment3= CharacterTabFragment.newInstance(comicResults)
        loadFragment(fragment)
     }
 

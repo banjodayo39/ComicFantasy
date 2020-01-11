@@ -4,10 +4,8 @@ import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.versionedparcelable.ParcelField
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.util.*
 import kotlin.collections.ArrayList
 
 data class DataResponse(
@@ -26,19 +24,19 @@ data class DataX(
     var limit: String? = null,
     var offset: String? = null,
     @SerializedName("results")
-    var results: List<Results?>? = null,
+    var results: List<ComicResults?>? = null,
     var total: String? = null
 ) : Parcelable
 
 data class ResultsResp(
     @SerializedName("results")
-    var results: ArrayList<Results>? = null
+    var results: ArrayList<ComicResults>? = null
 )
 
 
 @Parcelize
 @Entity(tableName = "comicEntity")
-data class Results(
+data class ComicResults(
     @PrimaryKey
     @NonNull
     var id: Int = 0,

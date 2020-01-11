@@ -2,23 +2,22 @@ package com.example.comicfantasy.adapter
 
 import android.os.Build
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comicfantasy.R
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.comic.fragments.ComicFragment
 import com.example.comicfantasy.util.loadImageWithGlide
 import com.materialstudies.owl.util.ShapeAppearanceTransformation
 
 
-class HomeFragmentAdapterclass(
-    private var list: List<Results?>,
+class ComicFragmentAdapterclass(
+    private var list: List<ComicResults?>,
     private val listener: ComicFragment.OnFragmentInteractionListener
-) : RecyclerView.Adapter<HomeFragmentAdapterclass.ViewHolder>() {
+) : RecyclerView.Adapter<ComicFragmentAdapterclass.ViewHolder>() {
 
     private val shapeTransform =
         ShapeAppearanceTransformation(R.style.ShapeAppearance_Owl_SmallComponent)
@@ -29,15 +28,15 @@ class HomeFragmentAdapterclass(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val results: Results? = list[position]
-        holder.bind(results!!)
+        val comicResults: ComicResults? = list[position]
+        holder.bind(comicResults!!)
         holder.comicPosition = position
         shapeTransform
     }
 
     override fun getItemCount(): Int = list.size
 
-    fun updateList(list: List<Results?>) {
+    fun updateList(list: List<ComicResults?>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -59,7 +58,7 @@ class HomeFragmentAdapterclass(
 
         }
 
-        fun bind(result: Results) {
+        fun bind(result: ComicResults) {
             mthumbnail?.loadImageWithGlide(result.thumbnail!!.path.toString() + "." + result.thumbnail!!.extension)
             mtitle?.text = itemView.resources.getString(R.string._title, result.title)
             var desc = itemView.resources.getString(R.string._comic_description, result.description)

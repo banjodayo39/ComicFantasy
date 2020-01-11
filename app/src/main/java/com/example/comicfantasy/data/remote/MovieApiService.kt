@@ -1,5 +1,6 @@
 package com.example.comicfantasy.data.remote
 
+import com.example.comicfantasy.util.PaginatedResp
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.Response
@@ -16,14 +17,32 @@ interface MovieApiService {
     fun getMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
-    ): Observable<Response<MovieDataResponse>>
+    ): Observable<Response<PaginatedResp<MovieResult>>>
 
 
     @POST
     fun getTopRatedMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
-    ): Observable<Response<MovieDataResponse>>
+    ): Observable<Response<PaginatedResp<MovieResult>>>
+
+    @POST
+    fun getNowPlayingMovie(
+        @Url url: String ,
+        @Query("api_key") apikey:String
+    ): Observable<Response<PaginatedResp<MovieResult>>>
+
+    @POST
+    fun getLatestMovie(
+        @Url url: String ,
+        @Query("api_key") apikey:String
+    ): Observable<Response<PaginatedResp<MovieResult>>>
+
+    @POST
+    fun getUpComingMovie(
+        @Url url: String ,
+        @Query("api_key") apikey:String
+    ): Observable<Response<PaginatedResp<MovieResult>>>
 
     @GET
     fun profilePicture(@Url url: String): Call<ResponseBody>

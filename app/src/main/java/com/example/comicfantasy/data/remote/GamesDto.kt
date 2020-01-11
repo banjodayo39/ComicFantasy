@@ -7,22 +7,26 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-@Entity(tableName = "gamesEntity")
+
 data class Trivia(
     @PrimaryKey
     @NonNull
     var response_code: Int = 0,
     @SerializedName("results")
     var results: List<GamesResult?>? = null
-):Parcelable
-
+)
 
 @Parcelize
+@Entity(tableName = "gamesEntity")
 data class GamesResult(
-    var category: String? = null,
+    @PrimaryKey
+    @NonNull
+    var category: String = "",
+    @SerializedName("correct_answer")
     var correct_answer: String? = null,
+    @SerializedName("difficulty")
     var difficulty: String? = null,
+    @SerializedName("incorrect_answers")
     var incorrect_answers: List<String?>? = null,
     var question: String? = null,
     var type: String? = null

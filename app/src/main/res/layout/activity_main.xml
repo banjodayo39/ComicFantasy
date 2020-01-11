@@ -5,6 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.8"
+    android:background="@color/colorPrimaryDark"
     tools:context=".home.ui.HomeActivity">
 
 
@@ -22,7 +24,6 @@
         layout="@layout/layout_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toTopOf="parent"
         />
 
@@ -43,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/colorAccent"
+        app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/bottom_navigation_selector"
         app:itemTextColor="@color/white"
         app:menu="@menu/navigation"

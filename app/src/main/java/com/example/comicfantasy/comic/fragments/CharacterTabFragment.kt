@@ -3,39 +3,36 @@ package com.example.comicfantasy.comic.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.comicfantasy.R
-import com.example.comicfantasy.adapter.ComicStoryAdaapter
-import com.example.comicfantasy.adapter.HomeFragmentAdapterclass
+import com.example.comicfantasy.adapter.ComicCharacterAdapter
 import com.example.comicfantasy.data.remote.Image
-import com.example.comicfantasy.data.remote.Results
+import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.util.GridItemDecoration
-import com.example.comicfantasy.util.loadImageWithGlide
+import com.example.comicfantasy.util.ItemDecoration
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.comic_story_list_items.*
-import kotlinx.android.synthetic.main.comic_story_list_items.view.*
 import kotlinx.android.synthetic.main.fragment_character.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class CharacterTabFragment : DaggerFragment() {
 
     private var listener: OnFragmentInteractionListener? = null
-    private var results: Results?=null
+    private var comicResults: ComicResults?=null
 
-    private lateinit var comicAdapter:ComicStoryAdaapter
+    private lateinit var comicAdapter:ComicCharacterAdapter
     private lateinit var layManager:GridLayoutManager
-    private  var images= ArrayList<Image>()
+    private  var authorNames= ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            results=it.getParcelable("results")
+            comicResults=it.getParcelable("comicResults")
 
         }
     }
@@ -56,26 +53,21 @@ class CharacterTabFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        var i=0
-        results?.images?.forEach {
-
-         images.add(i,it!!)
-            i++
+        for (it in comicResults!!.creators!!.items!!) {
+            authorNames.add(it!!.name!!)
         }
     }
 
 
     private fun initViews() {
-        textViewCharacter.text=results?.name
-        textViewAvailable.text=results?.characters?.available.toString()
-        textViewRole.text=results?.role.toString()
-        textViewCollectionUrl.text=results?.characters?.collectionURI
-    /*    comicAdapter = ComicStoryAdaapter(images)
-        layManager = GridLayoutManager(context,3)
-        comic_story_list.addItemDecoration(GridItemDecoration(10,3))
-        comic_story_list.adapter = comicAdapter
-        comic_story_list.layoutManager = layManager
-*/
+        if(authorNames.size < 1){
+            Toast.makeText(activity, getString(R.string.no_author_available), Toast.LENGTH_LONG).show()
+        }
+        author_recycler_view.apply {
+            adapter = ComicCharacterAdapter(authorNames)
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            addItemDecoration(ItemDecoration(context,0,0))
+        }
     }
 
 
@@ -107,10 +99,10 @@ class CharacterTabFragment : DaggerFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(results: Results) =
+        fun newInstance(comicResults: ComicResults) =
             CharacterTabFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("results",results)
+                    putParcelable("comicResults",comicResults)
 
                 }
             }

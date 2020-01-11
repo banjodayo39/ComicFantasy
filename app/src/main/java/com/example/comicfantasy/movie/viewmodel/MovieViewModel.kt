@@ -55,7 +55,7 @@ constructor(
             repo.getPopularMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
-                    allMovieUI.postValue(ListUIModel(list = it))
+                    allMovieUI.postValue(ListUIModel(list = it,isLoading = false))
                     repo.savePopularMovie(it as List<MovieResult>)
                 } else
                     allMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
@@ -72,7 +72,7 @@ constructor(
             repo.getTopRatedMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
-                    allTopRatedMovieUI.postValue(ListUIModel(list = it))
+                    allTopRatedMovieUI.postValue(ListUIModel(list = it,isLoading = false))
                     repo.saveTopRatedMovie(it as List<MovieResult>)
                 } else
                     allTopRatedMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
@@ -86,7 +86,7 @@ constructor(
     private fun getAllNowPlayingMovieList() {
         addDisposable {
             allNowPlayingMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getTopRatedMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+            repo.getNowPlayingMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
                     allNowPlayingMovieUI.postValue(ListUIModel(list = it))
@@ -103,10 +103,10 @@ constructor(
     private fun getAllUpcomingMovieList() {
         addDisposable {
             allUpcomingMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getTopRatedMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+            repo.getUpcomingMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
-                    allUpcomingMovieUI.postValue(ListUIModel(list = it))
+                    allUpcomingMovieUI.postValue(ListUIModel(list = it, isLoading = false))
                     repo.saveTopRatedMovie(it as List<MovieResult>)
                 } else
                     allUpcomingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
@@ -120,10 +120,10 @@ constructor(
     private fun getAllLatestMovieList() {
         addDisposable {
             allLatestMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getTopRatedMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+            repo.getLatestMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
-                    allLatestMovieUI.postValue(ListUIModel(list = it))
+                    allLatestMovieUI.postValue(ListUIModel(list = it, isLoading = false))
                     repo.saveTopRatedMovie(it as List<MovieResult>)
                 } else
                     allLatestMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))

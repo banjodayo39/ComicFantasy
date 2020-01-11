@@ -76,10 +76,10 @@ open class MovieRepository(
             .subscribeOn(provider.io())
             .doOnNext {
                 if (it.isSuccessful && it.body() != null)
-                    savePopularMovie(it.body()!!.results as List<MovieResult>)
+                    savePopularMovie(it.body()!!.list as List<MovieResult>)
             }
             .map {
-                it.body()!!.results!!.toList()
+                it.body()!!.list!!.toList()
             }
 
     private fun getTopRatedMovieFromApi(): Observable<List<MovieResult?>> =
@@ -87,43 +87,43 @@ open class MovieRepository(
             .subscribeOn(provider.io())
             .doOnNext {
                 if (it.isSuccessful && it.body() != null)
-                    saveTopRatedMovie(it.body()!!.results as List<MovieResult>)
+                    saveTopRatedMovie(it.body()!!.list as List<MovieResult>)
             }
             .map {
-                it.body()!!.results!!.toList()
+                it.body()!!.list!!.toList()
             }
 
     private fun getNowPlayingMovieFromApi(): Observable<List<MovieResult?>> =
-        apiService.getMovie(NOW_PLAYING_URL, apikey)
+        apiService.getNowPlayingMovie(NOW_PLAYING_URL, apikey)
             .subscribeOn(provider.io())
             .doOnNext {
                 if (it.isSuccessful && it.body() != null)
-                    saveNowPlayingMovie(it.body()!!.results as List<MovieResult>)
+                    saveNowPlayingMovie(it.body()!!.list as List<MovieResult>)
             }
             .map {
-                it.body()!!.results!!.toList()
+                it.body()!!.list!!.toList()
             }
 
     private fun getUpComingMovieFromApi(): Observable<List<MovieResult?>> =
-        apiService.getMovie(UPCOMING_BASE_URL, apikey)
+        apiService.getUpComingMovie(UPCOMING_BASE_URL, apikey)
             .subscribeOn(provider.io())
             .doOnNext {
                 if (it.isSuccessful && it.body() != null)
-                    saveUpcomingMovie(it.body()!!.results as List<MovieResult>)
+                    saveUpcomingMovie(it.body()!!.list as List<MovieResult>)
             }
             .map {
-                it.body()!!.results!!.toList()
+                it.body()!!.list!!.toList()
             }
 
     private fun getLatestMovieFromApi(): Observable<List<MovieResult?>> =
-        apiService.getMovie(LATEST_BASE_URL, apikey)
+        apiService.getLatestMovie(LATEST_BASE_URL, apikey)
             .subscribeOn(provider.io())
             .doOnNext {
                 if (it.isSuccessful && it.body() != null)
-                    saveLatestMovie(it.body()!!.results as List<MovieResult>)
+                    saveLatestMovie(it.body()!!.list as List<MovieResult>)
             }
             .map {
-                it.body()!!.results!!.toList()
+                it.body()!!.list!!.toList()
             }
 
 
@@ -131,8 +131,6 @@ open class MovieRepository(
     fun getMovieTrailerFromApi(id: Int): Observable<Trailer> =
         apiService.getTrailers("http://api.themoviedb.org/3/movie/$id/videos", apikey)
             .subscribeOn(provider.io()).map { it.body() }
-
-
 
 
     fun savePopularMovie(movie: List<MovieResult>) {

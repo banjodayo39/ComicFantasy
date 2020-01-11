@@ -11,14 +11,14 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun fromDataX(value: Results): String {
+        fun fromDataX(value: ComicResults): String {
             return gson.toJson(value)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toDataX(value: String): Results {
-            return gson.fromJson(value, Results::class.java)
+        fun toDataX(value: String): ComicResults {
+            return gson.fromJson(value, ComicResults::class.java)
         }
 
         @TypeConverter
@@ -36,7 +36,7 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun fromResults(value: List<Results>): String {
+        fun fromResults(value: List<ComicResults>): String {
             return gson.toJson(value)
         }
 
@@ -44,23 +44,11 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun toResults(value: String): List<Results> {
-            return gson.fromJson(value, Array<Results>::class.java).asList()
+        fun toResults(value: String): List<ComicResults> {
+            return gson.fromJson(value, Array<ComicResults>::class.java).asList()
         }
 
 
-        @TypeConverter
-        @JvmStatic
-        fun fromTrivia(trivia: Trivia): String {
-            return gson.toJson(trivia)
-        }
-
-
-        @TypeConverter
-        @JvmStatic
-        fun toTrivia(trivia:String): Trivia {
-            return gson.fromJson(trivia,Trivia::class.java)
-        }
 
         @TypeConverter
         @JvmStatic
@@ -123,9 +111,6 @@ class Converter {
         fun fromStory(story: Stories): String {
             return gson.toJson(story)
         }
-
-
-
 
         @TypeConverter
         @JvmStatic
@@ -197,6 +182,18 @@ class Converter {
         @JvmStatic
         fun fromMovieResult(value: MovieResult): String {
             return gson.toJson(value)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun fromIncorrectAnwer(incorrect_answer: List<String>): String {
+            return gson.toJson(incorrect_answer)
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toIncorrectAnswer(value: String): List<String> {
+            return gson.fromJson(value, Array<String>::class.java).asList()
         }
 
         @TypeConverter
