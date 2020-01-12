@@ -17,7 +17,7 @@ interface ComicApiService {
         @Query("ts") timestamp: String,
         @Query("apikey") apikey:String,
         @Query("hash") hashSignture:String
-    ): Observable<Response<PaginatedResp<ComicResults>>>
+    ): Observable<Response<DataResp<ComicResponse>>>
 
 
     @GET("/v1/public/comics/{comicId}/stories")

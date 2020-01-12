@@ -22,7 +22,6 @@
         android:theme="@style/AppThemeNoActionBar">
         <activity android:name=".movie.fragment.MovieDetailActivity"></activity>
         <activity android:name=".home.ui.HomeActivity"
-            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

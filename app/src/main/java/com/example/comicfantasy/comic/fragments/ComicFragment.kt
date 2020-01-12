@@ -61,7 +61,6 @@ class ComicFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
 
-        getListOfComics()
         initViews()
         //getAllComic()
     }
@@ -69,6 +68,7 @@ class ComicFragment : DaggerFragment() {
 
 
     private fun initViews() {
+        getListOfComics()
         viewModel.adapter = ComicFragmentAdapterclass(listOfComics, listener!!)
         layManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         comic_list.adapter = viewModel.adapter
@@ -110,7 +110,6 @@ class ComicFragment : DaggerFragment() {
 
     override fun onResume() {
         super.onResume()
-        getListOfComics()
         initViews()
     }
 /*

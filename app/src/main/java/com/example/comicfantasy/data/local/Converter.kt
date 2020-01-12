@@ -23,14 +23,14 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun fromData(value: DataX): String {
+        fun fromData(value: ComicResponse): String {
             return gson.toJson(value)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toData(value: String): DataX {
-            return gson.fromJson(value, DataX::class.java)
+        fun toData(value: String): ComicResponse {
+            return gson.fromJson(value, ComicResponse::class.java)
         }
 
 

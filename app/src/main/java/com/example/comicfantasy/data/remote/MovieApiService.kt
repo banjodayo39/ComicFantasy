@@ -1,5 +1,6 @@
 package com.example.comicfantasy.data.remote
 
+import com.example.comicfantasy.util.DataResp
 import com.example.comicfantasy.util.PaginatedResp
 import io.reactivex.Observable
 import retrofit2.Call
@@ -13,32 +14,32 @@ interface MovieApiService {
     //private val MOVIE_BASE_URL = "http://api.themoviedb.org/3/"
      //https://developers.themoviedb.org/3/movies/get-movie-videos
 
-    @POST
+    @GET
     fun getMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
     ): Observable<Response<PaginatedResp<MovieResult>>>
 
 
-    @POST
+    @GET
     fun getTopRatedMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
     ): Observable<Response<PaginatedResp<MovieResult>>>
 
-    @POST
+    @GET
     fun getNowPlayingMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
     ): Observable<Response<PaginatedResp<MovieResult>>>
 
-    @POST
+    @GET
     fun getLatestMovie(
         @Url url: String ,
         @Query("api_key") apikey:String
     ): Observable<Response<PaginatedResp<MovieResult>>>
 
-    @POST
+    @GET
     fun getUpComingMovie(
         @Url url: String ,
         @Query("api_key") apikey:String

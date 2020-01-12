@@ -3,6 +3,7 @@ package com.example.comicfantasy.movie.viewmodel
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.comicfantasy.adapter.MovieFragmentAdapter
 import com.example.comicfantasy.base.BaseViewModel
 import com.example.comicfantasy.data.remote.*
 import com.example.comicfantasy.data.repo.MovieRepository
@@ -15,6 +16,11 @@ constructor(
     private val provider: SchedulerProvider
 ) : BaseViewModel() {
 
+    lateinit var upcomingMovieAdapter: MovieFragmentAdapter
+    lateinit var popularMovieAdapter: MovieFragmentAdapter
+    lateinit var nowPlayingMovieAdapter: MovieFragmentAdapter
+    lateinit var topRatedMovieAdapter: MovieFragmentAdapter
+    lateinit var latestMovieAdapter: MovieFragmentAdapter
 
     private val allMovieUI = MutableLiveData<ListUIModel<MovieResult?>>()
     private val allTopRatedMovieUI = MutableLiveData<ListUIModel<MovieResult?>>()
@@ -90,7 +96,7 @@ constructor(
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
                     allNowPlayingMovieUI.postValue(ListUIModel(list = it))
-                    repo.saveTopRatedMovie(it as List<MovieResult>)
+                    repo.saveNowPlayingMovie(it as List<MovieResult>)
                 } else
                     allNowPlayingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
             }, {
@@ -107,7 +113,7 @@ constructor(
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
                     allUpcomingMovieUI.postValue(ListUIModel(list = it, isLoading = false))
-                    repo.saveTopRatedMovie(it as List<MovieResult>)
+                    repo.saveUpcomingMovie(it as List<MovieResult>)
                 } else
                     allUpcomingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
             }, {
@@ -124,7 +130,7 @@ constructor(
                 Log.e("MovieViewModel", it.toString())
                 if (it != null) {
                     allLatestMovieUI.postValue(ListUIModel(list = it, isLoading = false))
-                    repo.saveTopRatedMovie(it as List<MovieResult>)
+                    repo.saveLatestMovie(it as List<MovieResult>)
                 } else
                     allLatestMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
             }, {

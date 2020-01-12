@@ -13,7 +13,7 @@ data class Trivia(
     @NonNull
     var response_code: Int = 0,
     @SerializedName("results")
-    var results: List<GamesResult?>? = null
+    var results: List<GamesResult>? = null
 )
 
 @Parcelize

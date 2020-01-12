@@ -10,7 +10,7 @@ open class ListResp<T> {
     @Expose
     var code: Int = 0
 
-    @SerializedName("data")
+    @SerializedName("results")
     @Expose
     var list: List<T>? = null
 

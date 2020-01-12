@@ -13,13 +13,14 @@ data class DataResponse(
     var attributionText: String? = null,
     var code: String? = null,
     var copyright: String? = null,
-    var data: DataX? = null,
+    var data: ComicResponse? = null,
     var etag: String? = null,
     var status: String? = null
 )
 
 @Parcelize
-data class DataX(
+data class ComicResponse(
+
     var count: String = "",
     var limit: String? = null,
     var offset: String? = null,

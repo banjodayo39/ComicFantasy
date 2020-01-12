@@ -55,11 +55,11 @@ open class ComicRepository(
             .subscribeOn(provider.io())
             .doOnNext {
                 Log.e("data", "is not null")
-                if (it.isSuccessful && it.body()!!.list != null)
-                    saveComic(it.body()!!.list as List<ComicResults>)
+                if (it.isSuccessful && it.body()!!.data != null)
+                    saveComic(it.body()!!.data!!.results as List<ComicResults>)
             }
             .map {
-                it.body()!!.list as List<ComicResults>
+                it.body()!!.data!!.results as List<ComicResults>
             }
 
 

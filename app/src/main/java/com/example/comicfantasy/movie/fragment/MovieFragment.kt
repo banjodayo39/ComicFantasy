@@ -68,12 +68,12 @@ class MovieFragment : DaggerFragment() {
         getListOfTopRatedMovies()
         getListOfPopularMovies()
         getListOfNowPlayingMovies()
-        getListOfTopRatedMovies()
+        getListOfLatesMovies()
         getListOfUpcomingMovies()
     }
 
     private fun initViews() {
-       // container_layout.visibility = View.INVISIBLE
+       container_layout.visibility = View.INVISIBLE
         top_rated_movie_layout.apply {
             topRatedAdapter = MovieFragmentAdapter(listOfTopRated, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -81,29 +81,29 @@ class MovieFragment : DaggerFragment() {
             this.layoutManager = layManager
         }
 
-        popular_movie_layout.apply {
-            movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
+        now_playing_movie_layout.apply {
+            nowShowingAdapter = MovieFragmentAdapter(listOfNowPlaying, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = movieAdapter
+            this.adapter = nowShowingAdapter
             this.layoutManager = layManager
         }
-
-       now_playing_movie_layout.apply {
-           nowShowingAdapter = MovieFragmentAdapter(listOfNowPlaying, listener!!)
-           layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-           this.adapter = movieAdapter
-           this.layoutManager = layManager
-       }
 
         upcoming_movie_layout.apply {
             upcomingAdapter = MovieFragmentAdapter(listOfUpcoming, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = movieAdapter
+            this.adapter = upcomingAdapter
             this.layoutManager = layManager
         }
 
         latest_movie_layout.apply {
             latestAdapter = MovieFragmentAdapter(listOfLatest, listener!!)
+            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = latestAdapter
+            this.layoutManager = layManager
+        }
+
+        popular_movie_layout.apply {
+            movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = movieAdapter
             this.layoutManager = layManager
@@ -168,7 +168,7 @@ class MovieFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     listOfNowPlaying= it.list!!
-                    topRatedAdapter.updateList(listOfNowPlaying)
+                    nowShowingAdapter.updateList(listOfNowPlaying)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -190,7 +190,7 @@ class MovieFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     listOfUpcoming = it.list!!
-                    topRatedAdapter.updateList(listOfUpcoming)
+                    upcomingAdapter.updateList(listOfUpcoming)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -212,7 +212,7 @@ class MovieFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     listOfLatest = it.list!!
-                    topRatedAdapter.updateList(listOfLatest)
+                    latestAdapter.updateList(listOfLatest)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)

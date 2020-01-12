@@ -19,7 +19,7 @@ open class MovieRepository(
     private val apikey: String = "a0b45b8501266c1f4a40ac53d4faaedc"
     private val MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/popular"
     private val TOP_RATED_BASE_URL = "http://api.themoviedb.org/3/movie/top_rated"
-    private val UPCOMING_BASE_URL = "http://api.themoviedb.org/3/movie/upcoming"
+    private val UPCOMING_BASE_URL = "https://api.themoviedb.org/3/movie/upcoming"
     private val LATEST_BASE_URL = "http://api.themoviedb.org/3/movie/latest"
     private val NOW_PLAYING_URL = "http://api.themoviedb.org/3/movie/now_playing"
     private val VIDEO_URL = "http://api.themoviedb.org/3/movie/{id}"

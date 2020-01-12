@@ -1,5 +1,6 @@
 package com.example.comicfantasy.data.remote
 
+import com.example.comicfantasy.util.DataResp
 import com.example.comicfantasy.util.PaginatedResp
 import io.reactivex.Observable
 import retrofit2.Response
@@ -13,7 +14,7 @@ interface GamesApiService {
     @POST
     fun getTrivia(
         @Url url: String
-    ): Observable<Response<PaginatedResp<GamesResult>>>
+    ): Observable<Response<Trivia>>
 
 
 

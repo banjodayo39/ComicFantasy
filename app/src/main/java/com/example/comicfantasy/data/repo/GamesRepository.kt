@@ -35,10 +35,10 @@ open class GamesRepository(
             .subscribeOn(provider.io())
             .doOnNext {
                 if(it.isSuccessful && it.body()!=null)
-                    saveTrivia(it.body()!!.list as ArrayList<GamesResult>)
+                    saveTrivia(it.body()!!.results as ArrayList<GamesResult>)
             }
             .map {
-                it.body()!!.list!!.toList()
+                it.body()!!.results!!.toList()
             }
 
 
