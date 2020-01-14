@@ -49,5 +49,11 @@
     <string name="author">Author</string>
     <string name="_story">The epic, untold love story between Marvel\'s two pre-eminent Black super heroes -- Storm and the Black Panther -- is finally told, as only New York Times best-selling author Eric Jerome Dickey can do it! An orphaned street urchin, living by her wits on the unforgiving plains of Africa as she struggles to harness her slowly-developing mutant powers...A warrior Prince, embarking on his rite of passage as he ponders the great responsibility in his future...And a crew of ruthless mercenaries who\'ll stop at nothing to capture an elusive creature of legend -- the fabled wind-rider. What sparks occur when their paths intersect? Don\'t miss out on this story, True Believer, as it builds to a July Event that will shake the entire Marvel Universe</string>
     <string name="no_author_available">No Author Available</string>
+    <string name="notification_channel_id" translatable="false">movie_channel</string>
+    <string name="notification_channel_name" translatable="true">Movie</string>
+    <string name="notification_title">Movie of the day</string>
+    <string name="snooze">Snooze</string>
+    <string name="notification_channel_description">It is a great movie</string>
+    <string name="notification">Notification</string>
 
 </resources>

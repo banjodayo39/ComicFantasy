@@ -11,6 +11,10 @@ import com.example.comicfantasy.movie.fragment.MovieDetailActivity
 import com.example.comicfantasy.movie.fragment.MovieDetailFragment
 import com.example.comicfantasy.movie.fragment.MovieFragment
 import com.example.comicfantasy.movie.fragment.TrailerFragment
+import com.example.comicfantasy.notification.di.NotificationModule
+import com.example.comicfantasy.notification.di.NotificationViewModelModule
+import com.example.comicfantasy.notification.fragment.NotificationFragment
+import com.example.comicfantasy.notification.viewmodel.NotificationViewModel
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -61,7 +65,9 @@ abstract class HomeFragmentProvider {
         ViewModelFactoryModule::class, MovieViewModelModule::class])
     internal abstract fun contributeTrailerFragment(): TrailerFragment
 
-
+   @ContributesAndroidInjector(modules = [NotificationModule::class,
+   ViewModelFactoryModule::class, NotificationViewModelModule::class])
+   internal abstract fun contributeNotificationFragment():NotificationFragment
 
 
 }

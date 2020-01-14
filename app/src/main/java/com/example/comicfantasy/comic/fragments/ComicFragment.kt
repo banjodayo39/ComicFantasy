@@ -60,6 +60,9 @@ class ComicFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
+        if(savedInstanceState != null){
+            listener 
+        }
 
         initViews()
         //getAllComic()

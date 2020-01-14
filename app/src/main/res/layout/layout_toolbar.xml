@@ -9,7 +9,7 @@
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/market"
+        android:id="@+id/setting"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
