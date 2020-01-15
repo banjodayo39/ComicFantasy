@@ -114,3 +114,8 @@ data class TrailerResult(
     var size: Int? = null,
     var type: String? = null
 ):Parcelable
+
+data class MovieRecommenderData(
+    var movieId: String,
+    var rating: Int
+)

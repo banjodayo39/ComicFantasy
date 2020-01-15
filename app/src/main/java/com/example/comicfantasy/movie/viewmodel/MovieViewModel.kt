@@ -21,6 +21,7 @@ constructor(
     lateinit var nowPlayingMovieAdapter: MovieFragmentAdapter
     lateinit var topRatedMovieAdapter: MovieFragmentAdapter
     lateinit var latestMovieAdapter: MovieFragmentAdapter
+    lateinit var allMoviesList : HashMap<String,Int>
 
     private val allMovieUI = MutableLiveData<ListUIModel<MovieResult?>>()
     private val allTopRatedMovieUI = MutableLiveData<ListUIModel<MovieResult?>>()
