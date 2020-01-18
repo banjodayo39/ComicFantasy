@@ -16,6 +16,7 @@ import com.example.comicfantasy.adapter.MovieFragmentAdapter
 import com.example.comicfantasy.data.remote.*
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
+import com.example.comicfantasy.util.ZoomRecyclerLayout
 import com.example.comicfantasy.util.loadImageWithGlide
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
@@ -81,11 +82,15 @@ class MovieFragment : DaggerFragment() {
     private fun initViews() {
         container_layout.visibility = View.INVISIBLE
         top_rated_movie_layout.apply {
+
             topRatedAdapter =
                 MovieFragmentAdapter(listOfTopRated as ArrayList<MovieData>, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = topRatedAdapter
-            this.layoutManager = layManager
+            val linearLayoutManager = ZoomRecyclerLayout(context)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            this.layoutManager = linearLayoutManager
+
         }
 
         now_playing_movie_layout.apply {
@@ -93,7 +98,9 @@ class MovieFragment : DaggerFragment() {
                 MovieFragmentAdapter(listOfNowPlaying as ArrayList<MovieData>, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = nowShowingAdapter
-            this.layoutManager = layManager
+            val linearLayoutManager = ZoomRecyclerLayout(context)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            this.layoutManager = linearLayoutManager
         }
 
         upcoming_movie_layout.apply {
@@ -101,7 +108,9 @@ class MovieFragment : DaggerFragment() {
                 MovieFragmentAdapter(listOfUpcoming as ArrayList<MovieData>, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = upcomingAdapter
-            this.layoutManager = layManager
+            val linearLayoutManager = ZoomRecyclerLayout(context)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            this.layoutManager = linearLayoutManager
         }
 
 
@@ -109,7 +118,9 @@ class MovieFragment : DaggerFragment() {
             movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = movieAdapter
-            this.layoutManager = layManager
+            val linearLayoutManager = ZoomRecyclerLayout(context)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            this.layoutManager = linearLayoutManager
         }
     }
 

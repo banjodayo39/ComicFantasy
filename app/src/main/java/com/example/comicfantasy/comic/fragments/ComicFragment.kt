@@ -16,10 +16,13 @@ import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.home.ui.HomeActivity
 import com.example.comicfantasy.util.BaseInteractionListener
+import com.example.comicfantasy.util.ZoomRecyclerLayout
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
+import android.R
+import com.google.android.youtube.player.internal.l
 
 
 class ComicFragment : DaggerFragment() {
@@ -33,7 +36,7 @@ class ComicFragment : DaggerFragment() {
     private var homeActivity: HomeActivity? = null
     // private var listOfComics = mutableListOf<ComicResults>()
     //private var listOfComics = arrayListOf<ComicResults>()
-    private var listOfComics: List<ComicResults?> = ArrayList()
+    private var listOfComics = ArrayList<ComicResults?>()
 
     private lateinit var comicAdapter: ComicFragmentAdapterclass
     private lateinit var layManager: LinearLayoutManager
@@ -44,6 +47,7 @@ class ComicFragment : DaggerFragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             Id = it.getInt("Id")
+           listOfComics =savedInstanceState!!.getStringArrayList("savedList") as ArrayList<ComicResults?>
 
         }
     }
@@ -53,7 +57,26 @@ class ComicFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(com.example.comicfantasy.R.layout.fragment_home, container, false)
+
+    }
+
+     override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //saving data when orientation change trigger
+        //saving  data before ondestroy happens
+        //onSaveInstanceState is called before going to another activity or orientation change
+        //outState.putStringArrayList("savedList", listOfComics as java.util.ArrayList<String>)
+        //outState.putString("savetext", textname)
+        //all imnportant data saved and can be restored
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+            //this is  only called after ondestroy-> oncreate occur
+            listOfComics = savedInstanceState!!.getParcelableArrayList<ComicResults>("savedList") as ArrayList<ComicResults?>
+            //oncreate->onSaveInstanceState->ondestroy->oncreate->onRestoreInstanceState
 
     }
 
@@ -63,7 +86,6 @@ class ComicFragment : DaggerFragment() {
         if (savedInstanceState != null) {
             listener
         }
-
         initViews()
         //getAllComic()
     }
@@ -71,20 +93,17 @@ class ComicFragment : DaggerFragment() {
 
     private fun initViews() {
         getListOfComics()
-        viewModel.adapter = ComicFragmentAdapterclass(listOfComics, listener!!, this)
-        layManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        comic_list.adapter = viewModel.adapter
-        comic_list.layoutManager = layManager
-    }
+        viewModel.adapter = ComicFragmentAdapterclass(viewModel.comicList, listener!!, this)
+        comic_list.apply {
+            this.adapter = viewModel.adapter
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            this.layoutManager = layoutManager
+           /* val linearLayoutManager = ZoomRecyclerLayout(context!!)
+            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+            this.layoutManager = linearLayoutManager*/
 
-    /*  private  fun getAllComic(){
-          viewModel.getComic().observe(activity!!, Observer {
-              if (it!= null && !it.isNullOrEmpty()) {
-                   listOfComics = (it.toMutableList() as ArrayList<ComicResults>?)!!
-                  comicAdapter.notifyDataSetChanged()
-              }
-          })
-          }*/
+        }
+    }
 
     private fun getListOfComics() {
         viewModel.getComic().observe(this, Observer {
@@ -96,14 +115,9 @@ class ComicFragment : DaggerFragment() {
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    Log.e("ViewModel give out", "I am filled")
-                    // listOfComics = (it.list!!.filterNotNull().toMutableList() as ArrayList<ComicResults>?)!!
-                    listOfComics = it.list!!
-                    val text = listOfComics[0]!!.title.toString()
-                    Log.e("See the first", text)
-                    viewModel.adapter.updateList(listOfComics)
+                    viewModel.comicList = it.list!! as ArrayList<ComicResults>
+                    viewModel.adapter.updateList(it.list as ArrayList<ComicResults>)
                 }
-
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
             }
@@ -139,13 +153,7 @@ class ComicFragment : DaggerFragment() {
             })
         }
     */
-    fun showDetailFragment(comicResults: ComicResults) {
-        val fragment = ComicDetailFragment.newInstance(comicResults)
-           fragment .childFragmentManager.beginTransaction()
-            .replace(container.id, fragment, fragment.javaClass.simpleName)
-           // .addToBackStack(null)
-            .commit()
-    }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

@@ -41,6 +41,7 @@
                     android:id="@+id/videoThumbnailImageView"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
+                    android:background="@color/colorPrimaryDark"
                     />
 
                 <ProgressBar
@@ -74,11 +75,11 @@
 
     <ImageView
         android:id="@+id/movie_backdrop"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="208dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:contentDescription="@string/marvel"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"

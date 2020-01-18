@@ -29,10 +29,6 @@ class ComicFragmentAdapterclass(
     private val shapeTransform =
         ShapeAppearanceTransformation(R.style.ShapeAppearance_Owl_SmallComponent)
 
-    private var rotateAnimator: ObjectAnimator? = null
-    private var scaleAnimator: ObjectAnimator? = null
-    private var translateAnimator: ObjectAnimator? = null
-    private var lastPosition=-1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -44,7 +40,6 @@ class ComicFragmentAdapterclass(
         holder.bind(comicResults!!)
         holder.comicPosition = position
         shapeTransform
-        setFlipAnimation(holder.rootLayout!!,position)
     }
 
     override fun getItemCount(): Int = list.size
@@ -53,23 +48,7 @@ class ComicFragmentAdapterclass(
         this.list = list
         notifyDataSetChanged()
     }
-    private fun setFlipAnimation(view: ViewGroup, position: Int){
-        if (position > lastPosition) {
-            lastPosition = position
 
-            scaleAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 3.0f,1.0f)
-            translateAnimator = ObjectAnimator.ofFloat(view, "translationX", 0f, 300f,0f)
-            // rotateAnimator = ObjectAnimator.ofFloat(view, "rotation", 0.0f, 360.0f)
-
-            AnimatorSet().apply {
-                play(translateAnimator).with(scaleAnimator)
-                duration = 500
-                start()
-
-            }
-            lastPosition =position
-        }
-    }
 
     inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater?.inflate(R.layout.comic_list_item, parent, false)!!) {
@@ -97,8 +76,7 @@ class ComicFragmentAdapterclass(
                 Html.fromHtml(desc).toString()
             }
             itemView.setOnClickListener {
-               comicFragment.showDetailFragment(result)
-              //  listener.onThumbnailClicked(result)
+               listener.onThumbnailClicked(result)
             }
         }
 

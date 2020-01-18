@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.comicfantasy.data.local.ComicDAO
 import com.example.comicfantasy.data.remote.ComicApiService
 import com.example.comicfantasy.data.remote.ComicResults
-import com.example.comicfantasy.util.PaginatedResp
 import com.example.comicfantasy.util.SchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -21,37 +20,20 @@ open class ComicRepository(
     private val hash: String = "31425e31bec201f47f25948808f8f341"
 
 
-    fun getComicList(): Observable<List<ComicResults?>> =
-        Observable.concat(getComicListFromDb(), getComicListApi())
+    /*fun getComicList(): Observable<List<ComicResults?>> =
+        Observable.concat(getComicListFromDb(),getComicListApi())
             .onErrorResumeNext(Observable.empty())
 
-
-    /*   private fun saveComic(comic: DataResponse) =
-           comicDao.addComic(comic)*/
-
-    /* private fun getComicListFromDb(): Observable<DataX>? =
-         Observable.fromCallable { comicDao.getAllComics() }
-             .filter { it !=  null }
-             .subscribeOn(provider.io())
-
-     private fun getComicListFromApi(): Observable<DataX?>? =
-         apiService.fetchListOfComic(ts, apikey, hash)
-             .subscribeOn(provider.io())
-             .doOnNext {
-                 if(it.isSuccessful && it.body()!=null)
-                     saveComic(it.body()!!)
-             }
-             .map {
-                 it.body()
-             }*/
+*/
+    fun getComicList() = getComicListFromDb()
 
     private fun getComicListFromDb(): Observable<List<ComicResults>> =
         Observable.fromCallable { comicDao.getAllComics() }
             .filter { !it.isNullOrEmpty() }
             .subscribeOn(provider.io())
 
-    private fun getComicListApi(): Observable<List<ComicResults?>> =
-        apiService.fetchListOfComic(COMIC_BASE_URL,ts, apikey, hash)
+    fun getComicListApi(): Observable<List<ComicResults>> =
+        apiService.fetchListOfComic(COMIC_BASE_URL, ts, apikey, hash)
             .subscribeOn(provider.io())
             .doOnNext {
                 Log.e("data", "is not null")
@@ -60,7 +42,7 @@ open class ComicRepository(
             }
             .map {
                 it.body()!!.data!!.results as List<ComicResults>
-            }
+            }.subscribeOn(provider.io())
 
 
     /*.subscribeOn(provider.io())

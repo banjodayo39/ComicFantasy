@@ -48,7 +48,7 @@ class MovieFragmentAdapter (private var list: List<MovieData?>,
         val results: MovieData?= list[position]
         holder.bind(results!!)
         holder.moviePosition=position
-       setFlipAnimation(holder.layout!!,position)
+      // setFlipAnimation(holder.layout!!,position)
         //zoomImageFromThumb(holder.layout!!,holder.IMAGE_URL_BASE_PATH+results.backdrop_path, holder.mthumbnail!!,position)
 
     }

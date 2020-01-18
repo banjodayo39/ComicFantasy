@@ -29,7 +29,7 @@ public fun loadCircularImage(context: Context, imageView: ImageView, imageUrl: S
         Glide.with(context)
             .load(imageUrl)
             .placeholder(placeHolder)
-            .apply(RequestOptions.circleCropTransform())
+            .apply(RequestOptions.circleCropTransform().circleCrop())
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(imageView)
     } else {
