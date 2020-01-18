@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screenRoot"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:alpha="0.8"
@@ -11,10 +12,10 @@
 
     <ImageView
         android:id="@+id/movie_thumbnail"
-        android:layout_width="160dp"
+        android:layout_width="300dp"
         android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
+        android:adjustViewBounds="false"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/spyderman" />

@@ -40,7 +40,8 @@
                 <ImageView
                     android:id="@+id/videoThumbnailImageView"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" />
+                    android:layout_height="fill_parent"
+                    />
 
                 <ProgressBar
                     android:id="@+id/progress"
@@ -73,12 +74,12 @@
 
     <ImageView
         android:id="@+id/movie_backdrop"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="208dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/marvel"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appbar_layout"

@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
-import com.example.comicfantasy.data.remote.MovieResult
+import com.example.comicfantasy.data.remote.MovieData
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.loadImageWithGlide
@@ -19,15 +19,10 @@ import dagger.android.support.DaggerFragment
 
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 import javax.inject.Inject
-import android.content.ContentValues.TAG
 import android.content.Intent
 import com.example.comicfantasy.BuildConfig
 import com.example.comicfantasy.R
-import com.google.android.youtube.player.*
-import com.google.android.youtube.player.YouTubeThumbnailLoader
-import com.google.android.youtube.player.YouTubeThumbnailView
-import kotlinx.android.synthetic.main.activity_trailer.*
-import kotlinx.android.synthetic.main.content_movie_detail.view.*
+import com.example.comicfantasy.util.loadCircularImage
 
 class MovieDetailFragment : DaggerFragment() {
 
@@ -35,7 +30,7 @@ class MovieDetailFragment : DaggerFragment() {
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
     lateinit var viewModel: MovieViewModel
-    private var results: MovieResult? = null
+    private var results: MovieData? = null
     private var videoId = 0
     private var videoKey = arrayOf("")
     private val imageBaseUrl = "http://image.tmdb.org/t/p/w500//"
@@ -80,7 +75,7 @@ class MovieDetailFragment : DaggerFragment() {
 
     private fun displayViews() {
         videoThumbnailImageView?.loadImageWithGlide(imageBaseUrl+results?.poster_path)
-        movie_backdrop?.loadImageWithGlide(imageBaseUrl + results?.backdrop_path)
+        loadCircularImage(context!!,movie_backdrop,imageBaseUrl + results?.backdrop_path,R.drawable.button_shape)
         movie_detail_title.text = results?.title
         overviewTextView.text = results?.overview
         rating_text.text = results?.vote_average.toString()
@@ -88,47 +83,6 @@ class MovieDetailFragment : DaggerFragment() {
         rating_text.text = results?.vote_average.toString()
     }
 
-    private fun videoThumbnailInitializer(view: View) {
-        val youTubePlayerView =
-            view.findViewById<YouTubeThumbnailView>(R.id.videoThumbnailImageView)
-
-        youTubePlayerView.initialize(myDeveloperKey,
-            object : YouTubeThumbnailView.OnInitializedListener {
-                override fun onInitializationSuccess(
-                    youTubeThumbnailView: YouTubeThumbnailView?,
-                    youTubeThumbnailLoader: YouTubeThumbnailLoader?
-                ) {
-
-                   youTubeThumbnailLoader!!.setVideo(videoKey[0])
-                  //  youTubeThumbnailLoader!!.setPlaylist("V4qmd7DE5tk")
-                   youTubeThumbnailLoader.setOnThumbnailLoadedListener(
-
-                      object : YouTubeThumbnailLoader.OnThumbnailLoadedListener {
-
-                       override fun onThumbnailLoaded(
-                            youTubeThumbnailView: YouTubeThumbnailView,
-                            s: String
-                        ) = youTubeThumbnailLoader.release()
-
-                        override fun onThumbnailError(
-                            youTubeThumbnailView: YouTubeThumbnailView,
-                            errorReason: YouTubeThumbnailLoader.ErrorReason
-                        ) {
-                            //print or show error when thumbnail load failed
-                            Log.e(TAG, "Youtube Thumbnail Error")
-                        }
-                    })
-
-                }
-
-                override fun onInitializationFailure(
-                    p0: YouTubeThumbnailView?,
-                    p1: YouTubeInitializationResult?
-                ) {
-                    Log.e(TAG, "Youtube Initialization Failure")
-                }
-            })
-    }
 
     private fun getTrailerForMovies() {
         videoId = results?.id!!
@@ -163,10 +117,10 @@ class MovieDetailFragment : DaggerFragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(movieResult: MovieResult) =
+        fun newInstance(movieData: MovieData) =
             MovieDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("results", movieResult)
+                    putParcelable("results", movieData)
                 }
             }
     }

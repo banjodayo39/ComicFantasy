@@ -42,7 +42,7 @@ open class GamesRepository(
             }
 
 
-    fun saveTrivia(trivia: List<GamesResult>) {
+    private fun saveTrivia(trivia: List<GamesResult>) {
         Completable.fromAction {
             gamesDao.addtrivia(trivia)
         }.subscribeOn(provider.io())

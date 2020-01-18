@@ -12,17 +12,26 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Build.VERSION_CODES.N
 import android.os.Bundle
+import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.example.comicfantasy.R
+import com.example.comicfantasy.data.remote.MovieData
+import com.example.comicfantasy.data.remote.MovieMap
 import com.example.comicfantasy.home.ui.HomeActivity
+import com.example.comicfantasy.home.ui.Recommender
+import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.notification.viewmodel.NotificationViewModel
+import com.example.comicfantasy.util.Constants
+import com.example.comicfantasy.util.ModelUtils
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_notification.*
 import javax.inject.Inject
@@ -33,16 +42,18 @@ class NotificationFragment : DaggerFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
-    lateinit var viewModel: NotificationViewModel
+    lateinit var viewModel: MovieViewModel
     lateinit var notificationChannel: NotificationChannel
     lateinit var notificationManager: NotificationManager
     lateinit var builder: Notification.Builder
     private val REQUEST_CODE = 0
+    private var movieMap = ArrayList<MovieData>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+           // movieMap = it.getParcelableArrayList<MovieMap>(Constants.movieMap)!!
         }
 
     }
@@ -57,30 +68,54 @@ class NotificationFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, factory).get(NotificationViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
+        viewModel.getAllMovies().observe(this, Observer {
+            if(it != null){
+                movieMap = it
+            }
+        })
 
         notificationManager = getSystemService(
             context!!,
             NotificationManager::class.java
         ) as NotificationManager
 
-        switch_button.setOnCheckedChangeListener { buttonView, isChecked ->
 
+        switch_button.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                viewModel.isAlarmOn
+                movieMap.forEach {
+                    Log.e("movieMap", it.title!!)
+                }
+                /* viewModel.isAlarmOn
                 viewModel.setTimeSelected(1)
-                viewModel.setAlarm(true)
+                viewModel.setAlarm(true)*/
                 Toast.makeText(activity!!, "Notification Subscribed", Toast.LENGTH_SHORT).show()
-                createChannel(
-                    getString(R.string.notification_channel_id),
-                    getString(R.string.notification_channel_name)
-                )
+                if (movieMap.isNotEmpty()){
+                    createChannel(
+                        movieMap[0].title!!,
+                        //getString(R.string.notification_channel_id),
+                        getString(R.string.notification_channel_name)
+                    )
+            } else {
+                    createChannel(
+                getString(R.string.notification_channel_id),
+                getString(R.string.notification_channel_name)
+                    )
+            }
+
 
             } else {
-                viewModel.setAlarm(false)
+                //viewModel.setAlarm(false)
                 Toast.makeText(activity!!, "Notification Unsubscribed", Toast.LENGTH_SHORT).show()
             }
         }
+
+    }
+
+    private fun recommender(){
+        val recommender = Recommender(ModelUtils.assetFilePath(context,"recommender.pt"))
+
+        // val pred = recommender.predict()
 
     }
 
@@ -171,6 +206,7 @@ class NotificationFragment : DaggerFragment() {
         fun newInstance() =
             NotificationFragment().apply {
                 arguments = Bundle().apply {
+                   // if(movieMap != null) putParcelableArrayList(Constants.movieMap,movieMap)
                 }
             }
     }

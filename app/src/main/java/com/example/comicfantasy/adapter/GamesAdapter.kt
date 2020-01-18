@@ -4,20 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.comicfantasy.R
 import com.example.comicfantasy.data.remote.GamesResult
-import com.example.comicfantasy.data.remote.MovieResult
-import com.example.comicfantasy.data.remote.Trivia
 import com.example.comicfantasy.games.fragments.GamesFragment
-import com.example.comicfantasy.movie.fragment.MovieFragment
-import com.example.comicfantasy.util.loadImageWithGlide
-import com.google.android.youtube.player.internal.t
-import com.google.android.youtube.player.internal.v
-import kotlinx.android.synthetic.main.games_list_item.*
 import java.util.*
 
 class GamesAdapter(private val list: List<GamesResult>,

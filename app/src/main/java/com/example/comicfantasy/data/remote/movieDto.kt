@@ -6,102 +6,131 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import android.graphics.Movie
-import com.google.gson.annotations.Expose
 
 
 @Parcelize
 data class MovieDataResponse(
-
+    var id: Int = 0,
     var page: Int = 0,
     @SerializedName("results")
-    var results: List<MovieResult?>? = null,
-    var title: String ="",
+    var results: List<MovieData?>? = null,
+    var title: String = "",
     var total_pages: Int? = null,
     var total_results: Int? = null
     //var trailer: Trailer?=null
-):Parcelable
+) : Parcelable
 
-
-data class Data(
+@Parcelize
+open class MovieData(
+    @SerializedName("id")
+    var id: Int = 0,
+    @SerializedName("adult")
     var adult: Boolean? = null,
+    @SerializedName("backdrop_path")
     var backdrop_path: String? = null,
-    var belongs_to_collection: Any? = null,
-    var budget: Int? = null,
-    var genres: List<Genre?>? = null,
-    var homepage: String? = null,
-    var id: Int? = null,
-    var imdb_id: String? = null,
+    @SerializedName("genre_ids")
+    var genre_ids: List<Int?>? = null,
+    @SerializedName("original_language")
     var original_language: String? = null,
     var original_title: String? = null,
     var overview: String? = null,
-    var popularity: Double? = null,
+    //var popularity: Double? = null,
+    @SerializedName("poster_path")
     var poster_path: String? = null,
-    var production_companies: List<ProductionCompany?>? = null,
-    var production_countries: List<ProductionCountry?>? = null,
+    @SerializedName("release_date")
     var release_date: String? = null,
-    var revenue: Int? = null,
-    var runtime: Int? = null,
-    var spoken_languages: List<SpokenLanguage?>? = null,
-    var status: String? = null,
-    var tagline: String? = null,
+    @SerializedName("title")
     var title: String? = null,
+    @SerializedName("video")
     var video: Boolean? = null,
+    @SerializedName("vote_average")
     var vote_average: Double? = null,
     var vote_count: Int? = null
-)
+) : Parcelable
+
+@Parcelize
+@Entity(tableName = "popular")
+data class PopularMovie(
+    @PrimaryKey
+    @NonNull
+    var movieId: Int = 0,
+    var popularity: Double? = null
+
+) : MovieData(), Parcelable
+
+@Parcelize
+@Entity(tableName = "topRated")
+data class TopRatedMovie(
+    @PrimaryKey
+    @NonNull
+    var movieId: Int = 0,
+    var popularity: Double? = null
+
+) : MovieData(), Parcelable
+
+@Parcelize
+@Entity(tableName = "upcoming")
+data class UpComing(
+    @PrimaryKey
+    @NonNull
+    var movieId: Int = 0,
+    var popularity: Double? = null
+
+) : MovieData(), Parcelable
+
+
+@Parcelize
+@Entity(tableName = "now_showing")
+data class NowShowing(
+    @PrimaryKey
+    @NonNull
+    var movieId: Int = 0,
+    var popularity: Double? = null
+) : MovieData(), Parcelable
+
+@Parcelize
+@Entity(tableName = "latest")
+data class Latest(
+    @PrimaryKey
+    @NonNull
+    var movieId: Int = 0,
+    var popularity: Double? = null,
+    @SerializedName("id")
+    var id: Int = 0,
+    @SerializedName("adult")
+    var adult: Boolean? = null,
+    @SerializedName("backdrop_path")
+    var backdrop_path: String? = null,
+    @SerializedName("genre_ids")
+    var genre_ids: List<Int?>? = null,
+    @SerializedName("original_language")
+    var original_language: String? = null,
+    var original_title: String? = null,
+    var overview: String? = null,
+//var popularity: Double? = null,
+    @SerializedName("poster_path")
+    var poster_path: String? = null,
+    @SerializedName("release_date")
+    var release_date: String? = null,
+    @SerializedName("title")
+    var title: String? = null,
+    @SerializedName("video")
+    var video: Boolean? = null,
+    @SerializedName("vote_average")
+    var vote_average: Double? = null,
+    var vote_count: Int? = null
+) :  Parcelable
 
 data class Genre(
     var id: Int? = null,
     var name: String? = null
 )
 
-data class ProductionCompany(
-    var id: Int? = null,
-    var logo_path: String? = null,
-    var name: String? = null,
-    var origin_country: String? = null
-)
-
-data class ProductionCountry(
-    var iso_3166_1: String? = null,
-    var name: String? = null
-)
-
-data class SpokenLanguage(
-    var iso_639_1: String? = null,
-    var name: String? = null
-)
-@Parcelize
-@Entity(tableName = "movieEntity")
-data class MovieResult(
-    @PrimaryKey
-    @NonNull
-    var id: Int = 0,
-    var adult: Boolean? = null,
-    var backdrop_path: String? = null,
-    var genre_ids: List<Int?>? = null,
-    var original_language: String? = null,
-    var original_title: String? = null,
-    var overview: String? = null,
-    var popularity: Double? = null,
-    var poster_path: String? = null,
-    var release_date: String? = null,
-    var title: String? = null,
-    var video: Boolean? = null,
-    var vote_average: Double? = null,
-    var vote_count: Int? = null
-
-
-):Parcelable
-
-
-
 @Parcelize
 data class Trailer(
-    var id: Int? = null,
+    var movieId: Int = 0,
     var results: List<TrailerResult?>? = null
-):Parcelable
+) : MovieData(), Parcelable
 
 @Parcelize
 data class TrailerResult(
@@ -113,7 +142,7 @@ data class TrailerResult(
     var site: String? = null,
     var size: Int? = null,
     var type: String? = null
-):Parcelable
+) : Parcelable
 
 data class MovieRecommenderData(
     var movieId: String,

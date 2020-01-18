@@ -52,14 +52,14 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun fromMovieResults(value: List<MovieResult>): String {
+        fun fromMovieResults(value: List<MovieData>): String {
             return gson.toJson(value)
         }
 
         @TypeConverter
         @JvmStatic
-        fun toMovieResults(value: String): List<MovieResult> {
-            return gson.fromJson(value, Array<MovieResult>::class.java).asList()
+        fun toMovieResults(value: String): List<MovieData> {
+            return gson.fromJson(value, Array<MovieData>::class.java).asList()
         }
 
 
@@ -174,13 +174,13 @@ class Converter {
 
         @TypeConverter
         @JvmStatic
-        fun toMovieResult(movieResult:String): MovieResult{
-            return gson.fromJson(movieResult,MovieResult::class.java)
+        fun toMovieResult(movieResult:String): MovieData {
+            return gson.fromJson(movieResult,MovieData::class.java)
         }
 
         @TypeConverter
         @JvmStatic
-        fun fromMovieResult(value: MovieResult): String {
+        fun fromMovieResult(value: MovieData): String {
             return gson.toJson(value)
         }
 

@@ -40,7 +40,10 @@ class StoryTabFragment : DaggerFragment() {
     }
 
     private fun displaySetUp() {
-        story_text_tv.text= HtmlCompat.fromHtml(comicResults?.description!!,HtmlCompat.FROM_HTML_MODE_LEGACY)
+        if ( comicResults?.description != null) {
+            story_text_tv.text =
+                HtmlCompat.fromHtml(comicResults?.description!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
     }
 
 

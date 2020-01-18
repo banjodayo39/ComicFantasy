@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 import com.example.comicfantasy.R
-import com.example.comicfantasy.data.remote.MovieResult
+import com.example.comicfantasy.data.remote.MovieData
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
 import com.example.comicfantasy.util.showToast
@@ -31,7 +30,7 @@ class TrailerFragment : DaggerFragment(),YouTubePlayer.OnInitializedListener {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
-    private var results: MovieResult?=null
+    private var results: MovieData?=null
     lateinit var viewModel: MovieViewModel
     private var videoId = 0
     private var videoKey = arrayOf("")
@@ -134,10 +133,10 @@ class TrailerFragment : DaggerFragment(),YouTubePlayer.OnInitializedListener {
     companion object {
 
         @JvmStatic
-        fun newInstance(movieResult: MovieResult) =
+        fun newInstance(movieData: MovieData) =
             TrailerFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable("results",movieResult)
+                    putParcelable("results",movieData)
 
                 }
             }

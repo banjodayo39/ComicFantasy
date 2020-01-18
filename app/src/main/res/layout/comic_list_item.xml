@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/layout_root"
     android:padding="8dp">
 
 
@@ -17,10 +18,10 @@
         <ImageView
             android:id="@+id/comic_thumbnail"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_marginStart="8dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/spyderman" />

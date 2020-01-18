@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.materialstudies.owl.util
+package com.example.comicfantasy.util
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -48,7 +48,7 @@ class ShapeAppearanceTransformation(
     override fun transform(
         context: Context,
         resource: Resource<Bitmap>,
-        outWidth: Int,
+        outWidth: Int ,
         outHeight: Int
     ): Resource<Bitmap> {
         val model = shapeAppearanceModel ?: ShapeAppearanceModel.builder(
@@ -60,7 +60,7 @@ class ShapeAppearanceTransformation(
         val bitmap = createBitmap(outWidth, outHeight)
         bitmap.applyCanvas {
             val path = Path().apply {
-                val bounds = RectF(0f, 0f, outWidth.toFloat(), outHeight.toFloat())
+                val bounds = RectF(0f, 0f, outWidth.toFloat()*3, outHeight.toFloat()*3)
                 ShapeAppearancePathProvider().calculatePath(model, 1f, bounds, this)
             }
             val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {

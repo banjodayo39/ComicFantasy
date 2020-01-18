@@ -16,8 +16,8 @@ import javax.inject.Singleton
 @Module
 class RetrofitModule {
 
-    private val BASE_URL = "http://gateway.marvel.com"
-
+    //private val BASE_URL = "http://gateway.marvel.com"
+    private val BASE_URL = "https://api.themoviedb.org"
 
     @Provides
     @Singleton

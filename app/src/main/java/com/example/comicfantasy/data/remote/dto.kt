@@ -34,6 +34,12 @@ data class ResultsResp(
     var results: ArrayList<ComicResults>? = null
 )
 
+@Parcelize
+data class MovieMap(
+    var movieTitle: String,
+    var movieRating : Float
+):Parcelable
+
 
 @Parcelize
 @Entity(tableName = "comicEntity")

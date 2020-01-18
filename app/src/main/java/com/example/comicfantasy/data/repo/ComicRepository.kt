@@ -15,7 +15,7 @@ open class ComicRepository(
     private val provider: SchedulerProvider
 ) {
 
-
+    private val COMIC_BASE_URL = "http://gateway.marvel.com/v1/public/comics?"
     private val ts: String = "1"
     private val apikey: String = "610dae96da266869750c65574438abb0"
     private val hash: String = "31425e31bec201f47f25948808f8f341"
@@ -45,13 +45,13 @@ open class ComicRepository(
                  it.body()
              }*/
 
-    fun getComicListFromDb(): Observable<List<ComicResults>> =
+    private fun getComicListFromDb(): Observable<List<ComicResults>> =
         Observable.fromCallable { comicDao.getAllComics() }
             .filter { !it.isNullOrEmpty() }
             .subscribeOn(provider.io())
 
-    fun getComicListApi(): Observable<List<ComicResults?>> =
-        apiService.fetchListOfComic(ts, apikey, hash)
+    private fun getComicListApi(): Observable<List<ComicResults?>> =
+        apiService.fetchListOfComic(COMIC_BASE_URL,ts, apikey, hash)
             .subscribeOn(provider.io())
             .doOnNext {
                 Log.e("data", "is not null")

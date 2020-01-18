@@ -12,6 +12,10 @@ class DataResp<T> {
     @Expose
     var data: T? = null
 
+    @SerializedName("results")
+    @Expose
+    var results: T? = null
+
     @SerializedName("error")
     @Expose
     var error: Error? = null

@@ -13,9 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.MovieFragmentAdapter
-import com.example.comicfantasy.data.remote.MovieResult
+import com.example.comicfantasy.data.remote.*
 import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.util.BaseInteractionListener
+import com.example.comicfantasy.util.loadImageWithGlide
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_movie.*
@@ -26,11 +27,11 @@ class MovieFragment : DaggerFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private var listener: OnFragmentInteractionListener? = null
-    private var listOfMovies: List<MovieResult?> = ArrayList()
-    private var listOfTopRated: List<MovieResult?> = ArrayList()
-    private var listOfNowPlaying: List<MovieResult?> = ArrayList()
-    private var listOfUpcoming: List<MovieResult?> = ArrayList()
-    private var listOfLatest: List<MovieResult?> = ArrayList()
+    private var listOfMovies: List<PopularMovie?> = ArrayList()
+    private var listOfTopRated: List<TopRatedMovie?> = ArrayList()
+    private var listOfNowPlaying: List<NowShowing?> = ArrayList()
+    private var listOfUpcoming: List<UpComing?> = ArrayList()
+    //private var listOfLatest: List<Latest?> = ArrayList()
 
     lateinit var viewModel: MovieViewModel
     private lateinit var movieAdapter: MovieFragmentAdapter
@@ -39,6 +40,7 @@ class MovieFragment : DaggerFragment() {
     private lateinit var nowShowingAdapter: MovieFragmentAdapter
     private lateinit var latestAdapter: MovieFragmentAdapter
     private lateinit var layManager: LinearLayoutManager
+    private val movieMap = ArrayList<MovieData>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,39 +70,40 @@ class MovieFragment : DaggerFragment() {
         getListOfTopRatedMovies()
         getListOfPopularMovies()
         getListOfNowPlayingMovies()
-        getListOfLatesMovies()
         getListOfUpcomingMovies()
+        getAllMovies()
+    }
+
+    private fun getAllMovies() {
+        viewModel.setAllMovies(movieMap)
     }
 
     private fun initViews() {
-       container_layout.visibility = View.INVISIBLE
+        container_layout.visibility = View.INVISIBLE
         top_rated_movie_layout.apply {
-            topRatedAdapter = MovieFragmentAdapter(listOfTopRated, listener!!)
+            topRatedAdapter =
+                MovieFragmentAdapter(listOfTopRated as ArrayList<MovieData>, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = topRatedAdapter
             this.layoutManager = layManager
         }
 
         now_playing_movie_layout.apply {
-            nowShowingAdapter = MovieFragmentAdapter(listOfNowPlaying, listener!!)
+            nowShowingAdapter =
+                MovieFragmentAdapter(listOfNowPlaying as ArrayList<MovieData>, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = nowShowingAdapter
             this.layoutManager = layManager
         }
 
         upcoming_movie_layout.apply {
-            upcomingAdapter = MovieFragmentAdapter(listOfUpcoming, listener!!)
+            upcomingAdapter =
+                MovieFragmentAdapter(listOfUpcoming as ArrayList<MovieData>, listener!!)
             layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             this.adapter = upcomingAdapter
             this.layoutManager = layManager
         }
 
-        latest_movie_layout.apply {
-            latestAdapter = MovieFragmentAdapter(listOfLatest, listener!!)
-            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = latestAdapter
-            this.layoutManager = layManager
-        }
 
         popular_movie_layout.apply {
             movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
@@ -114,17 +117,18 @@ class MovieFragment : DaggerFragment() {
     private fun getListOfPopularMovies() {
         viewModel.getPopularMovie().observe(this, Observer {
             if (it.contentIfNotUsed != null) {
-               if (it.isLoading) {
-                   listener?.onShowProgress()
-               }
-                else {
-                   listener?.onHideProgress()
-                   listener!!.onHideProgress()
-                   container_layout.visibility = View.VISIBLE
-               }
+                if (it.isLoading) {
+                    listener?.onShowProgress()
+                } else {
+                    listener?.onHideProgress()
+                    listener!!.onHideProgress()
+                    container_layout.visibility = View.VISIBLE
+                }
                 if (!it.list.isNullOrEmpty()) {
-                    listOfMovies = it.list!!
+                    popular_tv.visibility = View.VISIBLE
+                    listOfMovies = it.list!! as List<PopularMovie?>
                     movieAdapter.updateList(listOfMovies)
+                    movieMap.addAll(it.list as ArrayList<MovieData>)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -146,13 +150,15 @@ class MovieFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     listOfTopRated = it.list!!
-                    topRatedAdapter.updateList(listOfTopRated)
+                    top_rated_tv.visibility = View.VISIBLE
+                    topRatedAdapter.updateList(listOfTopRated as ArrayList<MovieData>)
+                    movieMap.addAll(it.list as ArrayList<MovieData>)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
-
             }
         })
+
     }
 
     private fun getListOfNowPlayingMovies() {
@@ -167,8 +173,10 @@ class MovieFragment : DaggerFragment() {
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    listOfNowPlaying= it.list!!
-                    nowShowingAdapter.updateList(listOfNowPlaying)
+                    listOfNowPlaying = it.list!!
+                    now_playing_tv.visibility = View.VISIBLE
+                    nowShowingAdapter.updateList(listOfNowPlaying as ArrayList<MovieData>)
+                    movieMap.addAll(it.list as ArrayList<MovieData>)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -190,7 +198,9 @@ class MovieFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     listOfUpcoming = it.list!!
-                    upcomingAdapter.updateList(listOfUpcoming)
+                    up_coming_tv.visibility = View.VISIBLE
+                    upcomingAdapter.updateList(listOfUpcoming as ArrayList<MovieData>)
+                    movieMap.addAll(it.list as ArrayList<MovieData>)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -199,8 +209,9 @@ class MovieFragment : DaggerFragment() {
         })
     }
 
+/*
     private fun getListOfLatesMovies() {
-        Log.e("MovieFragment", "See")
+        Log.e("latest", "See")
         viewModel.getLatestMovie().observe(this, Observer {
             if (it.contentIfNotUsed != null) {
                 Log.e(" Not MovieFragment", it.toString())
@@ -210,16 +221,17 @@ class MovieFragment : DaggerFragment() {
                 else
                     listener?.onHideProgress()
 
-                if (!it.list.isNullOrEmpty()) {
-                    listOfLatest = it.list!!
-                    latestAdapter.updateList(listOfLatest)
+                if (it.data != null) {
+                    latest_tv.visibility = View.VISIBLE
+                    latest_movie_layout.loadImageWithGlide(it.data!!.poster_path)
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
-
             }
         })
+
     }
+*/
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -237,7 +249,7 @@ class MovieFragment : DaggerFragment() {
 
 
     interface OnFragmentInteractionListener : BaseInteractionListener {
-        fun onMovieThumbnailClicked(results: MovieResult)
+        fun onMovieThumbnailClicked(results: MovieData)
 
     }
 

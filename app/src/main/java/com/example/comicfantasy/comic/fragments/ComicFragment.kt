@@ -60,8 +60,8 @@ class ComicFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(ComicFragmentViewModel::class.java)
-        if(savedInstanceState != null){
-            listener 
+        if (savedInstanceState != null) {
+            listener
         }
 
         initViews()
@@ -69,11 +69,10 @@ class ComicFragment : DaggerFragment() {
     }
 
 
-
     private fun initViews() {
         getListOfComics()
-        viewModel.adapter = ComicFragmentAdapterclass(listOfComics, listener!!)
-        layManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        viewModel.adapter = ComicFragmentAdapterclass(listOfComics, listener!!, this)
+        layManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         comic_list.adapter = viewModel.adapter
         comic_list.layoutManager = layManager
     }
@@ -115,31 +114,38 @@ class ComicFragment : DaggerFragment() {
         super.onResume()
         initViews()
     }
-/*
 
-    private fun getAllCommunities(){
-        viewModel.getUserCommunities().observe(this, Observer {
-            if(it.contentIfNotUsed != null) {
-                if (it.isLoading)
-                    listener?.onShowProgress()
-                else
-                    listener?.onHideProgress()
+    /*
 
-                if (!it.list.isNullOrEmpty()) {
-                    communities = it.list!!
-                    communityNames.clear()
-                    communityNames.add("All")
-                    communityNames.addAll(it.list!!.map { community -> community.communityName!! })
-                    populateCommunitySpinner(communityNames)
+        private fun getAllCommunities(){
+            viewModel.getUserCommunities().observe(this, Observer {
+                if(it.contentIfNotUsed != null) {
+                    if (it.isLoading)
+                        listener?.onShowProgress()
+                    else
+                        listener?.onHideProgress()
+
+                    if (!it.list.isNullOrEmpty()) {
+                        communities = it.list!!
+                        communityNames.clear()
+                        communityNames.add("All")
+                        communityNames.addAll(it.list!!.map { community -> community.communityName!! })
+                        populateCommunitySpinner(communityNames)
+                    }
+
+                    if (!it.error.isNullOrEmpty())
+                        showToast(context!!, it.error!!)
                 }
-
-                if (!it.error.isNullOrEmpty())
-                    showToast(context!!, it.error!!)
-            }
-        })
+            })
+        }
+    */
+    fun showDetailFragment(comicResults: ComicResults) {
+        val fragment = ComicDetailFragment.newInstance(comicResults)
+           fragment .childFragmentManager.beginTransaction()
+            .replace(container.id, fragment, fragment.javaClass.simpleName)
+           // .addToBackStack(null)
+            .commit()
     }
-*/
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

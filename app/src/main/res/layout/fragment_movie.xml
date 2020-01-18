@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:alpha="0.8"
     android:background="@color/colorPrimaryDark"
     tools:context=".movie.fragment.MovieFragment">
@@ -16,14 +17,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="8dp"
+            android:padding="16dp"
             android:weightSum="1.0">
 
             <TextView
+                android:id="@+id/top_rated_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/top_rated"
+                android:visibility="invisible"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_rated_movie_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/movie_list_item" />
+
+            <TextView
+                android:id="@+id/popular_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@string/popular"
+                android:visibility="invisible"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -36,41 +56,13 @@
                 tools:listitem="@layout/movie_list_item" />
 
             <TextView
+                android:id="@+id/now_playing_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/top_rated"
+                android:layout_marginTop="16dp"
                 android:textSize="18sp"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/top_rated_movie_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/movie_list_item" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:textSize="18sp"
+                android:visibility="invisible"
                 android:text="@string/now_playing"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/now_playing_movie_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/movie_list_item" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/upcoming"
-                android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -81,19 +73,41 @@
                 tools:listitem="@layout/movie_list_item" />
 
             <TextView
+                android:id="@+id/up_coming_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="@string/latest"
+                android:layout_marginTop="16dp"
+                android:text="@string/upcoming"
+                android:visibility="invisible"
                 android:textSize="18sp"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/latest_movie_layout"
+                android:id="@+id/now_playing_movie_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/movie_list_item" />
+
+
+            <TextView
+                android:id="@+id/latest_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/latest"
+                android:visibility="invisible"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/latest_movie_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/spyderman"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
