@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.comicfantasy.R
 import com.example.comicfantasy.adapter.ComicFragmentAdapterclass
 import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.data.remote.ComicResults
