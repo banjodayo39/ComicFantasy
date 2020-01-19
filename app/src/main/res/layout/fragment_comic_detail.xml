@@ -7,7 +7,7 @@
     android:alpha="0.8"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
-    tools:context=".comic.fragments.ComicDetailFragment">
+    tools:context=".ui.fragments.ComicDetailFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"

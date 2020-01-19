@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="8dp"
-    tools:context=".comic.fragments.StoryTabFragment">
+    tools:context=".ui.fragments.StoryTabFragment">
 
     <TextView
         android:id="@+id/author"

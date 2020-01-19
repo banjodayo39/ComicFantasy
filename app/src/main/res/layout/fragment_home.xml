@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".comic.fragments.ComicFragment"
+    tools:context=".ui.fragments.ComicFragment"
     android:background="@color/colorPrimaryDark"
     android:alpha="0.8">
 

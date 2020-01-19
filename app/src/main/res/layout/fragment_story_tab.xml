@@ -8,7 +8,7 @@
     android:layout_marginTop="8dp"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".comic.fragments.StoryTabFragment">
+    tools:context=".ui.fragments.StoryTabFragment">
 
     <TextView
         android:id="@+id/story_tv"
