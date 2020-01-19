@@ -22,4 +22,4 @@ The trivia is a quiz that randomly generate question from different categories s
 
 ## Screenshot
 
-![GitHub Logo](/images/logo.png)
+![](/Screenshot_20200117-211102_ComicFantasy_pixel_quite_black_portrait.pngimages/logo.png)
