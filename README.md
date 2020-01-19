@@ -19,3 +19,4 @@ The trivia is a quiz that randomly generate question from different categories s
 - Reactive Extension RxJava
 
 ## Screenshot
+![popular-movies-main](screenshot/i.png)
