@@ -9,17 +9,13 @@ The trivia is a quiz that randomly generate question from different categories s
 
 ## Libraries 
 
-* Network
-  *Retrofit for REST api communication
-* Image Loading
-  *Glide
- *Reactive Extensions
-   *RxJava
-*Android Architecture Components
-  *Room
-  *ViewModel
-  *LiveData
+- [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/) 
+    * [Room](https://developer.android.com/topic/libraries/architecture/room)
+    * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+    * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
+- Dependency Injection: Dagger
+- Retrofit for REST api communication
+- Glide for image loading
+- Reactive Extension RxJava
 
 ## Screenshot
-
-![](/Screenshot_20200117-211102_ComicFantasy_pixel_quite_black_portrait.pngimages/logo.png)
