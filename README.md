@@ -20,3 +20,6 @@ The trivia is a quiz that randomly generate question from different categories s
   *ViewModel
   *LiveData
 
+## Screenshot
+
+![GitHub Logo](/images/logo.png)
