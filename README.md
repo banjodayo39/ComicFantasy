@@ -20,4 +20,4 @@ The trivia is a quiz that randomly generate question from different categories s
 
 ## Screenshot
 ![movies](screenshot/i.png)![movies](screenshot/ii.png)![movies](screenshot/iii.png)
-![movies](screenshot/iv.png)![movies](screenshot/iv.png)![movies](screenshot/v.png)![movies](screenshot/vi.png)
+![movies](screenshot/iv.png)![movies](screenshot/v.png)![movies](screenshot/vi.png)
