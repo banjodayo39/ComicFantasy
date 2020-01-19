@@ -26,6 +26,11 @@ constructor(
     lateinit var latestMovieAdapter: MovieFragmentAdapter
     lateinit var allMoviesListLiveData: MutableLiveData<HashMap<String,Double>>
 
+    var listOfPopularMovie = listOf<PopularMovie>()
+    var listOfNowShowing = listOf<NowShowing>()
+    var listOfTopRatedMovie = listOf<TopRatedMovie>()
+    var listOfUpComing = listOf<UpComing>()
+
     private val allMovieUI = MutableLiveData<ListUIModel<PopularMovie?>>()
     private val allTopRatedMovieUI = MutableLiveData<ListUIModel<TopRatedMovie?>>()
     private val allNowPlayingMovieUI = MutableLiveData<ListUIModel<NowShowing?>>()
@@ -96,7 +101,7 @@ constructor(
                 if (it1 != null) {
                     allTopRatedMovieUI.postValue(ListUIModel(list = it1,isLoading = false))
                      it1.map {
-                         repo.saveTopRatedMovie(it!!)
+                         repo.saveTopRatedMovie(it1 as List<TopRatedMovie>)
                      }
                 } else
                     allTopRatedMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))

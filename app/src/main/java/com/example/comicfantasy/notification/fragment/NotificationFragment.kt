@@ -69,26 +69,33 @@ class NotificationFragment : DaggerFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
-        viewModel.getAllMovies().observe(this, Observer {
+        /*viewModel.getAllMovies().observe(this, Observer {
             if(it != null){
                 movieMap = it
             }
         })
-
+*/
         notificationManager = getSystemService(
             context!!,
             NotificationManager::class.java
         ) as NotificationManager
 
-
+        createChannel(
+            getString(R.string.notification_channel_id),
+            getString(R.string.notification_channel_name)
+        )
         switch_button.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                movieMap.forEach {
+               /* movieMap.forEach {
                     Log.e("movieMap", it.title!!)
                 }
-                /* viewModel.isAlarmOn
+                 viewModel.isAlarmOn
                 viewModel.setTimeSelected(1)
                 viewModel.setAlarm(true)*/
+                createChannel(
+                    getString(R.string.notification_channel_id),
+                    getString(R.string.notification_channel_name)
+                )
                 Toast.makeText(activity!!, "Notification Subscribed", Toast.LENGTH_SHORT).show()
                 if (movieMap.isNotEmpty()){
                     createChannel(
@@ -96,16 +103,15 @@ class NotificationFragment : DaggerFragment() {
                         //getString(R.string.notification_channel_id),
                         getString(R.string.notification_channel_name)
                     )
-            } else {
-                    createChannel(
+            }
+                else {
+                   createChannel(
                 getString(R.string.notification_channel_id),
                 getString(R.string.notification_channel_name)
                     )
             }
-
-
             } else {
-                //viewModel.setAlarm(false)
+              //  viewModel.setAlarm(false)
                 Toast.makeText(activity!!, "Notification Unsubscribed", Toast.LENGTH_SHORT).show()
             }
         }
@@ -120,7 +126,6 @@ class NotificationFragment : DaggerFragment() {
     }
 
     private fun createChannel(channelId: String, channelName: String) {
-
         val intent = Intent(activity, HomeActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             activity,
@@ -130,12 +135,11 @@ class NotificationFragment : DaggerFragment() {
         )
         // TODO: Step 1.6 START create a channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
+            notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
-                // TODO: Step 2.4 change importance
                 NotificationManager.IMPORTANCE_HIGH
-            )// TODO: Step 2.6 disable badges for this channel
+            )
                 .apply {
                     setShowBadge(false)
                 }
@@ -176,8 +180,7 @@ class NotificationFragment : DaggerFragment() {
                 )
                 .setContentIntent(pendingIntent)
         }
-                       notificationManager.notify(1234,builder.build())
-
+        notificationManager.notify(1235,builder.build())
     }
 
 

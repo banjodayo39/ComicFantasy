@@ -7,6 +7,7 @@ import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.util.SchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 open class ComicRepository(
     private val apiService: ComicApiService,
@@ -20,21 +21,21 @@ open class ComicRepository(
     private val hash: String = "31425e31bec201f47f25948808f8f341"
 
 
-    /*fun getComicList(): Observable<List<ComicResults?>> =
+    fun getComicList(): Observable<List<ComicResults>> =
         Observable.concat(getComicListFromDb(),getComicListApi())
             .onErrorResumeNext(Observable.empty())
 
-*/
-    fun getComicList() = getComicListFromDb()
-
-    private fun getComicListFromDb(): Observable<List<ComicResults>> =
-        Observable.fromCallable { comicDao.getAllComics() }
+    fun getComicListFromDb(): Observable<List<ComicResults>> =
+        Observable.fromCallable { comicDao.getAllComics()
+       }
             .filter { !it.isNullOrEmpty() }
             .subscribeOn(provider.io())
+            .observeOn(provider.io())
 
     fun getComicListApi(): Observable<List<ComicResults>> =
         apiService.fetchListOfComic(COMIC_BASE_URL, ts, apikey, hash)
             .subscribeOn(provider.io())
+            .observeOn(provider.io())
             .doOnNext {
                 Log.e("data", "is not null")
                 if (it.isSuccessful && it.body()!!.data != null)

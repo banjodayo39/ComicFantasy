@@ -62,17 +62,26 @@ class MovieFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel::class.java)
         getListOfTopRatedMovies()
         getListOfPopularMovies()
         getListOfNowPlayingMovies()
         getListOfUpcomingMovies()
         getAllMovies()
+        initViews()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (outState != null && viewModel.listOfTopRatedMovie.isNotEmpty()) {
+           viewModel.listOfTopRatedMovie =
+                outState!!.getStringArrayList("savedList") as ArrayList<TopRatedMovie>
+        }
     }
 
     private fun getAllMovies() {
@@ -82,45 +91,41 @@ class MovieFragment : DaggerFragment() {
     private fun initViews() {
         container_layout.visibility = View.INVISIBLE
         top_rated_movie_layout.apply {
-
-            topRatedAdapter =
-                MovieFragmentAdapter(listOfTopRated as ArrayList<MovieData>, listener!!)
-            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = topRatedAdapter
-            val linearLayoutManager = ZoomRecyclerLayout(context)
-            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-            this.layoutManager = linearLayoutManager
-
+            viewModel.topRatedMovieAdapter =
+                MovieFragmentAdapter(viewModel.listOfTopRatedMovie, listener!!)
+            this.adapter = viewModel.topRatedMovieAdapter
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.layoutManager = layoutManager
         }
 
         now_playing_movie_layout.apply {
-            nowShowingAdapter =
-                MovieFragmentAdapter(listOfNowPlaying as ArrayList<MovieData>, listener!!)
-            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = nowShowingAdapter
-            val linearLayoutManager = ZoomRecyclerLayout(context)
-            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-            this.layoutManager = linearLayoutManager
+            viewModel.nowPlayingMovieAdapter =
+                MovieFragmentAdapter(viewModel.listOfNowShowing, listener!!)
+            this.adapter = viewModel.nowPlayingMovieAdapter
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.layoutManager = layoutManager
         }
 
         upcoming_movie_layout.apply {
-            upcomingAdapter =
-                MovieFragmentAdapter(listOfUpcoming as ArrayList<MovieData>, listener!!)
-            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = upcomingAdapter
-            val linearLayoutManager = ZoomRecyclerLayout(context)
+            viewModel.upcomingMovieAdapter =
+                MovieFragmentAdapter(viewModel.listOfUpComing, listener!!)
+            this.adapter = viewModel.upcomingMovieAdapter
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.layoutManager = layoutManager
+            /*val linearLayoutManager = ZoomRecyclerLayout(context)
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-            this.layoutManager = linearLayoutManager
+            this.layoutManager = linearLayoutManager*/
         }
 
 
         popular_movie_layout.apply {
-            movieAdapter = MovieFragmentAdapter(listOfMovies, listener!!)
-            layManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = movieAdapter
-            val linearLayoutManager = ZoomRecyclerLayout(context)
+            viewModel.popularMovieAdapter = MovieFragmentAdapter(viewModel.listOfPopularMovie, listener!!)
+            this.adapter = viewModel.popularMovieAdapter
+            /*val linearLayoutManager = ZoomRecyclerLayout(context)
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-            this.layoutManager = linearLayoutManager
+            this.layoutManager = linearLayoutManager*/
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            this.layoutManager = layoutManager
         }
     }
 
@@ -136,10 +141,10 @@ class MovieFragment : DaggerFragment() {
                     container_layout.visibility = View.VISIBLE
                 }
                 if (!it.list.isNullOrEmpty()) {
-                    popular_tv.visibility = View.VISIBLE
-                    listOfMovies = it.list!! as List<PopularMovie?>
-                    movieAdapter.updateList(listOfMovies)
+                    viewModel.listOfPopularMovie = it.list!! as List<PopularMovie>
+                    viewModel.popularMovieAdapter.updateList(viewModel.listOfPopularMovie )
                     movieMap.addAll(it.list as ArrayList<MovieData>)
+                    popular_tv.visibility = View.VISIBLE
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -160,10 +165,10 @@ class MovieFragment : DaggerFragment() {
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    listOfTopRated = it.list!!
-                    top_rated_tv.visibility = View.VISIBLE
-                    topRatedAdapter.updateList(listOfTopRated as ArrayList<MovieData>)
+                    viewModel.listOfTopRatedMovie = it.list as List<TopRatedMovie>
+                    viewModel.topRatedMovieAdapter.updateList(viewModel.listOfTopRatedMovie as ArrayList<MovieData>)
                     movieMap.addAll(it.list as ArrayList<MovieData>)
+                    top_rated_tv.visibility = View.VISIBLE
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -184,10 +189,11 @@ class MovieFragment : DaggerFragment() {
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    listOfNowPlaying = it.list!!
-                    now_playing_tv.visibility = View.VISIBLE
-                    nowShowingAdapter.updateList(listOfNowPlaying as ArrayList<MovieData>)
+                    viewModel.listOfNowShowing = it.list as List<NowShowing>
+                    viewModel.nowPlayingMovieAdapter.updateList(viewModel.listOfNowShowing  as ArrayList<MovieData>)
                     movieMap.addAll(it.list as ArrayList<MovieData>)
+                    now_playing_tv.visibility = View.VISIBLE
+
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)
@@ -208,10 +214,10 @@ class MovieFragment : DaggerFragment() {
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    listOfUpcoming = it.list!!
-                    up_coming_tv.visibility = View.VISIBLE
-                    upcomingAdapter.updateList(listOfUpcoming as ArrayList<MovieData>)
+                    viewModel.listOfUpComing= (it.list as List<UpComing>)
+                    viewModel.upcomingMovieAdapter.updateList(viewModel.listOfUpComing as ArrayList<MovieData>)
                     movieMap.addAll(it.list as ArrayList<MovieData>)
+                    up_coming_tv.visibility = View.VISIBLE
                 }
                 if (!it.error.isNullOrEmpty())
                     showToast(context!!, it.error!!)

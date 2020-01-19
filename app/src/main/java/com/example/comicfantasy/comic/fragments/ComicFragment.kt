@@ -15,13 +15,10 @@ import com.example.comicfantasy.comic.viewmodel.ComicFragmentViewModel
 import com.example.comicfantasy.data.remote.ComicResults
 import com.example.comicfantasy.home.ui.HomeActivity
 import com.example.comicfantasy.util.BaseInteractionListener
-import com.example.comicfantasy.util.ZoomRecyclerLayout
 import com.example.comicfantasy.util.showToast
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
-import android.R
-import com.google.android.youtube.player.internal.l
 
 
 class ComicFragment : DaggerFragment() {
@@ -30,11 +27,7 @@ class ComicFragment : DaggerFragment() {
     lateinit var factory: ViewModelProvider.Factory
 
     lateinit var viewModel: ComicFragmentViewModel
-
     private var listener: OnFragmentInteractionListener? = null
-    private var homeActivity: HomeActivity? = null
-    // private var listOfComics = mutableListOf<ComicResults>()
-    //private var listOfComics = arrayListOf<ComicResults>()
     private var listOfComics = ArrayList<ComicResults?>()
 
     private lateinit var comicAdapter: ComicFragmentAdapterclass
@@ -46,8 +39,6 @@ class ComicFragment : DaggerFragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             Id = it.getInt("Id")
-           listOfComics =savedInstanceState!!.getStringArrayList("savedList") as ArrayList<ComicResults?>
-
         }
     }
 
@@ -60,24 +51,13 @@ class ComicFragment : DaggerFragment() {
 
     }
 
-     override fun onSaveInstanceState(outState: Bundle) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //saving data when orientation change trigger
-        //saving  data before ondestroy happens
-        //onSaveInstanceState is called before going to another activity or orientation change
-        //outState.putStringArrayList("savedList", listOfComics as java.util.ArrayList<String>)
-        //outState.putString("savetext", textname)
-        //all imnportant data saved and can be restored
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-
-            //this is  only called after ondestroy-> oncreate occur
-            listOfComics = savedInstanceState!!.getParcelableArrayList<ComicResults>("savedList") as ArrayList<ComicResults?>
-            //oncreate->onSaveInstanceState->ondestroy->oncreate->onRestoreInstanceState
-
-    }
+        if (outState != null && listOfComics.isNotEmpty()) {
+            listOfComics =
+                outState!!.getStringArrayList("savedList") as ArrayList<ComicResults?>
+        }
+       }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -86,7 +66,7 @@ class ComicFragment : DaggerFragment() {
             listener
         }
         initViews()
-        //getAllComic()
+        viewModel.getAllComicList()
     }
 
 
@@ -95,12 +75,8 @@ class ComicFragment : DaggerFragment() {
         viewModel.adapter = ComicFragmentAdapterclass(viewModel.comicList, listener!!, this)
         comic_list.apply {
             this.adapter = viewModel.adapter
-            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.layoutManager = layoutManager
-           /* val linearLayoutManager = ZoomRecyclerLayout(context!!)
-            linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-            this.layoutManager = linearLayoutManager*/
-
         }
     }
 
@@ -112,14 +88,16 @@ class ComicFragment : DaggerFragment() {
                     listener?.onShowProgress()
                 else
                     listener?.onHideProgress()
-
-                if (!it.list.isNullOrEmpty()) {
-                    viewModel.comicList = it.list!! as ArrayList<ComicResults>
-                    viewModel.adapter.updateList(it.list as ArrayList<ComicResults>)
-                }
-                if (!it.error.isNullOrEmpty())
-                    showToast(context!!, it.error!!)
             }
+            if (!it.list.isNullOrEmpty()) {
+                viewModel.comicList = it.list!! as ArrayList<ComicResults>
+                viewModel.adapter.updateList(it.list as ArrayList<ComicResults>)
+            }
+            else{
+                Log.e("null", "list")
+            }
+            if (!it.error.isNullOrEmpty())
+                showToast(context!!, it.error!!)
         })
     }
 
@@ -127,32 +105,6 @@ class ComicFragment : DaggerFragment() {
         super.onResume()
         initViews()
     }
-
-    /*
-
-        private fun getAllCommunities(){
-            viewModel.getUserCommunities().observe(this, Observer {
-                if(it.contentIfNotUsed != null) {
-                    if (it.isLoading)
-                        listener?.onShowProgress()
-                    else
-                        listener?.onHideProgress()
-
-                    if (!it.list.isNullOrEmpty()) {
-                        communities = it.list!!
-                        communityNames.clear()
-                        communityNames.add("All")
-                        communityNames.addAll(it.list!!.map { community -> community.communityName!! })
-                        populateCommunitySpinner(communityNames)
-                    }
-
-                    if (!it.error.isNullOrEmpty())
-                        showToast(context!!, it.error!!)
-                }
-            })
-        }
-    */
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

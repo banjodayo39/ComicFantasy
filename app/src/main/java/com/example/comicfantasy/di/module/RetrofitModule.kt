@@ -27,7 +27,6 @@ class RetrofitModule {
         return gsonBuilder.create()
     }
 
-
  /*   @Provides
     @Singleton
     internal fun provideRetrofitForMovie(gson: Gson, okHttpClient: OkHttpClient): Retrofit {

@@ -12,7 +12,7 @@
 
     <string name="title_movie">Movie</string>
     <string name="title_comic">Comic</string>
-    <string name="title_games">Games</string>
+    <string name="title_trivia">Trivia</string>
     <string name="title_community">Community</string>
     <string name="trivia">Trivia</string>
 
@@ -26,7 +26,7 @@
     <string name="pref_sort_order_key">Sort Key</string>
     <string name="pref_most_popular">Most Popular Movie</string>
     <string name="pref_highest_rated">Highest Rated</string>
-    <string name="correct">Correct</string>
+    <string name="correct">Correct, You selected %1s, you selected %2s</string>
     <string name="incorrect">Incorrect</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
@@ -55,5 +55,6 @@
     <string name="snooze">Snooze</string>
     <string name="notification_channel_description">It is a great movie</string>
     <string name="notification">Notification</string>
+    <string name="incorrect_response">Incorrect!! The correct answer is %1s, you selected %2s </string>
 
 </resources>

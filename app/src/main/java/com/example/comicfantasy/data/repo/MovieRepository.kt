@@ -91,9 +91,7 @@ open class MovieRepository(
             .doOnNext { it1 ->
                 if (it1.isSuccessful && it1.body() != null)
                 {
-                    it1.body()!!.list!!.map {
-                        saveTopRatedMovie(it)
-                    }
+                        saveTopRatedMovie(it1.body()!!.list!!)
                 }
 
             }
@@ -159,7 +157,7 @@ open class MovieRepository(
             .subscribe()
     }
 
-    fun saveTopRatedMovie(movie: TopRatedMovie) {
+    fun saveTopRatedMovie(movie: List<TopRatedMovie>) {
         Completable.fromAction {
             movieDao.addTopRatedMovie(movie)
         }.subscribeOn(provider.io())

@@ -50,7 +50,9 @@ abstract class HomeFragmentProvider {
         ViewModelFactoryModule::class, BoxViewModelModule::class])
     internal abstract fun contributeTrailerFragment(): TrailerFragment
 
-   @ContributesAndroidInjector(modules = [NotificationModule::class,
-   ViewModelFactoryModule::class, NotificationViewModelModule::class])
-   internal abstract fun contributeNotificationFragment():NotificationFragment
+    @ContributesAndroidInjector(modules = [BoxModule::class,
+        ViewModelFactoryModule::class, BoxViewModelModule::class])
+    internal abstract fun contributeNotificationFragment(): NotificationFragment
+
+
 }

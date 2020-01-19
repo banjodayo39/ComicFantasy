@@ -23,63 +23,50 @@ constructor(
     var comicList = listOf<ComicResults>()
 
     fun getComic(): LiveData<ListUIModel<ComicResults?>> {
+        getAllComicList()
         getAllComicFromDb()
         return allComicUI
     }
 
-    private fun getAllComicList() {
+    fun getAllComicList() {
+        allComicUI.postValue(ListUIModel(isLoading = true))
         addDisposable {
-            allComicUI.postValue(ListUIModel(isLoading = true))
-            repo.getComicListApi().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
+            repo.getComicListFromDb()
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe({
                 if (!it.isNullOrEmpty()) {
-                    repo.saveComic(it as List<ComicResults>)
                     allComicUI.postValue(ListUIModel(list = it, isLoading = false))
                 } else
                     allComicUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
             }, {
                 allComicUI.postValue(ListUIModel(error = processNetworkError(it)))
             })!!
-
-
         }
     }
-    // db function
+
     private fun getAllComicFromDb() {
         addDisposable {
-            allComicUI.postValue(ListUIModel(isLoading = true))
-            repo.getComicList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
-                if (!it.isNullOrEmpty()) {
-                    repo.saveComic(it as List<ComicResults>)
-                    allComicUI.postValue(ListUIModel(list = it, isLoading = false))
-                    getAllComicList()
-                } else
-                    allComicUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
-            }, {
-                allComicUI.postValue(ListUIModel(error = processNetworkError(it)))
-            })!!
+            repo.getComicListApi()
+                .subscribeOn(provider.io())
+                .observeOn(provider.ui())
+                .subscribe({ db ->
+                    if (db.isNotEmpty()) {
+                        repo.saveComic(db)
 
-
-        }
-    }
-                /*.subscribeOn(provider.io())
-                .observeOn(provider.io())
-                .subscribe({ it ->
-                    if (!dbBalance.isEmpty()) {
-                        balanceLiveData.postValue(
-                            DataUI(
+                        allComicUI.postValue(
+                            ListUIModel(
                                 false,
-                                AccountBalance(dbBalance), null
+                                db, null
                             )
                         )
                     }
-
-                    getAccountBalance()
-
+                    getAllComicList()
                 }, { error ->
                     error.printStackTrace()
-                    getAccountBalance()
+                    getAllComicList()
                 })
-        )*/
-
-
+        }
+    }
 }
+

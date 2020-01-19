@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_trivia"
         android:icon="@drawable/ic_games"
-        android:title="@string/title_games" />
+        android:title="@string/title_trivia" />
 
 
 

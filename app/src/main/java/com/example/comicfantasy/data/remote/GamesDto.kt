@@ -29,6 +29,7 @@ data class GamesResult(
     @SerializedName("incorrect_answers")
     var incorrect_answers: List<String?>? = null,
     var question: String? = null,
-    var type: String? = null
+    var type: String? = null,
+    var optionSelected: String = ""
 
 ):Parcelable

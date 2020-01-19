@@ -32,7 +32,7 @@ interface MovieDAO {
     fun addUpcomingMovie(movie: UpComing)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addTopRatedMovie(movie: TopRatedMovie)
+    fun addTopRatedMovie(movie: List<TopRatedMovie>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addNowPlayingMovie(movie: NowShowing)

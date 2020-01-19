@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.comicfantasy.R
 import com.example.comicfantasy.data.remote.GamesResult
 import com.example.comicfantasy.games.fragments.GamesFragment
-import java.util.*
+import com.google.android.youtube.player.internal.v
 
-class GamesAdapter(private val list: List<GamesResult>,
-                   private val listener: GamesFragment.OnFragmentInteractionListener,
-                   private  val gamesFragment: GamesFragment
-)
-    : RecyclerView.Adapter<GamesAdapter.ViewHolder>() {
+class GamesAdapter(
+    private val list: List<GamesResult>,
+    private val listener: GamesFragment.OnFragmentInteractionListener,
+    private val gamesFragment: GamesFragment
+) : RecyclerView.Adapter<GamesAdapter.ViewHolder>() {
+    private var optionSelectedText = ""
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -24,7 +25,7 @@ class GamesAdapter(private val list: List<GamesResult>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val results: GamesResult= list[position]
+        val results: GamesResult = list[position]
         holder.bind(results)
         holder.gamesViewPosition = position
     }
@@ -33,71 +34,107 @@ class GamesAdapter(private val list: List<GamesResult>,
 
 
     inner class ViewHolder(inflater: LayoutInflater?, parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater?.inflate(R.layout.games_list_item, parent, false)!!) {
+        RecyclerView.ViewHolder(inflater?.inflate(R.layout.games_list_item, parent, false)!!),
+        View.OnClickListener {
+
         private var question: TextView? = null
-        private var selection_result :TextView? = null
+        private var selection_result: TextView? = null
         private var option_1: Button? = null
         private var option_2: Button? = null
-        private var submit_button:Button? = null
+        private var submit_button: Button? = null
         private var optionSelectedText = ""
+
+
+
         var gamesViewPosition = 0
 
         init {
             question = itemView.findViewById(R.id.question_text)
-            option_1=itemView.findViewById(R.id.option_1)
-            option_2=itemView.findViewById(R.id.option_2)
+            option_1 = itemView.findViewById(R.id.option_1)
+            option_2 = itemView.findViewById(R.id.option_2)
             submit_button = itemView.findViewById(R.id.button_submit)
             selection_result = itemView.findViewById(R.id.selection_result)
         }
 
-        fun bind(triviaResult:GamesResult) {
-            question?.text = triviaResult.question
-            val random= java.util.Random().nextInt(1)
-            var positions  = (0..1).map { Random().nextInt() }
-            var text1=triviaResult.correct_answer
-            var text2= triviaResult.incorrect_answers?.get(0)
+        override fun onClick(v: View?) {
+            val checked = (v as Button).callOnClick()
+            when (v.id) {
+                R.id.option_1 ->
+                    if (checked) {
 
-            val option  = mutableListOf<String>(text1!!,text2!!)
+                    }
+                R.id.option_2 ->
+                    if (checked) {
+                        setText( option_2!!.text.toString())
+                        option_2!!.setBackgroundResource(R.color._100_red)
+                        option_1!!.setBackgroundResource(R.drawable.button_shape)
+                    }
+            }
+        }
+
+        fun bind(triviaResult: GamesResult)  {
+            question?.text = triviaResult.question
+
+
+            var text1 = triviaResult.correct_answer
+            var text2 = triviaResult.incorrect_answers?.get(0)
+
+            val option = mutableListOf<String>(text1!!, text2!!)
             option.shuffle()
-            option_1?.text=option[0]
-            option_2?.text=option[1]
+            option_1?.text = option[0]
+            option_2?.text = option[1]
 
             option_1!!.setOnClickListener {
+                setText(option_1!!.text.toString())
                 option_1!!.setBackgroundResource(R.color._100_red)
                 option_2!!.setBackgroundResource(R.drawable.button_shape)
                 optionSelectedText = option_1!!.text.toString()
-                
-                submit_button!!.setOnClickListener {
-                    if (optionSelectedText == triviaResult.correct_answer){
-                        option_1!!.setBackgroundResource(R.color.green_button)
-                        selection_result!!.text = gamesFragment.getString(R.string.correct)
-                    }
-                    else {
-                        option_1!!.setBackgroundResource(R.color.red)
-                        selection_result!!.text = gamesFragment.getString(R.string.incorrect)+String.format(" ,answer is %s", triviaResult.correct_answer)
-                    }
-                }
+
             }
 
             option_2!!.setOnClickListener {
+                setText(option_2!!.text.toString())
                 option_2!!.setBackgroundResource(R.color._100_red)
                 option_1!!.setBackgroundResource(R.drawable.button_shape)
                 optionSelectedText = option_2!!.text.toString()
 
-                submit_button!!.setOnClickListener {
-                    if (optionSelectedText == triviaResult.correct_answer){
-                        option_2!!.setBackgroundResource(R.color.green_button)
-                        selection_result!!.text = gamesFragment.getString(R.string.correct)
-                        selection_result!!.visibility = View.VISIBLE
-                    }
-                    else {
-                        option_2!!.setBackgroundResource(R.color.red)
-                        selection_result!!.text = gamesFragment.getString(R.string.incorrect) +String.format(" ,answer is %s", triviaResult.correct_answer)
-                        selection_result!!.visibility = View.VISIBLE
-                    }
-                }
             }
-        }
+
+            submit_button!!.setOnClickListener {
+                changeOptionBackground(option_2!!, triviaResult)
+                changeOptionBackground(option_1!!,triviaResult)
+            }
+
         }
 
+        private fun setText(text:String){
+            optionSelectedText = text
+        }
+
+        private fun getText():String{
+            return optionSelectedText
+        }
+        private fun changeOptionBackground(button: Button,triviaResult: GamesResult) {
+            if (button.text == getText() && getText()== triviaResult.correct_answer) {
+                   button.setBackgroundResource(R.color.green_button)
+                   button.text = triviaResult.correct_answer
+                selection_result!!.text = gamesFragment.getString(R.string.correct,triviaResult.correct_answer,button.text)
+                selection_result!!.visibility = View.VISIBLE
+
+            }
+            else if (button.text == getText() && button.text != triviaResult.correct_answer) {
+                button.setBackgroundResource(R.color.red)
+                selection_result!!.text =
+                    gamesFragment.getString(
+                        R.string.incorrect_response,
+                        triviaResult.correct_answer,
+                        button.text
+                    )
+                button.text = triviaResult.incorrect_answers!![0]
+                selection_result!!.visibility = View.VISIBLE
+            }
+        }
     }
+
+
+}

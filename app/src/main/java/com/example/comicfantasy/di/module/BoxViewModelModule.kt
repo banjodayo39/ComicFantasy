@@ -7,6 +7,7 @@ import com.example.comicfantasy.movie.viewmodel.MovieViewModel
 import com.example.comicfantasy.vmfactory.ViewModelKey
 import dagger.Binds
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
 
@@ -27,5 +28,6 @@ abstract class BoxViewModelModule {
     @IntoMap
     @ViewModelKey(GamesViewModel::class)
     abstract fun bindsGamesModule (gamesViewModel: GamesViewModel): ViewModel
+
 
 }
