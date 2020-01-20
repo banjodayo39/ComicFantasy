@@ -9,8 +9,6 @@ import com.example.eBox.data.remote.*
 import com.example.eBox.data.repo.MovieRepository
 import com.example.eBox.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class MovieViewModel @Inject
 constructor(
@@ -23,7 +21,7 @@ constructor(
     lateinit var nowPlayingMovieAdapter: MovieFragmentAdapter
     lateinit var topRatedMovieAdapter: MovieFragmentAdapter
     lateinit var latestMovieAdapter: MovieFragmentAdapter
-    lateinit var allMoviesListLiveData: MutableLiveData<HashMap<String,Double>>
+    lateinit var allMoviesListLiveData: MutableLiveData<HashMap<String, Double>>
 
     var listOfPopularMovie = listOf<PopularMovie>()
     var listOfNowShowing = listOf<NowShowing>()
@@ -35,7 +33,7 @@ constructor(
     private val allNowPlayingMovieUI = MutableLiveData<ListUIModel<NowShowing?>>()
     private val allUpcomingMovieUI = MutableLiveData<ListUIModel<UpComing?>>()
     private val allLatestMovieUI = MutableLiveData<DataUIModel<Latest?>>()
-    private var movieMapLiveData =  MutableLiveData<ArrayList<MovieData>>()
+    private var movieMapLiveData = MutableLiveData<ArrayList<MovieData>>()
     private val TrailerUI = MutableLiveData<DataUIModel<Trailer>>()
 
 
@@ -64,7 +62,7 @@ constructor(
         return allLatestMovieUI
     }
 
-    fun setAllMovies(movieMap : ArrayList<MovieData>){
+    fun setAllMovies(movieMap: ArrayList<MovieData>) {
         movieMapLiveData.value = movieMap
     }
 
@@ -76,18 +74,20 @@ constructor(
     private fun getAllPopularMovieList() {
         addDisposable {
             allMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getPopularMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({ it1 ->
-                Log.e("vm-popular", it1.toString())
-                if (it1 != null) {
-                    allMovieUI.postValue(ListUIModel(list = it1,isLoading = false))
-                    it1.map {
-                        repo.savePopularMovie(it!!)
-                    }
-                } else
-                    allMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
-            }, {
-                allMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
-            })!!
+            repo.getPopularMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe(
+                { it1 ->
+                    Log.e("vm-popular", it1.toString())
+                    if (it1 != null) {
+                        it1.map {
+                            repo.savePopularMovie(it!!)
+                        }
+                        allMovieUI.postValue(ListUIModel(list = it1, isLoading = false))
+                    } else
+                        allMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
+                },
+                {
+                    allMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
+                })!!
 
         }
     }
@@ -95,18 +95,18 @@ constructor(
     private fun getAllTopRatedMovieList() {
         addDisposable {
             allTopRatedMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getTopRatedMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({ it1 ->
-                Log.e("vm-top-rating", it1.toString())
-                if (it1 != null) {
-                    allTopRatedMovieUI.postValue(ListUIModel(list = it1,isLoading = false))
-                     it1.map {
-                         repo.saveTopRatedMovie(it1 as List<TopRatedMovie>)
-                     }
-                } else
-                    allTopRatedMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
-            }, {
-                allTopRatedMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
-            })!!
+            repo.getTopRatedMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe(
+                { it1 ->
+                    Log.e("vm-top-rating", it1.toString())
+                    if (it1 != null) {
+                            repo.saveTopRatedMovie(it1 as List<TopRatedMovie>)
+                        allTopRatedMovieUI.postValue(ListUIModel(list = it1, isLoading = false))
+                    } else
+                        allTopRatedMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
+                },
+                {
+                    allTopRatedMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
+                })!!
 
         }
     }
@@ -114,36 +114,41 @@ constructor(
     private fun getAllNowPlayingMovieList() {
         addDisposable {
             allNowPlayingMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getNowPlayingMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({ it1 ->
-                Log.e("vm-NowPlaying", it1.toString())
-                if (it1 != null) {
-                    allNowPlayingMovieUI.postValue(ListUIModel(list = it1))
-                    it1.map {
-                        repo.saveNowPlayingMovie(it!!)
-                    }
-                } else
-                    allNowPlayingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
-            }, {
-                allNowPlayingMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
-            })!!
+            repo.getNowPlayingMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe(
+                { it1 ->
+                    Log.e("vm-NowPlaying", it1.toString())
+                    if (it1 != null) {
+                        it1.map {
+                            repo.saveNowPlayingMovie(it!!)
+                        }
+                        allNowPlayingMovieUI.postValue(ListUIModel(list = it1, isLoading = false))
+
+                    } else
+                        allNowPlayingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
+                },
+                {
+                    allNowPlayingMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
+                })!!
         }
     }
 
     private fun getAllUpcomingMovieList() {
         addDisposable {
             allUpcomingMovieUI.postValue(ListUIModel(isLoading = true))
-            repo.getUpcomingMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({ it1 ->
-                Log.e("MovieViewModel", it1.toString())
-                if (it1 != null) {
-                    allUpcomingMovieUI.postValue(ListUIModel(list = it1, isLoading = false))
-                    it1.map {
-                        repo.saveUpcomingMovie(it!!)
-                    }
-                } else
-                    allUpcomingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
-            }, {
-                allUpcomingMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
-            })!!
+            repo.getUpcomingMovieList().subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe(
+                { it1 ->
+                    Log.e("MovieViewModel", it1.toString())
+                    if (it1 != null) {
+                        it1.map {
+                            repo.saveUpcomingMovie(it!!)
+                        }
+                        allUpcomingMovieUI.postValue(ListUIModel(list = it1, isLoading = false))
+                    } else
+                        allUpcomingMovieUI.postValue(ListUIModel(error = getMsgFromErrBody("error_here")))
+                },
+                {
+                    allUpcomingMovieUI.postValue(ListUIModel(error = processNetworkError(it)))
+                })!!
 
         }
     }
@@ -154,9 +159,8 @@ constructor(
             repo.getLatestMovieList().subscribe({ it1 ->
                 Log.e("latest-viewModel", it1.toString())
                 if (it1 != null) {
+                    repo.saveLatestMovie(it1)
                     allLatestMovieUI.postValue(DataUIModel(data = it1, isLoading = false))
-                        repo.saveLatestMovie(it1)
-
                 } else
                     allLatestMovieUI.postValue(DataUIModel(error = getMsgFromErrBody("latest_error")))
             }, {
@@ -189,26 +193,6 @@ constructor(
         }
     }
 
-    /* fun getComicStory(): LiveData<DataUIModel<DataResponse>> {
-         getAllComicList()
-         return allComicUI
-     }
-
-     private fun getComicStory(id:Int){
-         addDisposable {
-             allComicUI.postValue(DataUIModel(isLoading = true))
-             repo.getPopularMovieList(id).subscribeOn(provider.io())?.observeOn(provider.ui())?.subscribe({
-                 Log.e("ComicFragmentViewModel",it.toString())
-                 if(it != null)
-                     allComicUI.postValue(DataUIModel(data = it))
-                 else
-                     allComicUI.postValue(DataUIModel(error = getMsgFromErrBody("error_here")))
-             }, {
-                 allComicUI.postValue(DataUIModel(error = processNetworkError(it)))
-             })!!
-  }
-  }
-         }*/
 }
 
 

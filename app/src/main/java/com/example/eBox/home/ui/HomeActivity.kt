@@ -5,12 +5,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.eBox.ui.fragments.CharacterTabFragment
-import com.example.eBox.ui.fragments.ComicDetailFragment
-import com.example.eBox.ui.fragments.ComicFragment
-import com.example.eBox.ui.fragments.StoryTabFragment
+import com.example.eBox.comic.fragments.CharacterTabFragment
+import com.example.eBox.comic.fragments.ComicDetailFragment
+import com.example.eBox.comic.fragments.ComicFragment
+import com.example.eBox.comic.fragments.StoryTabFragment
 import com.example.eBox.viewmodel.ComicFragmentViewModel
-import com.example.eBox.community.CommunityFragment
 import com.example.eBox.data.remote.ComicResults
 import com.example.eBox.data.remote.MovieData
 import com.example.eBox.games.fragments.GamesFragment
@@ -30,7 +29,6 @@ import javax.inject.Inject
 class HomeActivity : DaggerAppCompatActivity()
     , ComicFragment.OnFragmentInteractionListener,
     ComicDetailFragment.OnFragmentInteractionListener,
-    CommunityFragment.OnFragmentInteractionListener,
     GamesFragment.OnFragmentInteractionListener,
     MovieFragment.OnFragmentInteractionListener,
     MovieDetailFragment.OnFragmentInteractionListener,
@@ -60,8 +58,8 @@ class HomeActivity : DaggerAppCompatActivity()
     private fun getSavedDataAcrossFragment(savedInstanceState: Bundle?) {
         comicFragment = ComicFragment.newInstance()
         movieFragment = MovieFragment.newInstance()
-        comicFragment = supportFragmentManager.getFragment(savedInstanceState!!, "comicFragment") as ComicFragment
-        movieFragment = supportFragmentManager.getFragment(savedInstanceState!!, "movieFragment")  as MovieFragment
+        comicFragment = supportFragmentManager.getFragment(savedInstanceState!!, "comicFragment") as ComicFragment?
+        movieFragment = supportFragmentManager.getFragment(savedInstanceState!!, "movieFragment")  as MovieFragment?
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

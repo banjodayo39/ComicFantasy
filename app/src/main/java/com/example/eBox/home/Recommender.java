@@ -1,4 +1,4 @@
-package com.example.eBox.home.ui;
+package com.example.eBox.home;
 
 import org.pytorch.IValue;
 import org.pytorch.Module;

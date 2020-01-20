@@ -67,19 +67,17 @@ class MovieFragment : DaggerFragment() {
         getListOfNowPlayingMovies()
         getListOfUpcomingMovies()
         getAllMovies()
-        initViews()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (outState != null && viewModel.listOfTopRatedMovie.isNotEmpty()) {
-           viewModel.listOfTopRatedMovie =
-                outState!!.getStringArrayList("savedList") as ArrayList<TopRatedMovie>
+        if (outState != null && listOfTopRated.isNotEmpty() ) {
+            listOfTopRated =
+                outState.getStringArrayList("savedList") as List<TopRatedMovie>
         }
     }
 
@@ -115,8 +113,8 @@ class MovieFragment : DaggerFragment() {
             viewModel.upcomingMovieAdapter =
                 MovieFragmentAdapter(viewModel.listOfUpComing, listener!!)
             this.adapter = viewModel.upcomingMovieAdapter
-           /* val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            this.layoutManager = layoutManager*/
+            /* val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+             this.layoutManager = layoutManager*/
             val linearLayoutManager = ZoomRecyclerLayout(context)
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
             this.layoutManager = linearLayoutManager
@@ -124,7 +122,8 @@ class MovieFragment : DaggerFragment() {
 
 
         popular_movie_layout.apply {
-            viewModel.popularMovieAdapter = MovieFragmentAdapter(viewModel.listOfPopularMovie, listener!!)
+            viewModel.popularMovieAdapter =
+                MovieFragmentAdapter(viewModel.listOfPopularMovie, listener!!)
             this.adapter = viewModel.popularMovieAdapter
             /*val linearLayoutManager = ZoomRecyclerLayout(context)
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -133,8 +132,37 @@ class MovieFragment : DaggerFragment() {
             linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
             this.layoutManager = linearLayoutManager
         }
+        setUpSwipeRefreshLayout()
     }
 
+    private fun setUpSwipeRefreshLayout() {
+        swipe_refresh_layout.setOnRefreshListener {
+            viewModel.getTopRatedMovie().observe(this, Observer {
+                if (it.contentIfNotUsed != null) {
+                    Log.e(" Not MovieFragment", it.toString())
+
+                    if (it.isLoading)
+                        listener?.onShowProgress()
+                    else
+                        listener?.onHideProgress()
+
+                    if (!it.list.isNullOrEmpty()) {
+                        viewModel.listOfTopRatedMovie = it.list as List<TopRatedMovie>
+                        viewModel.topRatedMovieAdapter.updateList(viewModel.listOfTopRatedMovie as ArrayList<MovieData>)
+                        movieMap.addAll(it.list as ArrayList<MovieData>)
+                        top_rated_tv.visibility = View.VISIBLE
+                        swipe_refresh_layout.isRefreshing = false
+                    }
+                    if (!it.error.isNullOrEmpty())
+                        showToast(context!!, it.error!!)
+                    swipe_refresh_layout.isRefreshing = false
+                } else {
+                    swipe_refresh_layout.isRefreshing = false
+
+                }
+            })
+        }
+    }
 
     private fun getListOfPopularMovies() {
         viewModel.getPopularMovie().observe(this, Observer {
@@ -148,7 +176,7 @@ class MovieFragment : DaggerFragment() {
                 }
                 if (!it.list.isNullOrEmpty()) {
                     viewModel.listOfPopularMovie = it.list!! as List<PopularMovie>
-                    viewModel.popularMovieAdapter.updateList(viewModel.listOfPopularMovie )
+                    viewModel.popularMovieAdapter.updateList(viewModel.listOfPopularMovie)
                     movieMap.addAll(it.list as ArrayList<MovieData>)
                     popular_tv.visibility = View.VISIBLE
                 }
@@ -157,6 +185,12 @@ class MovieFragment : DaggerFragment() {
 
             }
         })
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        initViews()
     }
 
     private fun getListOfTopRatedMovies() {
@@ -196,7 +230,7 @@ class MovieFragment : DaggerFragment() {
 
                 if (!it.list.isNullOrEmpty()) {
                     viewModel.listOfNowShowing = it.list as List<NowShowing>
-                    viewModel.nowPlayingMovieAdapter.updateList(viewModel.listOfNowShowing  as ArrayList<MovieData>)
+                    viewModel.nowPlayingMovieAdapter.updateList(viewModel.listOfNowShowing as ArrayList<MovieData>)
                     movieMap.addAll(it.list as ArrayList<MovieData>)
                     now_playing_tv.visibility = View.VISIBLE
 
@@ -220,7 +254,7 @@ class MovieFragment : DaggerFragment() {
                     listener?.onHideProgress()
 
                 if (!it.list.isNullOrEmpty()) {
-                    viewModel.listOfUpComing= (it.list as List<UpComing>)
+                    viewModel.listOfUpComing = (it.list as List<UpComing>)
                     viewModel.upcomingMovieAdapter.updateList(viewModel.listOfUpComing as ArrayList<MovieData>)
                     movieMap.addAll(it.list as ArrayList<MovieData>)
                     up_coming_tv.visibility = View.VISIBLE

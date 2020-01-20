@@ -2,7 +2,7 @@ package com.example.eBox.di.builder
 
 import com.example.eBox.home.ui.HomeActivity
 import com.example.eBox.di.module.ViewModelFactoryModule
-import com.example.eBox.ui.di.HomeFragmentProvider
+import com.example.eBox.comic.di.HomeFragmentProvider
 import com.example.eBox.di.module.BoxModule
 import com.example.eBox.di.module.BoxViewModelModule
 import com.example.eBox.movie.fragment.MovieDetailActivity

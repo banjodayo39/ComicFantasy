@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eBox.R
 import com.example.eBox.data.remote.ComicResults
-import com.example.eBox.ui.fragments.ComicFragment
+import com.example.eBox.comic.fragments.ComicFragment
 import com.example.eBox.util.ShapeAppearanceTransformation
 import com.example.eBox.util.loadImageWithGlide
 

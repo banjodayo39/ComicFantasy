@@ -1,6 +1,6 @@
-package com.example.eBox.ui.di
+package com.example.eBox.comic.di
 
-import com.example.eBox.ui.fragments.*
+import com.example.eBox.comic.fragments.*
 import com.example.eBox.di.module.BoxModule
 import com.example.eBox.di.module.BoxViewModelModule
 import com.example.eBox.di.module.ViewModelFactoryModule

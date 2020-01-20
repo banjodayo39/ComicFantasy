@@ -1,4 +1,4 @@
-package com.example.eBox.ui.fragments
+package com.example.eBox.comic.fragments
 
 import android.content.Context
 import android.os.Bundle
